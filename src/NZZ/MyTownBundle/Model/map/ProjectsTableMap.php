@@ -45,8 +45,10 @@ class ProjectsTableMap extends TableMap
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('name', 'Name', 'VARCHAR', false, 255, null);
         $this->addColumn('shortname', 'Shortname', 'VARCHAR', false, 10, null);
-        $this->addColumn('city', 'City', 'VARCHAR', false, 50, null);
-        $this->addColumn('lang', 'Lang', 'VARCHAR', false, 2, null);
+        $this->addColumn('centerLatitude', 'Centerlatitude', 'FLOAT', false, null, null);
+        $this->addColumn('centerLongitude', 'Centerlongitude', 'FLOAT', false, null, null);
+        $this->addColumn('defaultZoom', 'Defaultzoom', 'INTEGER', false, null, null);
+        $this->addColumn('language', 'Language', 'VARCHAR', false, 2, null);
         // validators
     } // initialize()
 
@@ -58,4 +60,23 @@ class ProjectsTableMap extends TableMap
         $this->addRelation('Points', 'NZZ\\MyTownBundle\\Model\\Points', RelationMap::ONE_TO_MANY, array('id' => 'projectId', ), null, null, 'Pointss');
     } // buildRelations()
 
-} // ProjectsTableMap
+    /**
+     *
+     * Gets the list of behaviors registered for this table
+     *
+     * @return array Associative array (name => parameters) of behaviors
+     */
+    public function getBehaviors()
+    {
+        return array(
+            'alternative_coding_standards' =>  array (
+  'brackets_newline' => 'false',
+  'remove_closing_comments' => 'true',
+  'use_whitespace' => 'true',
+  'tab_size' => '4',
+  'strip_comments' => 'false',
+),
+        );
+    } // getBehaviors()
+
+}

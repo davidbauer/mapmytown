@@ -18,7 +18,7 @@ abstract class BasePointsPeer
 {
 
     /** the default database name for this class */
-    const DATABASE_NAME = 'mytown';
+    const DATABASE_NAME = 'default';
 
     /** the table name for this class */
     const TABLE_NAME = 'points';
@@ -145,8 +145,8 @@ abstract class BasePointsPeer
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
      * <code>
-     *		$c->addAlias("alias1", TablePeer::TABLE_NAME);
-     *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
+     *        $c->addAlias("alias1", TablePeer::TABLE_NAME);
+     *        $c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
      * @param      string $column The column name for current table. (i.e. PointsPeer::COLUMN_NAME).
@@ -167,7 +167,7 @@ abstract class BasePointsPeer
      * @param      Criteria $criteria object containing the columns to add.
      * @param      string   $alias    optional table alias
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
@@ -241,7 +241,7 @@ abstract class BasePointsPeer
      * @param      PropelPDO $con
      * @return                 Points
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doSelectOne(Criteria $criteria, PropelPDO $con = null)
     {
@@ -261,7 +261,7 @@ abstract class BasePointsPeer
      * @param      PropelPDO $con
      * @return array           Array of selected Objects
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
@@ -276,7 +276,7 @@ abstract class BasePointsPeer
      * @param      Criteria $criteria The Criteria object used to build the SELECT statement.
      * @param      PropelPDO $con The connection to use
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      * @return PDOStatement The executed PDOStatement object.
      * @see        BasePeer::doSelect()
      */
@@ -435,7 +435,7 @@ abstract class BasePointsPeer
      * objects that inherit from the default.
      *
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function populateObjects(PDOStatement $stmt)
     {
@@ -468,7 +468,7 @@ abstract class BasePointsPeer
      * @param      array $row PropelPDO resultset row.
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      * @return array (Points object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
@@ -548,7 +548,7 @@ abstract class BasePointsPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return array           Array of Points objects.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doSelectJoinProjects(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
@@ -666,7 +666,7 @@ abstract class BasePointsPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return array           Array of Points objects.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
@@ -732,7 +732,7 @@ abstract class BasePointsPeer
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function getTableMap()
     {
@@ -768,7 +768,7 @@ abstract class BasePointsPeer
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doInsert($values, PropelPDO $con = null)
     {
@@ -811,7 +811,7 @@ abstract class BasePointsPeer
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doUpdate($values, PropelPDO $con = null)
     {
@@ -882,9 +882,9 @@ abstract class BasePointsPeer
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
-     *				if supported by native driver or if emulated using Propel.
+     *                if supported by native driver or if emulated using Propel.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
      public static function doDelete($values, PropelPDO $con = null)
      {
@@ -1004,7 +1004,7 @@ abstract class BasePointsPeer
      * @param      PropelPDO $con the connection to use
      * @return Points[]
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
@@ -1024,7 +1024,7 @@ abstract class BasePointsPeer
         return $objs;
     }
 
-} // BasePointsPeer
+}
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //

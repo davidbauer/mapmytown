@@ -17,7 +17,7 @@ abstract class BaseProjectsPeer
 {
 
     /** the default database name for this class */
-    const DATABASE_NAME = 'mytown';
+    const DATABASE_NAME = 'default';
 
     /** the table name for this class */
     const TABLE_NAME = 'projects';
@@ -29,13 +29,13 @@ abstract class BaseProjectsPeer
     const TM_CLASS = 'ProjectsTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 7;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /** the column name for the id field */
     const ID = 'projects.id';
@@ -46,11 +46,17 @@ abstract class BaseProjectsPeer
     /** the column name for the shortname field */
     const SHORTNAME = 'projects.shortname';
 
-    /** the column name for the city field */
-    const CITY = 'projects.city';
+    /** the column name for the centerLatitude field */
+    const CENTERLATITUDE = 'projects.centerLatitude';
 
-    /** the column name for the lang field */
-    const LANG = 'projects.lang';
+    /** the column name for the centerLongitude field */
+    const CENTERLONGITUDE = 'projects.centerLongitude';
+
+    /** the column name for the defaultZoom field */
+    const DEFAULTZOOM = 'projects.defaultZoom';
+
+    /** the column name for the language field */
+    const LANGUAGE = 'projects.language';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -71,12 +77,12 @@ abstract class BaseProjectsPeer
      * e.g. ProjectsPeer::$fieldNames[ProjectsPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Shortname', 'City', 'Lang', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'shortname', 'city', 'lang', ),
-        BasePeer::TYPE_COLNAME => array (ProjectsPeer::ID, ProjectsPeer::NAME, ProjectsPeer::SHORTNAME, ProjectsPeer::CITY, ProjectsPeer::LANG, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'SHORTNAME', 'CITY', 'LANG', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'shortname', 'city', 'lang', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Shortname', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'shortname', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', ),
+        BasePeer::TYPE_COLNAME => array (ProjectsPeer::ID, ProjectsPeer::NAME, ProjectsPeer::SHORTNAME, ProjectsPeer::CENTERLATITUDE, ProjectsPeer::CENTERLONGITUDE, ProjectsPeer::DEFAULTZOOM, ProjectsPeer::LANGUAGE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'SHORTNAME', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'shortname', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -86,12 +92,12 @@ abstract class BaseProjectsPeer
      * e.g. ProjectsPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Shortname' => 2, 'City' => 3, 'Lang' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'city' => 3, 'lang' => 4, ),
-        BasePeer::TYPE_COLNAME => array (ProjectsPeer::ID => 0, ProjectsPeer::NAME => 1, ProjectsPeer::SHORTNAME => 2, ProjectsPeer::CITY => 3, ProjectsPeer::LANG => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'SHORTNAME' => 2, 'CITY' => 3, 'LANG' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'city' => 3, 'lang' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Shortname' => 2, 'Centerlatitude' => 3, 'Centerlongitude' => 4, 'Defaultzoom' => 5, 'Language' => 6, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'centerlatitude' => 3, 'centerlongitude' => 4, 'defaultzoom' => 5, 'language' => 6, ),
+        BasePeer::TYPE_COLNAME => array (ProjectsPeer::ID => 0, ProjectsPeer::NAME => 1, ProjectsPeer::SHORTNAME => 2, ProjectsPeer::CENTERLATITUDE => 3, ProjectsPeer::CENTERLONGITUDE => 4, ProjectsPeer::DEFAULTZOOM => 5, ProjectsPeer::LANGUAGE => 6, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'SHORTNAME' => 2, 'CENTERLATITUDE' => 3, 'CENTERLONGITUDE' => 4, 'DEFAULTZOOM' => 5, 'LANGUAGE' => 6, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'centerLatitude' => 3, 'centerLongitude' => 4, 'defaultZoom' => 5, 'language' => 6, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -138,8 +144,8 @@ abstract class BaseProjectsPeer
      *
      * Using this method you can maintain SQL abstraction while using column aliases.
      * <code>
-     *		$c->addAlias("alias1", TablePeer::TABLE_NAME);
-     *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
+     *        $c->addAlias("alias1", TablePeer::TABLE_NAME);
+     *        $c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
      * @param      string $column The column name for current table. (i.e. ProjectsPeer::COLUMN_NAME).
@@ -160,7 +166,7 @@ abstract class BaseProjectsPeer
      * @param      Criteria $criteria object containing the columns to add.
      * @param      string   $alias    optional table alias
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
@@ -168,14 +174,18 @@ abstract class BaseProjectsPeer
             $criteria->addSelectColumn(ProjectsPeer::ID);
             $criteria->addSelectColumn(ProjectsPeer::NAME);
             $criteria->addSelectColumn(ProjectsPeer::SHORTNAME);
-            $criteria->addSelectColumn(ProjectsPeer::CITY);
-            $criteria->addSelectColumn(ProjectsPeer::LANG);
+            $criteria->addSelectColumn(ProjectsPeer::CENTERLATITUDE);
+            $criteria->addSelectColumn(ProjectsPeer::CENTERLONGITUDE);
+            $criteria->addSelectColumn(ProjectsPeer::DEFAULTZOOM);
+            $criteria->addSelectColumn(ProjectsPeer::LANGUAGE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.name');
             $criteria->addSelectColumn($alias . '.shortname');
-            $criteria->addSelectColumn($alias . '.city');
-            $criteria->addSelectColumn($alias . '.lang');
+            $criteria->addSelectColumn($alias . '.centerLatitude');
+            $criteria->addSelectColumn($alias . '.centerLongitude');
+            $criteria->addSelectColumn($alias . '.defaultZoom');
+            $criteria->addSelectColumn($alias . '.language');
         }
     }
 
@@ -230,7 +240,7 @@ abstract class BaseProjectsPeer
      * @param      PropelPDO $con
      * @return                 Projects
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doSelectOne(Criteria $criteria, PropelPDO $con = null)
     {
@@ -250,7 +260,7 @@ abstract class BaseProjectsPeer
      * @param      PropelPDO $con
      * @return array           Array of selected Objects
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
@@ -265,7 +275,7 @@ abstract class BaseProjectsPeer
      * @param      Criteria $criteria The Criteria object used to build the SELECT statement.
      * @param      PropelPDO $con The connection to use
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      * @return PDOStatement The executed PDOStatement object.
      * @see        BasePeer::doSelect()
      */
@@ -424,7 +434,7 @@ abstract class BaseProjectsPeer
      * objects that inherit from the default.
      *
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function populateObjects(PDOStatement $stmt)
     {
@@ -457,7 +467,7 @@ abstract class BaseProjectsPeer
      * @param      array $row PropelPDO resultset row.
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      * @return array (Projects object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
@@ -483,7 +493,7 @@ abstract class BaseProjectsPeer
      * This method is not needed for general use but a specific application could have a need.
      * @return TableMap
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function getTableMap()
     {
@@ -519,7 +529,7 @@ abstract class BaseProjectsPeer
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doInsert($values, PropelPDO $con = null)
     {
@@ -562,7 +572,7 @@ abstract class BaseProjectsPeer
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function doUpdate($values, PropelPDO $con = null)
     {
@@ -633,9 +643,9 @@ abstract class BaseProjectsPeer
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
-     *				if supported by native driver or if emulated using Propel.
+     *                if supported by native driver or if emulated using Propel.
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
      public static function doDelete($values, PropelPDO $con = null)
      {
@@ -755,7 +765,7 @@ abstract class BaseProjectsPeer
      * @param      PropelPDO $con the connection to use
      * @return Projects[]
      * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     *         rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
@@ -775,7 +785,7 @@ abstract class BaseProjectsPeer
         return $objs;
     }
 
-} // BaseProjectsPeer
+}
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
