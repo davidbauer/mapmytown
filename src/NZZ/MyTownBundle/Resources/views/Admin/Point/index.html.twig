@@ -44,8 +44,9 @@
             $('.pagination').pagination({
                 items: {{ count }},
                 itemsOnPage: {{ limit }},
+                currentPage: {{ page|default(1) }},
                 onPageClick: function(pageNumber, event) {
-                    window.location ="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': projectId }) }}?offset=" + pageNumber + '#page-' + pageNumber;
+                    window.location ="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': projectId }) }}?page=" + pageNumber + '#page-' + pageNumber;
                 }
             });
         });
