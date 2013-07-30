@@ -104,11 +104,30 @@ class AdminPointController extends Controller
         );
     }
 
-    public function removeProjectAction($projectId)
+    public function removeAction($pointId)
     {
-        $project = ProjectQuery::create()->findOneById($projectId);
+        $point = PointQuery::create()->findOneById($pointId);
 
-        $project->delete();
-        return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
+        $point->delete();
+
+        return $this->redirect($this->generateUrl('nzz_my_town_admin_points_dashboard', array('projectId' => $point->getProjectid())));
+    }
+
+    public function publishAction($pointId)
+    {
+        $point = PointQuery::create()->findOneById($pointId);
+
+        $point->setIsPublished(true)->save();
+
+        return $this->redirect($this->generateUrl('nzz_my_town_admin_points_dashboard', array('projectId' => $point->getProjectid())));
+    }
+
+    public function unPublishAction($pointId)
+    {
+        $point = PointQuery::create()->findOneById($pointId);
+
+        $point->setIsPublished(false)->save();
+
+        return $this->redirect($this->generateUrl('nzz_my_town_admin_points_dashboard', array('projectId' => $point->getProjectid())));
     }
 }

@@ -46,14 +46,18 @@ nzz_my_town_admin_remove_project:
 nzz_my_town_admin_points_dashboard:
     pattern: /admin/points/{projectId}
     defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:index }
+nzz_my_town_admin_points_publish:
+    pattern:  /point/publish/{pointId}
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:publish }
+nzz_my_town_admin_points_unpublish:
+    pattern:  /point/unpublish/{pointId}
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:unPublish }
+nzz_my_town_admin_points_remove:
+    pattern:  /point/remove/{pointId}
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:remove }
 
-nzz_my_town_api_publish_item:
-    pattern:  /point/{pointId}
-    defaults: { _controller: NZZMyTownBundle:Api:publish }
 
-nzz_my_town_api_remove_item:
-    pattern:  /admin/edit/{projectId}
-    defaults: { _controller: NZZMyTownBundle:Api:remove }
+
 
 
 nzz_my_town_api_save:
