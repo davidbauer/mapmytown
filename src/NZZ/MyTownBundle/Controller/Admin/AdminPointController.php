@@ -19,7 +19,7 @@ class AdminPointController extends Controller
     {
         $limit = 1;
         $request = $this->getRequest()->query;
-        $page = ($request->get('page')) ? ($request->get('page'))  : 0 ;
+        $page = ($request->get('page')) ? ($request->get('page')) : 1 ;
         $offset = ($page-1) * $limit;
         $count = PointQuery::create()
             ->joinProject()
