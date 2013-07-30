@@ -29,11 +29,3 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
-
-snc_redis:
-    clients:
-        vfe_mytown:
-            type: predis
-            alias: vfe_mytown
-            dsn: %redis_dsn_mytown_api%
-

@@ -1031,10 +1031,6 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "snc/redis-bundle": 20,
-        "predis/predis": 20
-    },
     "platform": {
         "php": ">=5.3.3"
     },

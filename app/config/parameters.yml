@@ -12,6 +12,3 @@ parameters:
     mailer_password: null
     locale: en
     secret: ThisTokenIsNotSoSecretChangeIt
-
- # redis dsn for count feature
-    redis_dsn_mytown_api: 'redis://127.0.0.1:6379/7'
