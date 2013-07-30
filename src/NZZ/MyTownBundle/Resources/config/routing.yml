@@ -8,8 +8,12 @@ logout:
 
 
 nzz_my_town_homepage:
-    pattern:  /{project}/{lang}/{zoom}
+    pattern:  /{projectShortname}/{lang}
     defaults: { _controller: NZZMyTownBundle:Default:index }
+    requirements:
+        lang: '\w{2}'
+        projectShortname: '[^/]*'
+        _method: GET
 
 
 
@@ -38,8 +42,12 @@ nzz_my_town_admin_remove_project:
     defaults: { _controller: NZZMyTownBundle:Admin:edit }
 
 nzz_my_town_api_save:
-    pattern:  /{project}/save
+    pattern:  /{projectShortname}/{lang}
     defaults: { _controller: NZZMyTownBundle:Api:save }
+    requirements:
+        lang: '\w{2}'
+        projectShortname: '[^/]*'
+        _method: POST
 
 nzz_my_town_api_get_all:
     pattern:  /{project}/getAll

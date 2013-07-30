@@ -25,17 +25,24 @@
          config.lon = '{{ lon }}';
      </script>
     <div class="app-container">
-      <div class="sidebar">
-        <h1 class="sidebar__heading">Map Your Town</h1>
-        <h2 class="sidebar__subheading">{{ city }}</h2>
-        <span class="sidebar__comments">150 notes</span>
-        <p class="sidebar__introduction">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure d.</p>
-        <ul>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Link</a></li>
-        </ul>
+      <div class="header">
+        <div class="row-fluid">
+          <div class="span4"><span class="header__branding branding_nzz"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung"></span></div>
+          <div class="span4"><a href="#" class="header__btn btn btn-primary">Submit Marker</a></div>
+          <div class="span4">
+            <ul class="sharing__list">
+              <li class="sharing__item"><a href="#" class="btn">Twitter</a></li>
+              <li class="sharing__item"><a href="#" class="btn">Facebook</a></li>
+              <li class="sharing__item"><a href="#" class="btn">Link</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div class="content" ng-controller="MapController" id="map"></div>
+      <div class="footer">
+        <h1 class="footer__heading">Map Your Town <span class="footer__subheading">{{ city }}</span></h1>
+        <span class="footer__notes">150 notes</span>
+        <p class="footer__introduction">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure d.</p>
+      </div>
     </div>
  {% endblock %}

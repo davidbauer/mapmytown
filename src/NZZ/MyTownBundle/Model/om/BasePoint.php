@@ -11,24 +11,24 @@ use \Persistent;
 use \Propel;
 use \PropelException;
 use \PropelPDO;
-use NZZ\MyTownBundle\Model\Points;
-use NZZ\MyTownBundle\Model\PointsPeer;
-use NZZ\MyTownBundle\Model\PointsQuery;
-use NZZ\MyTownBundle\Model\Projects;
-use NZZ\MyTownBundle\Model\ProjectsQuery;
+use NZZ\MyTownBundle\Model\Point;
+use NZZ\MyTownBundle\Model\PointPeer;
+use NZZ\MyTownBundle\Model\PointQuery;
+use NZZ\MyTownBundle\Model\Project;
+use NZZ\MyTownBundle\Model\ProjectQuery;
 
-abstract class BasePoints extends BaseObject implements Persistent
+abstract class BasePoint extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'NZZ\\MyTownBundle\\Model\\PointsPeer';
+    const PEER = 'NZZ\\MyTownBundle\\Model\\PointPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        PointsPeer
+     * @var        PointPeer
      */
     protected static $peer;
 
@@ -81,9 +81,9 @@ abstract class BasePoints extends BaseObject implements Persistent
     protected $projectid;
 
     /**
-     * @var        Projects
+     * @var        Project
      */
-    protected $aProjects;
+    protected $aProject;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -179,7 +179,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -189,7 +189,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = PointsPeer::ID;
+            $this->modifiedColumns[] = PointPeer::ID;
         }
 
 
@@ -200,7 +200,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [description] column.
      *
      * @param string $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setDescription($v)
     {
@@ -210,7 +210,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->description !== $v) {
             $this->description = $v;
-            $this->modifiedColumns[] = PointsPeer::DESCRIPTION;
+            $this->modifiedColumns[] = PointPeer::DESCRIPTION;
         }
 
 
@@ -221,7 +221,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [latitude] column.
      *
      * @param double $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setLatitude($v)
     {
@@ -231,7 +231,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->latitude !== $v) {
             $this->latitude = $v;
-            $this->modifiedColumns[] = PointsPeer::LATITUDE;
+            $this->modifiedColumns[] = PointPeer::LATITUDE;
         }
 
 
@@ -242,7 +242,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [longitude] column.
      *
      * @param double $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setLongitude($v)
     {
@@ -252,7 +252,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->longitude !== $v) {
             $this->longitude = $v;
-            $this->modifiedColumns[] = PointsPeer::LONGITUDE;
+            $this->modifiedColumns[] = PointPeer::LONGITUDE;
         }
 
 
@@ -263,7 +263,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [submittername] column.
      *
      * @param string $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setSubmittername($v)
     {
@@ -273,7 +273,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->submittername !== $v) {
             $this->submittername = $v;
-            $this->modifiedColumns[] = PointsPeer::SUBMITTERNAME;
+            $this->modifiedColumns[] = PointPeer::SUBMITTERNAME;
         }
 
 
@@ -284,7 +284,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [submitterlocation] column.
      *
      * @param string $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setSubmitterlocation($v)
     {
@@ -294,7 +294,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->submitterlocation !== $v) {
             $this->submitterlocation = $v;
-            $this->modifiedColumns[] = PointsPeer::SUBMITTERLOCATION;
+            $this->modifiedColumns[] = PointPeer::SUBMITTERLOCATION;
         }
 
 
@@ -305,7 +305,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * Set the value of [projectid] column.
      *
      * @param int $v new value
-     * @return Points The current object (for fluent API support)
+     * @return Point The current object (for fluent API support)
      */
     public function setProjectid($v)
     {
@@ -315,11 +315,11 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($this->projectid !== $v) {
             $this->projectid = $v;
-            $this->modifiedColumns[] = PointsPeer::PROJECTID;
+            $this->modifiedColumns[] = PointPeer::PROJECTID;
         }
 
-        if ($this->aProjects !== null && $this->aProjects->getId() !== $v) {
-            $this->aProjects = null;
+        if ($this->aProject !== null && $this->aProject->getId() !== $v) {
+            $this->aProject = null;
         }
 
 
@@ -373,10 +373,10 @@ abstract class BasePoints extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 7; // 7 = PointsPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = PointPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Points object", $e);
+            throw new PropelException("Error populating Point object", $e);
         }
     }
 
@@ -396,8 +396,8 @@ abstract class BasePoints extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aProjects !== null && $this->projectid !== $this->aProjects->getId()) {
-            $this->aProjects = null;
+        if ($this->aProject !== null && $this->projectid !== $this->aProject->getId()) {
+            $this->aProject = null;
         }
     } // ensureConsistency
 
@@ -422,13 +422,13 @@ abstract class BasePoints extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PointsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = PointsPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = PointPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -438,7 +438,7 @@ abstract class BasePoints extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aProjects = null;
+            $this->aProject = null;
         } // if (deep)
     }
 
@@ -459,12 +459,12 @@ abstract class BasePoints extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PointsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = PointsQuery::create()
+            $deleteQuery = PointQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -502,7 +502,7 @@ abstract class BasePoints extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PointsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -522,7 +522,7 @@ abstract class BasePoints extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                PointsPeer::addInstanceToPool($this);
+                PointPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -557,11 +557,11 @@ abstract class BasePoints extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aProjects !== null) {
-                if ($this->aProjects->isModified() || $this->aProjects->isNew()) {
-                    $affectedRows += $this->aProjects->save($con);
+            if ($this->aProject !== null) {
+                if ($this->aProject->isModified() || $this->aProject->isNew()) {
+                    $affectedRows += $this->aProject->save($con);
                 }
-                $this->setProjects($this->aProjects);
+                $this->setProject($this->aProject);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -595,36 +595,36 @@ abstract class BasePoints extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = PointsPeer::ID;
+        $this->modifiedColumns[] = PointPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . PointsPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . PointPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(PointsPeer::ID)) {
+        if ($this->isColumnModified(PointPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(PointsPeer::DESCRIPTION)) {
+        if ($this->isColumnModified(PointPeer::DESCRIPTION)) {
             $modifiedColumns[':p' . $index++]  = '`description`';
         }
-        if ($this->isColumnModified(PointsPeer::LATITUDE)) {
+        if ($this->isColumnModified(PointPeer::LATITUDE)) {
             $modifiedColumns[':p' . $index++]  = '`latitude`';
         }
-        if ($this->isColumnModified(PointsPeer::LONGITUDE)) {
+        if ($this->isColumnModified(PointPeer::LONGITUDE)) {
             $modifiedColumns[':p' . $index++]  = '`longitude`';
         }
-        if ($this->isColumnModified(PointsPeer::SUBMITTERNAME)) {
+        if ($this->isColumnModified(PointPeer::SUBMITTERNAME)) {
             $modifiedColumns[':p' . $index++]  = '`submitterName`';
         }
-        if ($this->isColumnModified(PointsPeer::SUBMITTERLOCATION)) {
+        if ($this->isColumnModified(PointPeer::SUBMITTERLOCATION)) {
             $modifiedColumns[':p' . $index++]  = '`submitterLocation`';
         }
-        if ($this->isColumnModified(PointsPeer::PROJECTID)) {
+        if ($this->isColumnModified(PointPeer::PROJECTID)) {
             $modifiedColumns[':p' . $index++]  = '`projectId`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `points` (%s) VALUES (%s)',
+            'INSERT INTO `point` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -753,14 +753,14 @@ abstract class BasePoints extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aProjects !== null) {
-                if (!$this->aProjects->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aProjects->getValidationFailures());
+            if ($this->aProject !== null) {
+                if (!$this->aProject->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aProject->getValidationFailures());
                 }
             }
 
 
-            if (($retval = PointsPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = PointPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -784,7 +784,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_STUDLYPHPNAME)
     {
-        $pos = PointsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = PointPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -844,11 +844,11 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_STUDLYPHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Points'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Point'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Points'][$this->getPrimaryKey()] = true;
-        $keys = PointsPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Point'][$this->getPrimaryKey()] = true;
+        $keys = PointPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
             $keys[1] => $this->getDescription(),
@@ -859,8 +859,8 @@ abstract class BasePoints extends BaseObject implements Persistent
             $keys[6] => $this->getProjectid(),
         );
         if ($includeForeignObjects) {
-            if (null !== $this->aProjects) {
-                $result['Projects'] = $this->aProjects->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aProject) {
+                $result['Project'] = $this->aProject->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -880,7 +880,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_STUDLYPHPNAME)
     {
-        $pos = PointsPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = PointPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -939,7 +939,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_STUDLYPHPNAME)
     {
-        $keys = PointsPeer::getFieldNames($keyType);
+        $keys = PointPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setDescription($arr[$keys[1]]);
@@ -957,15 +957,15 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(PointsPeer::DATABASE_NAME);
+        $criteria = new Criteria(PointPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(PointsPeer::ID)) $criteria->add(PointsPeer::ID, $this->id);
-        if ($this->isColumnModified(PointsPeer::DESCRIPTION)) $criteria->add(PointsPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(PointsPeer::LATITUDE)) $criteria->add(PointsPeer::LATITUDE, $this->latitude);
-        if ($this->isColumnModified(PointsPeer::LONGITUDE)) $criteria->add(PointsPeer::LONGITUDE, $this->longitude);
-        if ($this->isColumnModified(PointsPeer::SUBMITTERNAME)) $criteria->add(PointsPeer::SUBMITTERNAME, $this->submittername);
-        if ($this->isColumnModified(PointsPeer::SUBMITTERLOCATION)) $criteria->add(PointsPeer::SUBMITTERLOCATION, $this->submitterlocation);
-        if ($this->isColumnModified(PointsPeer::PROJECTID)) $criteria->add(PointsPeer::PROJECTID, $this->projectid);
+        if ($this->isColumnModified(PointPeer::ID)) $criteria->add(PointPeer::ID, $this->id);
+        if ($this->isColumnModified(PointPeer::DESCRIPTION)) $criteria->add(PointPeer::DESCRIPTION, $this->description);
+        if ($this->isColumnModified(PointPeer::LATITUDE)) $criteria->add(PointPeer::LATITUDE, $this->latitude);
+        if ($this->isColumnModified(PointPeer::LONGITUDE)) $criteria->add(PointPeer::LONGITUDE, $this->longitude);
+        if ($this->isColumnModified(PointPeer::SUBMITTERNAME)) $criteria->add(PointPeer::SUBMITTERNAME, $this->submittername);
+        if ($this->isColumnModified(PointPeer::SUBMITTERLOCATION)) $criteria->add(PointPeer::SUBMITTERLOCATION, $this->submitterlocation);
+        if ($this->isColumnModified(PointPeer::PROJECTID)) $criteria->add(PointPeer::PROJECTID, $this->projectid);
 
         return $criteria;
     }
@@ -980,8 +980,8 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(PointsPeer::DATABASE_NAME);
-        $criteria->add(PointsPeer::ID, $this->id);
+        $criteria = new Criteria(PointPeer::DATABASE_NAME);
+        $criteria->add(PointPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -1022,7 +1022,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Points (or compatible) type.
+     * @param object $copyObj An object of Point (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1062,7 +1062,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Points Clone of current object.
+     * @return Point Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1082,25 +1082,25 @@ abstract class BasePoints extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return PointsPeer
+     * @return PointPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new PointsPeer();
+            self::$peer = new PointPeer();
         }
 
         return self::$peer;
     }
 
     /**
-     * Declares an association between this object and a Projects object.
+     * Declares an association between this object and a Project object.
      *
-     * @param             Projects $v
-     * @return Points The current object (for fluent API support)
+     * @param             Project $v
+     * @return Point The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setProjects(Projects $v = null)
+    public function setProject(Project $v = null)
     {
         if ($v === null) {
             $this->setProjectid(NULL);
@@ -1108,12 +1108,12 @@ abstract class BasePoints extends BaseObject implements Persistent
             $this->setProjectid($v->getId());
         }
 
-        $this->aProjects = $v;
+        $this->aProject = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Projects object, it will not be re-added.
+        // If this object has already been added to the Project object, it will not be re-added.
         if ($v !== null) {
-            $v->addPoints($this);
+            $v->addPoint($this);
         }
 
 
@@ -1122,27 +1122,27 @@ abstract class BasePoints extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated Projects object
+     * Get the associated Project object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return Projects The associated Projects object.
+     * @return Project The associated Project object.
      * @throws PropelException
      */
-    public function getProjects(PropelPDO $con = null, $doQuery = true)
+    public function getProject(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aProjects === null && ($this->projectid !== null) && $doQuery) {
-            $this->aProjects = ProjectsQuery::create()->findPk($this->projectid, $con);
+        if ($this->aProject === null && ($this->projectid !== null) && $doQuery) {
+            $this->aProject = ProjectQuery::create()->findPk($this->projectid, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aProjects->addPointss($this);
+                $this->aProject->addPoints($this);
              */
         }
 
-        return $this->aProjects;
+        return $this->aProject;
     }
 
     /**
@@ -1179,14 +1179,14 @@ abstract class BasePoints extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->aProjects instanceof Persistent) {
-              $this->aProjects->clearAllReferences($deep);
+            if ($this->aProject instanceof Persistent) {
+              $this->aProject->clearAllReferences($deep);
             }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        $this->aProjects = null;
+        $this->aProject = null;
     }
 
     /**
@@ -1196,7 +1196,7 @@ abstract class BasePoints extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(PointsPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(PointPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**

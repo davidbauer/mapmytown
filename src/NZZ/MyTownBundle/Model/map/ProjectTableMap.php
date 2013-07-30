@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'projects' table.
+ * This class defines the structure of the 'project' table.
  *
  *
  *
@@ -18,13 +18,13 @@ use \TableMap;
  *
  * @package    propel.generator.src.NZZ.MyTownBundle.Model.map
  */
-class ProjectsTableMap extends TableMap
+class ProjectTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'src.NZZ.MyTownBundle.Model.map.ProjectsTableMap';
+    const CLASS_NAME = 'src.NZZ.MyTownBundle.Model.map.ProjectTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -36,9 +36,9 @@ class ProjectsTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('projects');
-        $this->setPhpName('Projects');
-        $this->setClassname('NZZ\\MyTownBundle\\Model\\Projects');
+        $this->setName('project');
+        $this->setPhpName('Project');
+        $this->setClassname('NZZ\\MyTownBundle\\Model\\Project');
         $this->setPackage('src.NZZ.MyTownBundle.Model');
         $this->setUseIdGenerator(true);
         // columns
@@ -57,7 +57,7 @@ class ProjectsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Points', 'NZZ\\MyTownBundle\\Model\\Points', RelationMap::ONE_TO_MANY, array('id' => 'projectId', ), null, null, 'Pointss');
+        $this->addRelation('Point', 'NZZ\\MyTownBundle\\Model\\Point', RelationMap::ONE_TO_MANY, array('id' => 'projectId', ), null, null, 'Points');
     } // buildRelations()
 
     /**
