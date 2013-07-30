@@ -9,7 +9,7 @@ parameters:
         default:
             driver: mysql
             user: root
-            password:
+            password: root
             dsn: mysql:host=localhost;dbname=mytown;charset=UTF8
             options:
                 ATTR_PERSISTENT: false
@@ -18,7 +18,7 @@ parameters:
 
     #settings for testing-database
     propel.database_test_user: root
-    propel.database_test_password:
+    propel.database_test_password: root
     propel.database_test_host: localhost
     propel.database_test_database: mytown
 

@@ -6,6 +6,7 @@ build.xml
 /doc/
 /app/cache/*
 /app/logs/*
+/app/propel
 /app/tmp
 /web/bundles
 /web/css

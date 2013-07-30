@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="mytown" namespace="NZZ\MyTownBundle\Model" defaultIdMethod="native">
+    <table name="projects" idMethod="native">
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+            <parameter name="Collate" value="utf8_general_ci"/>
+        </vendor>
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="name" type="VARCHAR" size="255"/>
+        <column name="shortname" type="VARCHAR" size="10"/>
+        <column name="city" type="VARCHAR" size="50"/>
+        <column name="lang" type="VARCHAR" size="2"/>
+    </table>
+
+    <table name="points" idMethod="native">
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+            <parameter name="Collate" value="utf8_general_ci"/>
+        </vendor>
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="description" type="VARCHAR" size="255"/>
+        <column name="latitude" type="FLOAT"/>
+        <column name="longitude" type="FLOAT"/>
+        <column name="submitterName" type="VARCHAR" size="255"/>
+        <column name="submitterLocation" type="VARCHAR" size="255"/>
+        <column name="projectId" type="INTEGER" required="true"/>
+        <foreign-key foreignTable="projects">
+            <reference local="projectId" foreign="id"/>
+        </foreign-key>
+    </table>
+</database>
