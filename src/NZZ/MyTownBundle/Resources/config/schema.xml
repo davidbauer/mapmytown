@@ -7,7 +7,7 @@
         <parameter name="tab_size" value="4"/>
         <parameter name="strip_comments" value="false"/>
     </behavior>
-    <table name="projects" idMethod="native">
+    <table name="project" idMethod="native">
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB"/>
             <parameter name="Charset" value="utf8"/>
@@ -20,9 +20,12 @@
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
         <column name="language" type="VARCHAR" size="2"/>
+        <unique name="shortname">
+            <unique-column name="shortname"/>
+        </unique>
     </table>
 
-    <table name="points" idMethod="native">
+    <table name="point" idMethod="native">
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB"/>
             <parameter name="Charset" value="utf8"/>
@@ -35,7 +38,7 @@
         <column name="submitterName" type="VARCHAR" size="255"/>
         <column name="submitterLocation" type="VARCHAR" size="255"/>
         <column name="projectId" type="INTEGER" required="true"/>
-        <foreign-key foreignTable="projects">
+        <foreign-key foreignTable="project">
             <reference local="projectId" foreign="id"/>
         </foreign-key>
     </table>
