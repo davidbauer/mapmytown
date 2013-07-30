@@ -1,5 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<database name="mytown" namespace="NZZ\MyTownBundle\Model" defaultIdMethod="native">
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" namespace="NZZ\MyTownBundle\Model">
+    <behavior name="alternative_coding_standards">
+        <parameter name="brackets_newline" value="false"/>
+        <parameter name="remove_closing_comments" value="true"/>
+        <parameter name="use_whitespace" value="true"/>
+        <parameter name="tab_size" value="4"/>
+        <parameter name="strip_comments" value="false"/>
+    </behavior>
     <table name="projects" idMethod="native">
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB"/>
