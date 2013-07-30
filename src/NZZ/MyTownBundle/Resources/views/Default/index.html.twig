@@ -17,15 +17,23 @@
          {%  set lon =  6.143 %}
      {% endif %}
      <script type="text/javascript">
-         var config = {};
-         config.project = "{{ project }}";
-         config.lang = '{{ lang }}';
-         config.zoom = '{{ zoom }}';
-         config.lat = '{{ lat }}';
-         config.lon = '{{ lon }}';
+        $(function() {
+            // Start the app
+            var router = new app.routers.AppRouter();
+            Backbone.history.start();
+        });
+
+        // var config = {};
+        // config.project = "{{ project }}";
+        // config.lang = '{{ lang }}';
+        // config.zoom = '{{ zoom }}';
+        // config.lat = '{{ lat }}';
+        // config.lon = '{{ lon }}';
      </script>
-     <h1> {{ city }}</h1>
-     <div class="container">
-        <div class="span10" ng-controller="MapController" id="map"> </div>
+     <div id="app-container">
+         <h1>{{ city }}</h1>
+         <div class="container">
+            <div class="span10" id="map"></div>
+        </div>
     </div>
  {% endblock %}

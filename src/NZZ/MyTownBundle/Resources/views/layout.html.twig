@@ -2,9 +2,8 @@
 {% block stylesheets %}
     {% stylesheets filter='?yui_css' output='css/*.css'
     'bundles/nzzmytown/css/app.css'
-    'bundles/nzzmytown/bootstrap/css/bootstrap.min.css'
-    'bundles/nzzmytown/bootstrap/css/bootstrap-responsive.css'
-
+    'bundles/nzzmytown/vendor/bootstrap/css/bootstrap.min.css'
+    'bundles/nzzmytown/vendor/bootstrap/css/bootstrap-responsive.css'
     %}
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
     {% endstylesheets %}
@@ -15,10 +14,12 @@
  {% endblock %}
 
 {% block javascripts %}
-
-    {#'bundles/vfemytown/js/app.js'#}
     {% javascripts filter='?yui_js' output='js/*.js'
+          'bundles/nzzmytown/vendor/bootstrap/js/bootstrap.min.js'
+          'bundles/nzzmytown/vendor/underscore/underscore-min.js'
+          'bundles/nzzmytown/vendor/backbone/backbone.js'
           'bundles/nzzmytown/js/app.js'
+          'bundles/nzzmytown/js/views/RootView.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
