@@ -60,4 +60,23 @@ class PointsTableMap extends TableMap
         $this->addRelation('Projects', 'NZZ\\MyTownBundle\\Model\\Projects', RelationMap::MANY_TO_ONE, array('projectId' => 'id', ), null, null);
     } // buildRelations()
 
-} // PointsTableMap
+    /**
+     *
+     * Gets the list of behaviors registered for this table
+     *
+     * @return array Associative array (name => parameters) of behaviors
+     */
+    public function getBehaviors()
+    {
+        return array(
+            'alternative_coding_standards' =>  array (
+  'brackets_newline' => 'false',
+  'remove_closing_comments' => 'true',
+  'use_whitespace' => 'true',
+  'tab_size' => '4',
+  'strip_comments' => 'false',
+),
+        );
+    } // getBehaviors()
+
+}

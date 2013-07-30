@@ -59,16 +59,28 @@ abstract class BaseProjects extends BaseObject implements Persistent
     protected $shortname;
 
     /**
-     * The value for the city field.
-     * @var        string
+     * The value for the centerlatitude field.
+     * @var        double
      */
-    protected $city;
+    protected $centerlatitude;
 
     /**
-     * The value for the lang field.
+     * The value for the centerlongitude field.
+     * @var        double
+     */
+    protected $centerlongitude;
+
+    /**
+     * The value for the defaultzoom field.
+     * @var        int
+     */
+    protected $defaultzoom;
+
+    /**
+     * The value for the language field.
      * @var        string
      */
-    protected $lang;
+    protected $language;
 
     /**
      * @var        PropelObjectCollection|Points[] Collection to store aggregation of Points objects.
@@ -98,7 +110,7 @@ abstract class BaseProjects extends BaseObject implements Persistent
 
     /**
      * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
+     * @var        PropelObjectCollection
      */
     protected $pointssScheduledForDeletion = null;
 
@@ -133,23 +145,43 @@ abstract class BaseProjects extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [city] column value.
+     * Get the [centerlatitude] column value.
      *
-     * @return string
+     * @return double
      */
-    public function getCity()
+    public function getCenterlatitude()
     {
-        return $this->city;
+        return $this->centerlatitude;
     }
 
     /**
-     * Get the [lang] column value.
+     * Get the [centerlongitude] column value.
+     *
+     * @return double
+     */
+    public function getCenterlongitude()
+    {
+        return $this->centerlongitude;
+    }
+
+    /**
+     * Get the [defaultzoom] column value.
+     *
+     * @return int
+     */
+    public function getDefaultzoom()
+    {
+        return $this->defaultzoom;
+    }
+
+    /**
+     * Get the [language] column value.
      *
      * @return string
      */
-    public function getLang()
+    public function getLanguage()
     {
-        return $this->lang;
+        return $this->language;
     }
 
     /**
@@ -216,46 +248,88 @@ abstract class BaseProjects extends BaseObject implements Persistent
     } // setShortname()
 
     /**
-     * Set the value of [city] column.
+     * Set the value of [centerlatitude] column.
      *
-     * @param string $v new value
+     * @param double $v new value
      * @return Projects The current object (for fluent API support)
      */
-    public function setCity($v)
+    public function setCenterlatitude($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (double) $v;
         }
 
-        if ($this->city !== $v) {
-            $this->city = $v;
-            $this->modifiedColumns[] = ProjectsPeer::CITY;
+        if ($this->centerlatitude !== $v) {
+            $this->centerlatitude = $v;
+            $this->modifiedColumns[] = ProjectsPeer::CENTERLATITUDE;
         }
 
 
         return $this;
-    } // setCity()
+    } // setCenterlatitude()
 
     /**
-     * Set the value of [lang] column.
+     * Set the value of [centerlongitude] column.
+     *
+     * @param double $v new value
+     * @return Projects The current object (for fluent API support)
+     */
+    public function setCenterlongitude($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (double) $v;
+        }
+
+        if ($this->centerlongitude !== $v) {
+            $this->centerlongitude = $v;
+            $this->modifiedColumns[] = ProjectsPeer::CENTERLONGITUDE;
+        }
+
+
+        return $this;
+    } // setCenterlongitude()
+
+    /**
+     * Set the value of [defaultzoom] column.
+     *
+     * @param int $v new value
+     * @return Projects The current object (for fluent API support)
+     */
+    public function setDefaultzoom($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->defaultzoom !== $v) {
+            $this->defaultzoom = $v;
+            $this->modifiedColumns[] = ProjectsPeer::DEFAULTZOOM;
+        }
+
+
+        return $this;
+    } // setDefaultzoom()
+
+    /**
+     * Set the value of [language] column.
      *
      * @param string $v new value
      * @return Projects The current object (for fluent API support)
      */
-    public function setLang($v)
+    public function setLanguage($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (string) $v;
         }
 
-        if ($this->lang !== $v) {
-            $this->lang = $v;
-            $this->modifiedColumns[] = ProjectsPeer::LANG;
+        if ($this->language !== $v) {
+            $this->language = $v;
+            $this->modifiedColumns[] = ProjectsPeer::LANGUAGE;
         }
 
 
         return $this;
-    } // setLang()
+    } // setLanguage()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -292,8 +366,10 @@ abstract class BaseProjects extends BaseObject implements Persistent
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->name = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->shortname = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->city = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->lang = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->centerlatitude = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
+            $this->centerlongitude = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
+            $this->defaultzoom = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
+            $this->language = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -302,7 +378,7 @@ abstract class BaseProjects extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 5; // 5 = ProjectsPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = ProjectsPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Projects object", $e);
@@ -542,11 +618,17 @@ abstract class BaseProjects extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectsPeer::SHORTNAME)) {
             $modifiedColumns[':p' . $index++]  = '`shortname`';
         }
-        if ($this->isColumnModified(ProjectsPeer::CITY)) {
-            $modifiedColumns[':p' . $index++]  = '`city`';
+        if ($this->isColumnModified(ProjectsPeer::CENTERLATITUDE)) {
+            $modifiedColumns[':p' . $index++]  = '`centerLatitude`';
         }
-        if ($this->isColumnModified(ProjectsPeer::LANG)) {
-            $modifiedColumns[':p' . $index++]  = '`lang`';
+        if ($this->isColumnModified(ProjectsPeer::CENTERLONGITUDE)) {
+            $modifiedColumns[':p' . $index++]  = '`centerLongitude`';
+        }
+        if ($this->isColumnModified(ProjectsPeer::DEFAULTZOOM)) {
+            $modifiedColumns[':p' . $index++]  = '`defaultZoom`';
+        }
+        if ($this->isColumnModified(ProjectsPeer::LANGUAGE)) {
+            $modifiedColumns[':p' . $index++]  = '`language`';
         }
 
         $sql = sprintf(
@@ -568,11 +650,17 @@ abstract class BaseProjects extends BaseObject implements Persistent
                     case '`shortname`':
                         $stmt->bindValue($identifier, $this->shortname, PDO::PARAM_STR);
                         break;
-                    case '`city`':
-                        $stmt->bindValue($identifier, $this->city, PDO::PARAM_STR);
+                    case '`centerLatitude`':
+                        $stmt->bindValue($identifier, $this->centerlatitude, PDO::PARAM_STR);
                         break;
-                    case '`lang`':
-                        $stmt->bindValue($identifier, $this->lang, PDO::PARAM_STR);
+                    case '`centerLongitude`':
+                        $stmt->bindValue($identifier, $this->centerlongitude, PDO::PARAM_STR);
+                        break;
+                    case '`defaultZoom`':
+                        $stmt->bindValue($identifier, $this->defaultzoom, PDO::PARAM_INT);
+                        break;
+                    case '`language`':
+                        $stmt->bindValue($identifier, $this->language, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -726,10 +814,16 @@ abstract class BaseProjects extends BaseObject implements Persistent
                 return $this->getShortname();
                 break;
             case 3:
-                return $this->getCity();
+                return $this->getCenterlatitude();
                 break;
             case 4:
-                return $this->getLang();
+                return $this->getCenterlongitude();
+                break;
+            case 5:
+                return $this->getDefaultzoom();
+                break;
+            case 6:
+                return $this->getLanguage();
                 break;
             default:
                 return null;
@@ -763,8 +857,10 @@ abstract class BaseProjects extends BaseObject implements Persistent
             $keys[0] => $this->getId(),
             $keys[1] => $this->getName(),
             $keys[2] => $this->getShortname(),
-            $keys[3] => $this->getCity(),
-            $keys[4] => $this->getLang(),
+            $keys[3] => $this->getCenterlatitude(),
+            $keys[4] => $this->getCenterlongitude(),
+            $keys[5] => $this->getDefaultzoom(),
+            $keys[6] => $this->getLanguage(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->collPointss) {
@@ -814,10 +910,16 @@ abstract class BaseProjects extends BaseObject implements Persistent
                 $this->setShortname($value);
                 break;
             case 3:
-                $this->setCity($value);
+                $this->setCenterlatitude($value);
                 break;
             case 4:
-                $this->setLang($value);
+                $this->setCenterlongitude($value);
+                break;
+            case 5:
+                $this->setDefaultzoom($value);
+                break;
+            case 6:
+                $this->setLanguage($value);
                 break;
         } // switch()
     }
@@ -846,8 +948,10 @@ abstract class BaseProjects extends BaseObject implements Persistent
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setShortname($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setCity($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setLang($arr[$keys[4]]);
+        if (array_key_exists($keys[3], $arr)) $this->setCenterlatitude($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setCenterlongitude($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setDefaultzoom($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setLanguage($arr[$keys[6]]);
     }
 
     /**
@@ -862,8 +966,10 @@ abstract class BaseProjects extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectsPeer::ID)) $criteria->add(ProjectsPeer::ID, $this->id);
         if ($this->isColumnModified(ProjectsPeer::NAME)) $criteria->add(ProjectsPeer::NAME, $this->name);
         if ($this->isColumnModified(ProjectsPeer::SHORTNAME)) $criteria->add(ProjectsPeer::SHORTNAME, $this->shortname);
-        if ($this->isColumnModified(ProjectsPeer::CITY)) $criteria->add(ProjectsPeer::CITY, $this->city);
-        if ($this->isColumnModified(ProjectsPeer::LANG)) $criteria->add(ProjectsPeer::LANG, $this->lang);
+        if ($this->isColumnModified(ProjectsPeer::CENTERLATITUDE)) $criteria->add(ProjectsPeer::CENTERLATITUDE, $this->centerlatitude);
+        if ($this->isColumnModified(ProjectsPeer::CENTERLONGITUDE)) $criteria->add(ProjectsPeer::CENTERLONGITUDE, $this->centerlongitude);
+        if ($this->isColumnModified(ProjectsPeer::DEFAULTZOOM)) $criteria->add(ProjectsPeer::DEFAULTZOOM, $this->defaultzoom);
+        if ($this->isColumnModified(ProjectsPeer::LANGUAGE)) $criteria->add(ProjectsPeer::LANGUAGE, $this->language);
 
         return $criteria;
     }
@@ -929,8 +1035,10 @@ abstract class BaseProjects extends BaseObject implements Persistent
     {
         $copyObj->setName($this->getName());
         $copyObj->setShortname($this->getShortname());
-        $copyObj->setCity($this->getCity());
-        $copyObj->setLang($this->getLang());
+        $copyObj->setCenterlatitude($this->getCenterlatitude());
+        $copyObj->setCenterlongitude($this->getCenterlongitude());
+        $copyObj->setDefaultzoom($this->getDefaultzoom());
+        $copyObj->setLanguage($this->getLanguage());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1202,7 +1310,7 @@ abstract class BaseProjects extends BaseObject implements Persistent
     }
 
     /**
-     * @param	Points $points The points object to add.
+     * @param    Points $points The points object to add.
      */
     protected function doAddPoints($points)
     {
@@ -1211,7 +1319,7 @@ abstract class BaseProjects extends BaseObject implements Persistent
     }
 
     /**
-     * @param	Points $points The points object to remove.
+     * @param    Points $points The points object to remove.
      * @return Projects The current object (for fluent API support)
      */
     public function removePoints($points)
@@ -1237,8 +1345,10 @@ abstract class BaseProjects extends BaseObject implements Persistent
         $this->id = null;
         $this->name = null;
         $this->shortname = null;
-        $this->city = null;
-        $this->lang = null;
+        $this->centerlatitude = null;
+        $this->centerlongitude = null;
+        $this->defaultzoom = null;
+        $this->language = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
