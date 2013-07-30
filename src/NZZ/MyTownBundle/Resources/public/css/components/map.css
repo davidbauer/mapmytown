@@ -1,0 +1,9 @@
+/**
+ * MAP
+ * Styling for the map
+ */
+ #map, 
+#map2 {
+      height: 640px;
+       width: 640px;
+}

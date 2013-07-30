@@ -1,3 +1,12 @@
+login:
+    pattern:   /login
+    defaults:  { _controller: NZZMyTownBundle:Security:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout
+
+
 nzz_my_town_homepage:
     pattern:  /{project}/{lang}/{zoom}
     defaults: { _controller: NZZMyTownBundle:Default:index }
@@ -7,8 +16,27 @@ nzz_my_town_api_save:
     pattern:  /{project}/save
     defaults: { _controller: NZZMyTownBundle:Api:save }
 
+nzz_my_town_api_get_all:
+    pattern:  /{project}/getAll
+    defaults: { _controller: NZZMyTownBundle:Api:getAll }
+
+nzz_my_town_api_publish_item:
+    pattern:  /{project}/{itemId}
+    defaults: { _controller: NZZMyTownBundle:Api:publish }
+
+nzz_my_town_api_remove_item:
+    pattern:  /{project}/{itemId}
+    defaults: { _controller: NZZMyTownBundle:Api:remove }
 
 
 nzz_my_town_admin_dashboard:
     pattern: /admin/
     defaults: { _controller: NZZMyTownBundle:Admin:index }
+
+nzz_my_town_admin_add_project:
+    pattern: /admin/add
+    defaults: { _controller: NZZMyTownBundle:Admin:add }
+
+nzz_my_town_admin_add_project:
+    pattern: /admin/edit/{projectId}
+    defaults: { _controller: NZZMyTownBundle:Admin:edit }

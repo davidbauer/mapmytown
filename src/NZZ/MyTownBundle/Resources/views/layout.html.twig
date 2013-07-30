@@ -1,9 +1,14 @@
 {% extends "::base.html.twig" %}
 {% block stylesheets %}
     {% stylesheets filter='?yui_css' output='css/*.css'
+    'bundles/nzzmytown/bootstrap/css/bootstrap.min.css'
+    'bundles/nzzmytown/bootstrap/css/bootstrap-responsive.css'
+    'bundles/nzzmytown/css/base/layout.css'
+    'bundles/nzzmytown/css/base/typography.css'
+    'bundles/nzzmytown/css/components/entry.css'
+    'bundles/nzzmytown/css/components/introduction.css'
+    'bundles/nzzmytown/css/components/map.css'
     'bundles/nzzmytown/css/app.css'
-    'bundles/nzzmytown/vendor/bootstrap/css/bootstrap.min.css'
-    'bundles/nzzmytown/vendor/bootstrap/css/bootstrap-responsive.css'
     %}
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
     {% endstylesheets %}

@@ -6,6 +6,7 @@ build.xml
 /doc/
 /app/cache/*
 /app/logs/*
+/app/propel
 /app/tmp
 /web/bundles
 /web/css
@@ -18,7 +19,7 @@ cscope.out
 /vendor/*
 app/*.cache
 app/phpunit.xml
-app/config/parameters.yml
+/app/config/parameters.yml
 test/phpunit.xml
 tests/*Bundle*
 /gitflow
