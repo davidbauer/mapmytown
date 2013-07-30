@@ -1,0 +1,31 @@
+{% extends "VFEMyTownBundle::layout.html.twig" %}
+ {% block body %}
+     {% if project|default('nzz') == 'nzz' %}
+         {#lat = 47.369, lng = 8.542#}
+         {% set city = 'Zurich' %}
+         {% set lat = '47.369' %}
+         {% set lon =  '8.542' %}
+     {% elseif project|default('nzz') == 'tagw' %}
+         {#?lat=47.5546&lon=7.5944&#}
+         {% set city = 'Basel' %}
+         {%  set lat = 47.5546 %}
+         {%  set lon =  7.5944 %}
+     {% elseif project|default('nzz') == 'temps' %}
+         {#lat=46.2048&lon=6.143&#}
+         {% set city = 'Geneva' %}
+         {%  set lat = 46.2048 %}
+         {%  set lon =  6.143 %}
+     {% endif %}
+     <script type="text/javascript">
+         var config = {};
+         config.project = "{{ project }}";
+         config.lang = '{{ lang }}';
+         config.zoom = '{{ zoom }}';
+         config.lat = '{{ lat }}';
+         config.lon = '{{ lon }}';
+     </script>
+     <h1> {{ city }}</h1>
+     <div class="container">
+        <div class="span10" ng-controller="MapController" id="map"> </div>
+    </div>
+ {% endblock %}

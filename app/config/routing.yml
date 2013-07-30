@@ -1,0 +1,4 @@
+vfe_my_town:
+    resource: "@VFEMyTownBundle/Resources/config/routing.yml"
+    prefix:   /
+

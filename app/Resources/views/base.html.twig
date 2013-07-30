@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app>
+{#<html ng-app="demoapp">#}
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}My Town!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        {#'bundles/vfemytown/js/angular-leaflet-directive.min.js'#}
+        {% javascripts filter='?yui_js' output='js/*.js'
+        'bundles/vfemytown/js/angular.min.js'
+        'bundles/vfemytown/bootstrap/js/bootstrap.min.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
