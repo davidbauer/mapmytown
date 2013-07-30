@@ -1,8 +1,0 @@
-parameters:
-#    vfe_my_town.example.class: VFE\MyTownBundle\Example
-
-services:
-    vfe_my_town.redis_client_provider:
-        class: VFE\MyTownBundle\Redis\RedisClientProvider
-        arguments:
-            masterClient: @snc_redis.vfe_mytown

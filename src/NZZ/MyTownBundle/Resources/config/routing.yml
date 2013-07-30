@@ -1,0 +1,8 @@
+nzz_my_town_homepage:
+    pattern:  /{project}/{lang}/{zoom}
+    defaults: { _controller: NZZMyTownBundle:Default:index }
+
+
+nzz_my_town_api_save:
+    pattern:  /{project}/save
+    defaults: { _controller: NZZMyTownBundle:Api:save }

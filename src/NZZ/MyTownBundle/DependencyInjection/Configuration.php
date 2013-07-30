@@ -1,6 +1,6 @@
 <?php
 
-namespace VFE\MyTownBundle\DependencyInjection;
+namespace NZZ\MyTownBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('vfe_my_town');
+        $rootNode = $treeBuilder->root('nzz_my_town');
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

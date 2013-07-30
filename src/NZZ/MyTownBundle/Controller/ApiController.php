@@ -1,6 +1,6 @@
 <?php
 
-namespace VFE\MyTownBundle\Controller;
+namespace NZZ\MyTownBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Predis\Client;

@@ -47,10 +47,3 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
-
-snc_redis:
-    clients:
-        vfe_mytown:
-            type: predis
-            alias: vfe_mytown
-            dsn: %redis_dsn_mytown_api%
