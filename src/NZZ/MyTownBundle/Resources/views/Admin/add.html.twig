@@ -1,0 +1,10 @@
+{% extends "NZZMyTownBundle::layout.html.twig" %}
+ {% block body %}
+     <div class="container">
+         <h1>Welcome to MyTowm Project</h1>
+         <form class="form" action="{{ path('nzz_my_town_admin_save_project') }}" method="post" {{ form_enctype(form) }}>
+             {{ form_errors(form) }}
+             {{ form_widget(form) }}
+         </form>
+     </div>
+ {% endblock %}

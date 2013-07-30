@@ -12,6 +12,31 @@ nzz_my_town_homepage:
     defaults: { _controller: NZZMyTownBundle:Default:index }
 
 
+
+
+nzz_my_town_admin_dashboard:
+    pattern: /admin/
+    defaults: { _controller: NZZMyTownBundle:Admin:index }
+
+nzz_my_town_admin_add_project:
+    pattern: /admin/add/
+    defaults: { _controller: NZZMyTownBundle:Admin:add }
+
+nzz_my_town_admin_save_project:
+    pattern: /admin/save
+    defaults: { _controller: NZZMyTownBundle:Admin:save }
+    requirements:
+        _method: POST
+
+
+nzz_my_town_admin_edit_project:
+    pattern: /admin/project/edit/{projectId}/
+    defaults: { _controller: NZZMyTownBundle:Admin:edit }
+
+nzz_my_town_admin_remove_project:
+    pattern: /admin/project/remove/{projectId}/
+    defaults: { _controller: NZZMyTownBundle:Admin:edit }
+
 nzz_my_town_api_save:
     pattern:  /{project}/save
     defaults: { _controller: NZZMyTownBundle:Api:save }
@@ -25,18 +50,5 @@ nzz_my_town_api_publish_item:
     defaults: { _controller: NZZMyTownBundle:Api:publish }
 
 nzz_my_town_api_remove_item:
-    pattern:  /{project}/{itemId}
+    pattern:  /admin/edit/{projectId}
     defaults: { _controller: NZZMyTownBundle:Api:remove }
-
-
-nzz_my_town_admin_dashboard:
-    pattern: /admin/
-    defaults: { _controller: NZZMyTownBundle:Admin:index }
-
-nzz_my_town_admin_add_project:
-    pattern: /admin/add
-    defaults: { _controller: NZZMyTownBundle:Admin:add }
-
-nzz_my_town_admin_add_project:
-    pattern: /admin/edit/{projectId}
-    defaults: { _controller: NZZMyTownBundle:Admin:edit }

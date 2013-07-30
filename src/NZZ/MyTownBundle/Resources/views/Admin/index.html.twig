@@ -1,13 +1,30 @@
 {% extends "NZZMyTownBundle::layout.html.twig" %}
  {% block body %}
      <div class="container">
-         <div class="jumbotron">
             <h1>Welcome to MyTowm Project</h1>
              <table class="table table-bordered">
                  <tr>
+                    {% for field in fields %}
+                        <td> {{ field }}</td>
+                    {% endfor %}
+                        <td> Edit </td>
+                 </tr>
+
+                     {% for project in projects %}
+                 <tr>
+                         <td> {{ project.id }}</td>
+                         <td> {{ project.name|default('') }}</td>
+                         <td> {{ project.shortName|default('') }}</td>
+                         <td> {{ project.centerLatitude|default('') }}</td>
+                         <td> {{ project.centerLongitude|default('') }}</td>
+                         <td> {{ project.defaultZoom|default('') }}</td>
+                         <td> {{ project.language|default('') }}</td>
+                         <td> <a class="btn btn-warning" href="{{ path('nzz_my_town_admin_edit_project', {'projectId': project.id }) }}"><i class="icon-edit"></i></a></td>
+                         <td> <a class="btn btn-danger" href="{{ path('nzz_my_town_api_remove_item', {'projectId': project.id }) }}"><i class="icon-remove"></i></a></td>
 
                  </tr>
+                     {% endfor %}
              </table>
-         </div>
     </div>
+     <a href="{{ path('nzz_my_town_admin_add_project') }}">Add Project</a>
  {% endblock %}

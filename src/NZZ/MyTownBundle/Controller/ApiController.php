@@ -16,6 +16,6 @@ class ApiController extends Controller
         if (!empty($parameters)) {
 
         }
-        var_dump($parameters);die;
+//        var_dump($parameters);die;
     }
 }
