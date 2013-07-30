@@ -21,14 +21,18 @@ use NZZ\MyTownBundle\Model\ProjectsQuery;
  * @method ProjectsQuery orderById($order = Criteria::ASC) Order by the id column
  * @method ProjectsQuery orderByName($order = Criteria::ASC) Order by the name column
  * @method ProjectsQuery orderByShortname($order = Criteria::ASC) Order by the shortname column
- * @method ProjectsQuery orderByCity($order = Criteria::ASC) Order by the city column
- * @method ProjectsQuery orderByLang($order = Criteria::ASC) Order by the lang column
+ * @method ProjectsQuery orderByCenterlatitude($order = Criteria::ASC) Order by the centerLatitude column
+ * @method ProjectsQuery orderByCenterlongitude($order = Criteria::ASC) Order by the centerLongitude column
+ * @method ProjectsQuery orderByDefaultzoom($order = Criteria::ASC) Order by the defaultZoom column
+ * @method ProjectsQuery orderByLanguage($order = Criteria::ASC) Order by the language column
  *
  * @method ProjectsQuery groupById() Group by the id column
  * @method ProjectsQuery groupByName() Group by the name column
  * @method ProjectsQuery groupByShortname() Group by the shortname column
- * @method ProjectsQuery groupByCity() Group by the city column
- * @method ProjectsQuery groupByLang() Group by the lang column
+ * @method ProjectsQuery groupByCenterlatitude() Group by the centerLatitude column
+ * @method ProjectsQuery groupByCenterlongitude() Group by the centerLongitude column
+ * @method ProjectsQuery groupByDefaultzoom() Group by the defaultZoom column
+ * @method ProjectsQuery groupByLanguage() Group by the language column
  *
  * @method ProjectsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ProjectsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -43,14 +47,18 @@ use NZZ\MyTownBundle\Model\ProjectsQuery;
  *
  * @method Projects findOneByName(string $name) Return the first Projects filtered by the name column
  * @method Projects findOneByShortname(string $shortname) Return the first Projects filtered by the shortname column
- * @method Projects findOneByCity(string $city) Return the first Projects filtered by the city column
- * @method Projects findOneByLang(string $lang) Return the first Projects filtered by the lang column
+ * @method Projects findOneByCenterlatitude(double $centerLatitude) Return the first Projects filtered by the centerLatitude column
+ * @method Projects findOneByCenterlongitude(double $centerLongitude) Return the first Projects filtered by the centerLongitude column
+ * @method Projects findOneByDefaultzoom(int $defaultZoom) Return the first Projects filtered by the defaultZoom column
+ * @method Projects findOneByLanguage(string $language) Return the first Projects filtered by the language column
  *
  * @method array findById(int $id) Return Projects objects filtered by the id column
  * @method array findByName(string $name) Return Projects objects filtered by the name column
  * @method array findByShortname(string $shortname) Return Projects objects filtered by the shortname column
- * @method array findByCity(string $city) Return Projects objects filtered by the city column
- * @method array findByLang(string $lang) Return Projects objects filtered by the lang column
+ * @method array findByCenterlatitude(double $centerLatitude) Return Projects objects filtered by the centerLatitude column
+ * @method array findByCenterlongitude(double $centerLongitude) Return Projects objects filtered by the centerLongitude column
+ * @method array findByDefaultzoom(int $defaultZoom) Return Projects objects filtered by the defaultZoom column
+ * @method array findByLanguage(string $language) Return Projects objects filtered by the language column
  */
 abstract class BaseProjectsQuery extends ModelCriteria
 {
@@ -61,7 +69,7 @@ abstract class BaseProjectsQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'mytown', $modelName = 'NZZ\\MyTownBundle\\Model\\Projects', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = 'NZZ\\MyTownBundle\\Model\\Projects', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -152,7 +160,7 @@ abstract class BaseProjectsQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `name`, `shortname`, `city`, `lang` FROM `projects` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `name`, `shortname`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language` FROM `projects` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -342,61 +350,158 @@ abstract class BaseProjectsQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the city column
+     * Filter the query on the centerLatitude column
      *
      * Example usage:
      * <code>
-     * $query->filterByCity('fooValue');   // WHERE city = 'fooValue'
-     * $query->filterByCity('%fooValue%'); // WHERE city LIKE '%fooValue%'
+     * $query->filterByCenterlatitude(1234); // WHERE centerLatitude = 1234
+     * $query->filterByCenterlatitude(array(12, 34)); // WHERE centerLatitude IN (12, 34)
+     * $query->filterByCenterlatitude(array('min' => 12)); // WHERE centerLatitude >= 12
+     * $query->filterByCenterlatitude(array('max' => 12)); // WHERE centerLatitude <= 12
      * </code>
      *
-     * @param     string $city The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     mixed $centerlatitude The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ProjectsQuery The current query, for fluid interface
      */
-    public function filterByCity($city = null, $comparison = null)
+    public function filterByCenterlatitude($centerlatitude = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($city)) {
+        if (is_array($centerlatitude)) {
+            $useMinMax = false;
+            if (isset($centerlatitude['min'])) {
+                $this->addUsingAlias(ProjectsPeer::CENTERLATITUDE, $centerlatitude['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($centerlatitude['max'])) {
+                $this->addUsingAlias(ProjectsPeer::CENTERLATITUDE, $centerlatitude['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $city)) {
-                $city = str_replace('*', '%', $city);
-                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ProjectsPeer::CITY, $city, $comparison);
+        return $this->addUsingAlias(ProjectsPeer::CENTERLATITUDE, $centerlatitude, $comparison);
     }
 
     /**
-     * Filter the query on the lang column
+     * Filter the query on the centerLongitude column
      *
      * Example usage:
      * <code>
-     * $query->filterByLang('fooValue');   // WHERE lang = 'fooValue'
-     * $query->filterByLang('%fooValue%'); // WHERE lang LIKE '%fooValue%'
+     * $query->filterByCenterlongitude(1234); // WHERE centerLongitude = 1234
+     * $query->filterByCenterlongitude(array(12, 34)); // WHERE centerLongitude IN (12, 34)
+     * $query->filterByCenterlongitude(array('min' => 12)); // WHERE centerLongitude >= 12
+     * $query->filterByCenterlongitude(array('max' => 12)); // WHERE centerLongitude <= 12
      * </code>
      *
-     * @param     string $lang The value to use as filter.
+     * @param     mixed $centerlongitude The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProjectsQuery The current query, for fluid interface
+     */
+    public function filterByCenterlongitude($centerlongitude = null, $comparison = null)
+    {
+        if (is_array($centerlongitude)) {
+            $useMinMax = false;
+            if (isset($centerlongitude['min'])) {
+                $this->addUsingAlias(ProjectsPeer::CENTERLONGITUDE, $centerlongitude['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($centerlongitude['max'])) {
+                $this->addUsingAlias(ProjectsPeer::CENTERLONGITUDE, $centerlongitude['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProjectsPeer::CENTERLONGITUDE, $centerlongitude, $comparison);
+    }
+
+    /**
+     * Filter the query on the defaultZoom column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDefaultzoom(1234); // WHERE defaultZoom = 1234
+     * $query->filterByDefaultzoom(array(12, 34)); // WHERE defaultZoom IN (12, 34)
+     * $query->filterByDefaultzoom(array('min' => 12)); // WHERE defaultZoom >= 12
+     * $query->filterByDefaultzoom(array('max' => 12)); // WHERE defaultZoom <= 12
+     * </code>
+     *
+     * @param     mixed $defaultzoom The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProjectsQuery The current query, for fluid interface
+     */
+    public function filterByDefaultzoom($defaultzoom = null, $comparison = null)
+    {
+        if (is_array($defaultzoom)) {
+            $useMinMax = false;
+            if (isset($defaultzoom['min'])) {
+                $this->addUsingAlias(ProjectsPeer::DEFAULTZOOM, $defaultzoom['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($defaultzoom['max'])) {
+                $this->addUsingAlias(ProjectsPeer::DEFAULTZOOM, $defaultzoom['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProjectsPeer::DEFAULTZOOM, $defaultzoom, $comparison);
+    }
+
+    /**
+     * Filter the query on the language column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByLanguage('fooValue');   // WHERE language = 'fooValue'
+     * $query->filterByLanguage('%fooValue%'); // WHERE language LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $language The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ProjectsQuery The current query, for fluid interface
      */
-    public function filterByLang($lang = null, $comparison = null)
+    public function filterByLanguage($language = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($lang)) {
+            if (is_array($language)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $lang)) {
-                $lang = str_replace('*', '%', $lang);
+            } elseif (preg_match('/[\%\*]/', $language)) {
+                $language = str_replace('*', '%', $language);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ProjectsPeer::LANG, $lang, $comparison);
+        return $this->addUsingAlias(ProjectsPeer::LANGUAGE, $language, $comparison);
     }
 
     /**

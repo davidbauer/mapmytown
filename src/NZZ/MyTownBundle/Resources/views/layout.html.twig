@@ -6,19 +6,20 @@
     'bundles/nzzmytown/css/base/layout.css'
     'bundles/nzzmytown/css/base/typography.css'
     'bundles/nzzmytown/css/components/entry.css'
-    'bundles/nzzmytown/css/components/introduction.css'
+    'bundles/nzzmytown/css/components/sidebar.css'
     'bundles/nzzmytown/css/components/map.css'
     'bundles/nzzmytown/css/app.css'
     %}
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
     {% endstylesheets %}
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.css' rel='stylesheet' />
     <!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" />
+    <link href='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.ie.css' rel='stylesheet' >
     <![endif]-->
  {% endblock %}
 
 {% block javascripts %}
+    <script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
     {% javascripts filter='?yui_js' output='js/*.js'
           'bundles/nzzmytown/vendor/bootstrap/js/bootstrap.min.js'
           'bundles/nzzmytown/vendor/underscore/underscore-min.js'
