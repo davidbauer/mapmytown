@@ -1,7 +1,5 @@
 function MapController ($scope, $compile) {
-    var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var osmAttrib='Map data © OpenStreetMap contributors';
-    var osm = new L.TileLayer(osmUrl, {minZoom: 14, maxZoom: 20, attribution: osmAttrib});
+
     var tmpl = '<div class="control-group" ng-controller="MarkerController">' +
                     '<label for="author">Author</label>' +
                     '<input type="text" id="author" ng-model="author" size=20 required>' +
@@ -10,10 +8,10 @@ function MapController ($scope, $compile) {
                     '<button class="btn btn-danger" ng-click="save()">Save</button>' +
                 '</div>';
 
-    $scope.map = new L.Map('map');
+    // use mapbox
+    $scope.map = L.mapbox.map('map', 'sylke-gruhnwald.map-a6qno9vz');
 
     $scope.map.setView(new L.LatLng(config.lat, config.lon),parseInt(config.zoom));
-    $scope.map.addLayer(osm);
 
     $scope.onMapClick = function (e) {
         var w, s = document.createElement('div'),
