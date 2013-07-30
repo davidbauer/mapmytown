@@ -31,7 +31,7 @@ nzz_my_town_admin_save_project:
 
 nzz_my_town_admin_edit_project:
     pattern: /admin/project/edit/{projectId}/
-    defaults: { _controller: NZZMyTownBundle:Admin:edit }
+    defaults: { _controller: NZZMyTownBundle:Admin:editProject }
 
 nzz_my_town_admin_remove_project:
     pattern: /admin/project/remove/{projectId}/

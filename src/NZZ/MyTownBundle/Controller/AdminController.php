@@ -33,13 +33,14 @@ class AdminController extends Controller
         $projectsFields = ProjectsPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
         $project = new Projects();
         $form = $this->createFormBuilder($project)
-            ->add('name')
-            ->add('shortname')
-            ->add('centerlatitude')
-            ->add('centerlatitude')
-            ->add('centerlongitude')
-            ->add('defaultzoom')
-            ->add('language')
+            ->add('name', 'text', array('required' => true))
+            ->add('shortname','text', array('required' => true))
+            ->add('centerlatitude','text', array('required' => true))
+            ->add('centerlatitude', 'text', array('required' => true))
+            ->add('centerlongitude', 'text', array('required' => true))
+            ->add('defaultzoom', 'text', array('required' => true))
+            ->add('language', 'choice', array('required' => true,
+                    'choices'   => array('en' => 'English', 'fr' => 'French', 'de' => 'Deutsch')))
             ->add('save', 'submit')
             ->getForm();
 
@@ -52,7 +53,11 @@ class AdminController extends Controller
     public function saveAction()
     {
         $data = $this->getRequest()->get('form');
-        $project  = new Projects();
+        if (!empty($data['id'])) {
+            $project = ProjectsQuery::create()->findOneById($data['id']);
+        } else {
+            $project  = new Projects();
+        }
         $project->setName($data['name']);
         $project->setShortname($data['shortname']);
         $project->setCenterlatitude($data['centerlatitude']);
@@ -65,9 +70,24 @@ class AdminController extends Controller
     }
 
 
-    public function editAction($projectId)
+    public function editProjectAction($projectId)
     {
-        return $this->render('NZZMyTownBundle:Admin:index.html.twig', array(
+        $project = ProjectsQuery::create()->findOneById($projectId);
+        $form = $this->createFormBuilder($project)
+            ->add('id','text',array('read_only' => true))
+            ->add('name', 'text', array('required' => true))
+            ->add('shortname', 'text', array('required' => true))
+            ->add('centerlatitude', 'text', array('required' => true))
+            ->add('centerlatitude', 'text', array('required' => true))
+            ->add('centerlongitude', 'text', array('required' => true))
+            ->add('defaultzoom', 'text', array('required' => true))
+            ->add('language', 'choice', array('required' => true,
+                    'choices'   => array('en' => 'English', 'fr' => 'French', 'de' => 'Deutsch')))
+            ->add('save', 'submit')
+            ->getForm();
+
+        return $this->render('NZZMyTownBundle:Admin:editProject.html.twig', array(
+                'form' => $form->createView()
             )
         );
     }
