@@ -17,7 +17,7 @@ class AdminPointController extends Controller
 {
     public function indexAction($projectId)
     {
-        $limit = 1;
+        $limit = $this->container->getParameter('point_limit');
         $request = $this->getRequest()->query;
         $page = ($request->get('page')) ? ($request->get('page')) : 1 ;
         $offset = ($page-1) * $limit;
