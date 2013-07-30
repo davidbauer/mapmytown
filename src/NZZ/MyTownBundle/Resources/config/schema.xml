@@ -16,8 +16,10 @@
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
         <column name="name" type="VARCHAR" size="255"/>
         <column name="shortname" type="VARCHAR" size="10"/>
-        <column name="city" type="VARCHAR" size="50"/>
-        <column name="lang" type="VARCHAR" size="2"/>
+        <column name="centerLatitude" type="FLOAT"/>
+        <column name="centerLongitude" type="FLOAT"/>
+        <column name="defaultZoom" type="INTEGER"/>
+        <column name="language" type="VARCHAR" size="2"/>
     </table>
 
     <table name="points" idMethod="native">
