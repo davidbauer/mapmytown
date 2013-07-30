@@ -6,3 +6,9 @@ nzz_my_town_homepage:
 nzz_my_town_api_save:
     pattern:  /{project}/save
     defaults: { _controller: NZZMyTownBundle:Api:save }
+
+
+
+nzz_my_town_admin_dashboard:
+    pattern: /admin/
+    defaults: { _controller: NZZMyTownBundle:Admin:index }
