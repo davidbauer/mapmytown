@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'points' table.
+ * This class defines the structure of the 'point' table.
  *
  *
  *
@@ -18,13 +18,13 @@ use \TableMap;
  *
  * @package    propel.generator.src.NZZ.MyTownBundle.Model.map
  */
-class PointsTableMap extends TableMap
+class PointTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'src.NZZ.MyTownBundle.Model.map.PointsTableMap';
+    const CLASS_NAME = 'src.NZZ.MyTownBundle.Model.map.PointTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -36,9 +36,9 @@ class PointsTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('points');
-        $this->setPhpName('Points');
-        $this->setClassname('NZZ\\MyTownBundle\\Model\\Points');
+        $this->setName('point');
+        $this->setPhpName('Point');
+        $this->setClassname('NZZ\\MyTownBundle\\Model\\Point');
         $this->setPackage('src.NZZ.MyTownBundle.Model');
         $this->setUseIdGenerator(true);
         // columns
@@ -48,7 +48,7 @@ class PointsTableMap extends TableMap
         $this->addColumn('longitude', 'Longitude', 'FLOAT', false, null, null);
         $this->addColumn('submitterName', 'Submittername', 'VARCHAR', false, 255, null);
         $this->addColumn('submitterLocation', 'Submitterlocation', 'VARCHAR', false, 255, null);
-        $this->addForeignKey('projectId', 'Projectid', 'INTEGER', 'projects', 'id', true, null, null);
+        $this->addForeignKey('projectId', 'Projectid', 'INTEGER', 'project', 'id', true, null, null);
         // validators
     } // initialize()
 
@@ -57,7 +57,7 @@ class PointsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Projects', 'NZZ\\MyTownBundle\\Model\\Projects', RelationMap::MANY_TO_ONE, array('projectId' => 'id', ), null, null);
+        $this->addRelation('Project', 'NZZ\\MyTownBundle\\Model\\Project', RelationMap::MANY_TO_ONE, array('projectId' => 'id', ), null, null);
     } // buildRelations()
 
     /**

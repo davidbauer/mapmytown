@@ -12,82 +12,82 @@ use \PropelCollection;
 use \PropelException;
 use \PropelObjectCollection;
 use \PropelPDO;
-use NZZ\MyTownBundle\Model\Points;
-use NZZ\MyTownBundle\Model\PointsPeer;
-use NZZ\MyTownBundle\Model\PointsQuery;
-use NZZ\MyTownBundle\Model\Projects;
+use NZZ\MyTownBundle\Model\Point;
+use NZZ\MyTownBundle\Model\PointPeer;
+use NZZ\MyTownBundle\Model\PointQuery;
+use NZZ\MyTownBundle\Model\Project;
 
 /**
- * @method PointsQuery orderById($order = Criteria::ASC) Order by the id column
- * @method PointsQuery orderByDescription($order = Criteria::ASC) Order by the description column
- * @method PointsQuery orderByLatitude($order = Criteria::ASC) Order by the latitude column
- * @method PointsQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
- * @method PointsQuery orderBySubmittername($order = Criteria::ASC) Order by the submitterName column
- * @method PointsQuery orderBySubmitterlocation($order = Criteria::ASC) Order by the submitterLocation column
- * @method PointsQuery orderByProjectid($order = Criteria::ASC) Order by the projectId column
+ * @method PointQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method PointQuery orderByDescription($order = Criteria::ASC) Order by the description column
+ * @method PointQuery orderByLatitude($order = Criteria::ASC) Order by the latitude column
+ * @method PointQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
+ * @method PointQuery orderBySubmittername($order = Criteria::ASC) Order by the submitterName column
+ * @method PointQuery orderBySubmitterlocation($order = Criteria::ASC) Order by the submitterLocation column
+ * @method PointQuery orderByProjectid($order = Criteria::ASC) Order by the projectId column
  *
- * @method PointsQuery groupById() Group by the id column
- * @method PointsQuery groupByDescription() Group by the description column
- * @method PointsQuery groupByLatitude() Group by the latitude column
- * @method PointsQuery groupByLongitude() Group by the longitude column
- * @method PointsQuery groupBySubmittername() Group by the submitterName column
- * @method PointsQuery groupBySubmitterlocation() Group by the submitterLocation column
- * @method PointsQuery groupByProjectid() Group by the projectId column
+ * @method PointQuery groupById() Group by the id column
+ * @method PointQuery groupByDescription() Group by the description column
+ * @method PointQuery groupByLatitude() Group by the latitude column
+ * @method PointQuery groupByLongitude() Group by the longitude column
+ * @method PointQuery groupBySubmittername() Group by the submitterName column
+ * @method PointQuery groupBySubmitterlocation() Group by the submitterLocation column
+ * @method PointQuery groupByProjectid() Group by the projectId column
  *
- * @method PointsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
- * @method PointsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
- * @method PointsQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ * @method PointQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
+ * @method PointQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
+ * @method PointQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method PointsQuery leftJoinProjects($relationAlias = null) Adds a LEFT JOIN clause to the query using the Projects relation
- * @method PointsQuery rightJoinProjects($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Projects relation
- * @method PointsQuery innerJoinProjects($relationAlias = null) Adds a INNER JOIN clause to the query using the Projects relation
+ * @method PointQuery leftJoinProject($relationAlias = null) Adds a LEFT JOIN clause to the query using the Project relation
+ * @method PointQuery rightJoinProject($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Project relation
+ * @method PointQuery innerJoinProject($relationAlias = null) Adds a INNER JOIN clause to the query using the Project relation
  *
- * @method Points findOne(PropelPDO $con = null) Return the first Points matching the query
- * @method Points findOneOrCreate(PropelPDO $con = null) Return the first Points matching the query, or a new Points object populated from the query conditions when no match is found
+ * @method Point findOne(PropelPDO $con = null) Return the first Point matching the query
+ * @method Point findOneOrCreate(PropelPDO $con = null) Return the first Point matching the query, or a new Point object populated from the query conditions when no match is found
  *
- * @method Points findOneByDescription(string $description) Return the first Points filtered by the description column
- * @method Points findOneByLatitude(double $latitude) Return the first Points filtered by the latitude column
- * @method Points findOneByLongitude(double $longitude) Return the first Points filtered by the longitude column
- * @method Points findOneBySubmittername(string $submitterName) Return the first Points filtered by the submitterName column
- * @method Points findOneBySubmitterlocation(string $submitterLocation) Return the first Points filtered by the submitterLocation column
- * @method Points findOneByProjectid(int $projectId) Return the first Points filtered by the projectId column
+ * @method Point findOneByDescription(string $description) Return the first Point filtered by the description column
+ * @method Point findOneByLatitude(double $latitude) Return the first Point filtered by the latitude column
+ * @method Point findOneByLongitude(double $longitude) Return the first Point filtered by the longitude column
+ * @method Point findOneBySubmittername(string $submitterName) Return the first Point filtered by the submitterName column
+ * @method Point findOneBySubmitterlocation(string $submitterLocation) Return the first Point filtered by the submitterLocation column
+ * @method Point findOneByProjectid(int $projectId) Return the first Point filtered by the projectId column
  *
- * @method array findById(int $id) Return Points objects filtered by the id column
- * @method array findByDescription(string $description) Return Points objects filtered by the description column
- * @method array findByLatitude(double $latitude) Return Points objects filtered by the latitude column
- * @method array findByLongitude(double $longitude) Return Points objects filtered by the longitude column
- * @method array findBySubmittername(string $submitterName) Return Points objects filtered by the submitterName column
- * @method array findBySubmitterlocation(string $submitterLocation) Return Points objects filtered by the submitterLocation column
- * @method array findByProjectid(int $projectId) Return Points objects filtered by the projectId column
+ * @method array findById(int $id) Return Point objects filtered by the id column
+ * @method array findByDescription(string $description) Return Point objects filtered by the description column
+ * @method array findByLatitude(double $latitude) Return Point objects filtered by the latitude column
+ * @method array findByLongitude(double $longitude) Return Point objects filtered by the longitude column
+ * @method array findBySubmittername(string $submitterName) Return Point objects filtered by the submitterName column
+ * @method array findBySubmitterlocation(string $submitterLocation) Return Point objects filtered by the submitterLocation column
+ * @method array findByProjectid(int $projectId) Return Point objects filtered by the projectId column
  */
-abstract class BasePointsQuery extends ModelCriteria
+abstract class BasePointQuery extends ModelCriteria
 {
     /**
-     * Initializes internal state of BasePointsQuery object.
+     * Initializes internal state of BasePointQuery object.
      *
      * @param     string $dbName The dabase name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = 'NZZ\\MyTownBundle\\Model\\Points', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = 'NZZ\\MyTownBundle\\Model\\Point', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
     /**
-     * Returns a new PointsQuery object.
+     * Returns a new PointQuery object.
      *
      * @param     string $modelAlias The alias of a model in the query
-     * @param   PointsQuery|Criteria $criteria Optional Criteria to build the query from
+     * @param   PointQuery|Criteria $criteria Optional Criteria to build the query from
      *
-     * @return PointsQuery
+     * @return PointQuery
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof PointsQuery) {
+        if ($criteria instanceof PointQuery) {
             return $criteria;
         }
-        $query = new PointsQuery();
+        $query = new PointQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -110,19 +110,19 @@ abstract class BasePointsQuery extends ModelCriteria
      * @param mixed $key Primary key to use for the query
      * @param     PropelPDO $con an optional connection object
      *
-     * @return   Points|Points[]|mixed the result, formatted by the current formatter
+     * @return   Point|Point[]|mixed the result, formatted by the current formatter
      */
     public function findPk($key, $con = null)
     {
         if ($key === null) {
             return null;
         }
-        if ((null !== ($obj = PointsPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
+        if ((null !== ($obj = PointPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
             // the object is alredy in the instance pool
             return $obj;
         }
         if ($con === null) {
-            $con = Propel::getConnection(PointsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         $this->basePreSelect($con);
         if ($this->formatter || $this->modelAlias || $this->with || $this->select
@@ -140,7 +140,7 @@ abstract class BasePointsQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return                 Points A model object, or null if the key is not found
+     * @return                 Point A model object, or null if the key is not found
      * @throws PropelException
      */
      public function findOneById($key, $con = null)
@@ -155,12 +155,12 @@ abstract class BasePointsQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return                 Points A model object, or null if the key is not found
+     * @return                 Point A model object, or null if the key is not found
      * @throws PropelException
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `projectId` FROM `points` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `projectId` FROM `point` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -171,9 +171,9 @@ abstract class BasePointsQuery extends ModelCriteria
         }
         $obj = null;
         if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $obj = new Points();
+            $obj = new Point();
             $obj->hydrate($row);
-            PointsPeer::addInstanceToPool($obj, (string) $key);
+            PointPeer::addInstanceToPool($obj, (string) $key);
         }
         $stmt->closeCursor();
 
@@ -186,7 +186,7 @@ abstract class BasePointsQuery extends ModelCriteria
      * @param     mixed $key Primary key to use for the query
      * @param     PropelPDO $con A connection object
      *
-     * @return Points|Points[]|mixed the result, formatted by the current formatter
+     * @return Point|Point[]|mixed the result, formatted by the current formatter
      */
     protected function findPkComplex($key, $con)
     {
@@ -207,7 +207,7 @@ abstract class BasePointsQuery extends ModelCriteria
      * @param     array $keys Primary keys to use for the query
      * @param     PropelPDO $con an optional connection object
      *
-     * @return PropelObjectCollection|Points[]|mixed the list of results, formatted by the current formatter
+     * @return PropelObjectCollection|Point[]|mixed the list of results, formatted by the current formatter
      */
     public function findPks($keys, $con = null)
     {
@@ -228,12 +228,12 @@ abstract class BasePointsQuery extends ModelCriteria
      *
      * @param     mixed $key Primary key to use for the query
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterByPrimaryKey($key)
     {
 
-        return $this->addUsingAlias(PointsPeer::ID, $key, Criteria::EQUAL);
+        return $this->addUsingAlias(PointPeer::ID, $key, Criteria::EQUAL);
     }
 
     /**
@@ -241,12 +241,12 @@ abstract class BasePointsQuery extends ModelCriteria
      *
      * @param     array $keys The list of primary key to use for the query
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterByPrimaryKeys($keys)
     {
 
-        return $this->addUsingAlias(PointsPeer::ID, $keys, Criteria::IN);
+        return $this->addUsingAlias(PointPeer::ID, $keys, Criteria::IN);
     }
 
     /**
@@ -266,18 +266,18 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterById($id = null, $comparison = null)
     {
         if (is_array($id)) {
             $useMinMax = false;
             if (isset($id['min'])) {
-                $this->addUsingAlias(PointsPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(PointPeer::ID, $id['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($id['max'])) {
-                $this->addUsingAlias(PointsPeer::ID, $id['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(PointPeer::ID, $id['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -288,7 +288,7 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::ID, $id, $comparison);
+        return $this->addUsingAlias(PointPeer::ID, $id, $comparison);
     }
 
     /**
@@ -304,7 +304,7 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterByDescription($description = null, $comparison = null)
     {
@@ -317,7 +317,7 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::DESCRIPTION, $description, $comparison);
+        return $this->addUsingAlias(PointPeer::DESCRIPTION, $description, $comparison);
     }
 
     /**
@@ -337,18 +337,18 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterByLatitude($latitude = null, $comparison = null)
     {
         if (is_array($latitude)) {
             $useMinMax = false;
             if (isset($latitude['min'])) {
-                $this->addUsingAlias(PointsPeer::LATITUDE, $latitude['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(PointPeer::LATITUDE, $latitude['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($latitude['max'])) {
-                $this->addUsingAlias(PointsPeer::LATITUDE, $latitude['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(PointPeer::LATITUDE, $latitude['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -359,7 +359,7 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::LATITUDE, $latitude, $comparison);
+        return $this->addUsingAlias(PointPeer::LATITUDE, $latitude, $comparison);
     }
 
     /**
@@ -379,18 +379,18 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterByLongitude($longitude = null, $comparison = null)
     {
         if (is_array($longitude)) {
             $useMinMax = false;
             if (isset($longitude['min'])) {
-                $this->addUsingAlias(PointsPeer::LONGITUDE, $longitude['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(PointPeer::LONGITUDE, $longitude['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($longitude['max'])) {
-                $this->addUsingAlias(PointsPeer::LONGITUDE, $longitude['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(PointPeer::LONGITUDE, $longitude['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -401,7 +401,7 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::LONGITUDE, $longitude, $comparison);
+        return $this->addUsingAlias(PointPeer::LONGITUDE, $longitude, $comparison);
     }
 
     /**
@@ -417,7 +417,7 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterBySubmittername($submittername = null, $comparison = null)
     {
@@ -430,7 +430,7 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::SUBMITTERNAME, $submittername, $comparison);
+        return $this->addUsingAlias(PointPeer::SUBMITTERNAME, $submittername, $comparison);
     }
 
     /**
@@ -446,7 +446,7 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterBySubmitterlocation($submitterlocation = null, $comparison = null)
     {
@@ -459,7 +459,7 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::SUBMITTERLOCATION, $submitterlocation, $comparison);
+        return $this->addUsingAlias(PointPeer::SUBMITTERLOCATION, $submitterlocation, $comparison);
     }
 
     /**
@@ -473,7 +473,7 @@ abstract class BasePointsQuery extends ModelCriteria
      * $query->filterByProjectid(array('max' => 12)); // WHERE projectId <= 12
      * </code>
      *
-     * @see       filterByProjects()
+     * @see       filterByProject()
      *
      * @param     mixed $projectid The value to use as filter.
      *              Use scalar values for equality.
@@ -481,18 +481,18 @@ abstract class BasePointsQuery extends ModelCriteria
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
     public function filterByProjectid($projectid = null, $comparison = null)
     {
         if (is_array($projectid)) {
             $useMinMax = false;
             if (isset($projectid['min'])) {
-                $this->addUsingAlias(PointsPeer::PROJECTID, $projectid['min'], Criteria::GREATER_EQUAL);
+                $this->addUsingAlias(PointPeer::PROJECTID, $projectid['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
             if (isset($projectid['max'])) {
-                $this->addUsingAlias(PointsPeer::PROJECTID, $projectid['max'], Criteria::LESS_EQUAL);
+                $this->addUsingAlias(PointPeer::PROJECTID, $projectid['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -503,47 +503,47 @@ abstract class BasePointsQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointsPeer::PROJECTID, $projectid, $comparison);
+        return $this->addUsingAlias(PointPeer::PROJECTID, $projectid, $comparison);
     }
 
     /**
-     * Filter the query by a related Projects object
+     * Filter the query by a related Project object
      *
-     * @param   Projects|PropelObjectCollection $projects The related object(s) to use as filter
+     * @param   Project|PropelObjectCollection $project The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return                 PointsQuery The current query, for fluid interface
+     * @return                 PointQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
-    public function filterByProjects($projects, $comparison = null)
+    public function filterByProject($project, $comparison = null)
     {
-        if ($projects instanceof Projects) {
+        if ($project instanceof Project) {
             return $this
-                ->addUsingAlias(PointsPeer::PROJECTID, $projects->getId(), $comparison);
-        } elseif ($projects instanceof PropelObjectCollection) {
+                ->addUsingAlias(PointPeer::PROJECTID, $project->getId(), $comparison);
+        } elseif ($project instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(PointsPeer::PROJECTID, $projects->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(PointPeer::PROJECTID, $project->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByProjects() only accepts arguments of type Projects or PropelCollection');
+            throw new PropelException('filterByProject() only accepts arguments of type Project or PropelCollection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Projects relation
+     * Adds a JOIN clause to the query using the Project relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
-    public function joinProjects($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinProject($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Projects');
+        $relationMap = $tableMap->getRelation('Project');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -558,14 +558,14 @@ abstract class BasePointsQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Projects');
+            $this->addJoinObject($join, 'Project');
         }
 
         return $this;
     }
 
     /**
-     * Use the Projects relation Projects object
+     * Use the Project relation Project object
      *
      * @see       useQuery()
      *
@@ -573,26 +573,26 @@ abstract class BasePointsQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \NZZ\MyTownBundle\Model\ProjectsQuery A secondary query class using the current class as primary query
+     * @return   \NZZ\MyTownBundle\Model\ProjectQuery A secondary query class using the current class as primary query
      */
-    public function useProjectsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useProjectQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinProjects($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Projects', '\NZZ\MyTownBundle\Model\ProjectsQuery');
+            ->joinProject($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Project', '\NZZ\MyTownBundle\Model\ProjectQuery');
     }
 
     /**
      * Exclude object from result
      *
-     * @param   Points $points Object to remove from the list of results
+     * @param   Point $point Object to remove from the list of results
      *
-     * @return PointsQuery The current query, for fluid interface
+     * @return PointQuery The current query, for fluid interface
      */
-    public function prune($points = null)
+    public function prune($point = null)
     {
-        if ($points) {
-            $this->addUsingAlias(PointsPeer::ID, $points->getId(), Criteria::NOT_EQUAL);
+        if ($point) {
+            $this->addUsingAlias(PointPeer::ID, $point->getId(), Criteria::NOT_EQUAL);
         }
 
         return $this;
