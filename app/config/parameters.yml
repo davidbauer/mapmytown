@@ -29,3 +29,6 @@ parameters:
     mailer_port: 465
     mailer_encryption: ssl
     mailer_authmode: login
+
+    admin_password: 'mapmytown'
+    user_password: 'user'

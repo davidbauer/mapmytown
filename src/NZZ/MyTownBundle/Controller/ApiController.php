@@ -17,10 +17,5 @@ class ApiController extends Controller
 
         }
         var_dump($parameters);die;
-  return new JsonResponse($parameters);
-//        $this->writeClient->hset(
-//            $project . ':' . 1
-//        );
-
     }
 }
