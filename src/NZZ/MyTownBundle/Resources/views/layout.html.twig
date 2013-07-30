@@ -1,9 +1,9 @@
 {% extends "::base.html.twig" %}
 {% block stylesheets %}
     {% stylesheets filter='?yui_css' output='css/*.css'
-    'bundles/vfemytown/css/app.css'
-    'bundles/vfemytown/bootstrap/css/bootstrap.min.css'
-    'bundles/vfemytown/bootstrap/css/bootstrap-responsive.css'
+    'bundles/nzzmytown/css/app.css'
+    'bundles/nzzmytown/bootstrap/css/bootstrap.min.css'
+    'bundles/nzzmytown/bootstrap/css/bootstrap-responsive.css'
 
     %}
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
@@ -18,7 +18,7 @@
 
     {#'bundles/vfemytown/js/app.js'#}
     {% javascripts filter='?yui_js' output='js/*.js'
-          'bundles/vfemytown/js/app.js'
+          'bundles/nzzmytown/js/app.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

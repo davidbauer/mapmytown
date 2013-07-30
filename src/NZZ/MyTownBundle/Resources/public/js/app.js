@@ -19,7 +19,7 @@ function MapController ($scope, $compile) {
         var w, s = document.createElement('div'),
             c = e.latlng;
         var myIcon = L.icon({
-            iconUrl: '/bundles/vfemytown/images/' + config.project +'.png',
+            iconUrl: '/bundles/nzzmytown/images/' + config.project +'.png',
             iconSize: [25, 41],
             iconAnchor: [22, 30],
             popupAnchor: [-3, -20],

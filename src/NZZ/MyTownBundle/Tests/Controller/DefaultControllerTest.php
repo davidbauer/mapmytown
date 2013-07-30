@@ -1,6 +1,6 @@
 <?php
 
-namespace VFE\MyTownBundle\Tests\Controller;
+namespace NZZ\MyTownBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
