@@ -1,50 +1,53 @@
 {% extends "NZZMyTownBundle::layout.html.twig" %}
- {% block body %}
-     {% if project|default('nzz') == 'nzz' %}
-         {#lat = 47.369, lng = 8.542#}
-         {% set city = 'Zurich' %}
-         {% set lat = '47.369' %}
-         {% set lon =  '8.542' %}
-     {% elseif project|default('nzz') == 'tagw' %}
-         {#?lat=47.5546&lon=7.5944&#}
-         {% set city = 'Basel' %}
-         {%  set lat = 47.5546 %}
-         {%  set lon =  7.5944 %}
-     {% elseif project|default('nzz') == 'temps' %}
-         {#lat=46.2048&lon=6.143&#}
-         {% set city = 'Geneva' %}
-         {%  set lat = 46.2048 %}
-         {%  set lon =  6.143 %}
-     {% endif %}
-     <script type="text/javascript">
-        $(function() {
-            // Start the app
-            var router = new app.routers.AppRouter();
-            Backbone.history.start();
-        });
+{% block body %}
+    {% if project|default('nzz') == 'nzz' %}
+        {#lat = 47.369, lng = 8.542#}
+        {% set city = 'Zurich' %}
+        {% set lat = '47.369' %}
+        {% set lon =  '8.542' %}
+    {% elseif project|default('nzz') == 'tagw' %}
+        {#?lat=47.5546&lon=7.5944&#}
+        {% set city = 'Basel' %}
+        {%  set lat = 47.5546 %}
+        {%  set lon =  7.5944 %}
+    {% elseif project|default('nzz') == 'temps' %}
+        {#lat=46.2048&lon=6.143&#}
+        {% set city = 'Geneva' %}
+        {%  set lat = 46.2048 %}
+        {%  set lon =  6.143 %}
+    {% endif %}
+    <script type="text/javascript">
+       $(function() {
+           // Start the app
+           var router = new app.routers.AppRouter();
+           Backbone.history.start();
+       });
 
-        // var config = {};
-        // config.project = "{{ project }}";
-        // config.lang = '{{ lang }}';
-        // config.zoom = '{{ zoom }}';
-        // config.lat = '{{ lat }}';
-        // config.lon = '{{ lon }}';
-    </script>
-    <div id="app-container"></div>
+       // var config = {};
+       // config.project = "{{ project }}";
+       // config.lang = '{{ lang }}';
+       // config.zoom = '{{ zoom }}';
+       // config.lat = '{{ lat }}';
+       // config.lon = '{{ lon }}';
+   </script>
+   <div id="app-container"></div>
+{% endblock %}
 
-    <div class="app-container">
-      <div class="sidebar">
-        <h1 class="sidebar__heading">Map Your Town</h1>
-        <h2 class="sidebar__subheading">{{ city }}</h2>
-        <span class="sidebar__notes">150 notes</span>
-        <p class="sidebar__introduction">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure d.</p>
-        <ul>
-          <li><a href="#">Twitter</a></li>
-          <li><a href="#">Facebook</a></li>
-          <li><a href="#">Link</a></li>
-        </ul>
-      </div>
-      <div class="content" ng-controller="MapController" id="map"></div>
+{% block templates %}
 
-    </div>
- {% endblock %}
+<script id="template-root-view" type="text/x-handlebars-template">{% raw %}
+<div class="sidebar">
+  <h1 class="sidebar__heading">Map Your Town</h1>
+  <h2 class="sidebar__subheading">{{ title }}</h2>
+  <span class="sidebar__notes">150 notes</span>
+  <p class="sidebar__introduction">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure d.</p>
+  <ul>
+    <li><a href="#">Twitter</a></li>
+    <li><a href="#">Facebook</a></li>
+    <li><a href="#">Link</a></li>
+  </ul>
+</div>
+<div class="content" ng-controller="MapController" id="map"></div>
+{% endraw %}</script>
+
+{% endblock %}
