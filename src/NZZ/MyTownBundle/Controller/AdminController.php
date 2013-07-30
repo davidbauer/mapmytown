@@ -7,17 +7,17 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use BasePeer;
 use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 
-use NZZ\MyTownBundle\Model\ProjectsQuery;
-use NZZ\MyTownBundle\Model\Projects;
-use NZZ\MyTownBundle\Model\ProjectsPeer;
+use NZZ\MyTownBundle\Model\ProjectQuery;
+use NZZ\MyTownBundle\Model\Project;
+use NZZ\MyTownBundle\Model\ProjectPeer;
 
 class AdminController extends Controller
 {
     public function indexAction()
     {
-        $projects  = ProjectsQuery::create()
+        $projects  = ProjectQuery::create()
             ->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
-        $projectsFields = ProjectsPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
+        $projectsFields = ProjectPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
         return $this->render('NZZMyTownBundle:Admin:index.html.twig', array(
                 'fields' => $projectsFields,
                 'projects' => $projects
@@ -30,8 +30,7 @@ class AdminController extends Controller
 //        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
 //            return $this->redirect($this->generateUrl('vfe_emotion_homepage'));
 //        }
-        $projectsFields = ProjectsPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
-        $project = new Projects();
+        $project = new Project();
         $form = $this->createFormBuilder($project)
             ->add('name', 'text', array('required' => true))
             ->add('shortname','text', array('required' => true))
@@ -54,9 +53,9 @@ class AdminController extends Controller
     {
         $data = $this->getRequest()->get('form');
         if (!empty($data['id'])) {
-            $project = ProjectsQuery::create()->findOneById($data['id']);
+            $project = ProjectQuery::create()->findOneById($data['id']);
         } else {
-            $project  = new Projects();
+            $project  = new Project();
         }
         $project->setName($data['name']);
         $project->setShortname($data['shortname']);
@@ -72,7 +71,7 @@ class AdminController extends Controller
 
     public function editProjectAction($projectId)
     {
-        $project = ProjectsQuery::create()->findOneById($projectId);
+        $project = ProjectQuery::create()->findOneById($projectId);
         $form = $this->createFormBuilder($project)
             ->add('id','text',array('read_only' => true))
             ->add('name', 'text', array('required' => true))
