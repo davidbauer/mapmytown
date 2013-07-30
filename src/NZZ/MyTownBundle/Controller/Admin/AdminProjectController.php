@@ -1,6 +1,6 @@
 <?php
 
-namespace NZZ\MyTownBundle\Controller;
+namespace NZZ\MyTownBundle\Controller\Admin;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,7 +11,7 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
 use NZZ\MyTownBundle\Model\Project;
 use NZZ\MyTownBundle\Model\ProjectPeer;
 
-class AdminController extends Controller
+class AdminProjectController extends Controller
 {
     public function indexAction()
     {
@@ -27,9 +27,9 @@ class AdminController extends Controller
 
     public function addAction()
     {
-//        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
-//            return $this->redirect($this->generateUrl('vfe_emotion_homepage'));
-//        }
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $project = new Project();
         $form = $this->createFormBuilder($project)
             ->add('name', 'text', array('required' => true))
@@ -51,6 +51,9 @@ class AdminController extends Controller
 
     public function saveAction()
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $data = $this->getRequest()->get('form');
         if (!empty($data['id'])) {
             $project = ProjectQuery::create()->findOneById($data['id']);
@@ -68,9 +71,11 @@ class AdminController extends Controller
         return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
     }
 
-
     public function editProjectAction($projectId)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $project = ProjectQuery::create()->findOneById($projectId);
         $form = $this->createFormBuilder($project)
             ->add('id','text',array('read_only' => true))
@@ -91,10 +96,15 @@ class AdminController extends Controller
         );
     }
 
-    public function removeAction($projectId)
+    public function removeProjectAction($projectId)
     {
-        return $this->render('NZZMyTownBundle:Admin:index.html.twig', array(
-            )
-        );
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
+        $project = ProjectQuery::create()->findOneById($projectId);
+        $project->delete();
+
+        return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
     }
+
 }

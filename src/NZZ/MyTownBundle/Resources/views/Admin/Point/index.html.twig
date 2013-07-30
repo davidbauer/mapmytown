@@ -1,0 +1,27 @@
+{% extends "NZZMyTownBundle::layout.html.twig" %}
+ {% block body %}
+     <div class="container">
+            <h1>Welcome to MyTowm Project</h1>
+             <table class="table table-bordered">
+                 <tr>
+                    {% for field in fields %}
+                        <td> {{ field }}</td>
+                    {% endfor %}
+                        <td> </td>
+                 </tr>
+                 {% for point in points %}
+                     <tr>
+                             <td> {{ point.id }}</td>
+                             <td> {{ point.description|default('') }}</td>
+                             <td>{{ point.latitude|default('') }}</td>
+                             <td>{{ point.longitude|default('') }}</td>
+                             <td>{{ point.longitude|default('') }}</td>
+                             <td>{{ point.submitterLocation|default('') }}</td>
+                             <td> <a class="btn btn-warning" href="{{ path('nzz_my_town_admin_edit_project', {'projectId': point.id }) }}"><i class="icon-edit">e</i></a></td>
+                             <td> <a class="btn btn-danger" href="{{ path('nzz_my_town_admin_remove_project', {'projectId': point.id }) }}"><i>x</i></a></td>
+                     </tr>
+                     {% endfor %}
+             </table>
+    </div>
+     <a href="{{ path('nzz_my_town_admin_add_project') }}">Add Project</a>
+ {% endblock %}

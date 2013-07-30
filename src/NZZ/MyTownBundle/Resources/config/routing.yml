@@ -17,29 +17,44 @@ nzz_my_town_homepage:
 
 
 
-
+#project admin actions
 nzz_my_town_admin_dashboard:
     pattern: /admin/
-    defaults: { _controller: NZZMyTownBundle:Admin:index }
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:index }
 
 nzz_my_town_admin_add_project:
-    pattern: /admin/add/
-    defaults: { _controller: NZZMyTownBundle:Admin:add }
+    pattern: /admin/add
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:add }
 
 nzz_my_town_admin_save_project:
     pattern: /admin/save
-    defaults: { _controller: NZZMyTownBundle:Admin:save }
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:save }
     requirements:
         _method: POST
 
-
 nzz_my_town_admin_edit_project:
     pattern: /admin/project/edit/{projectId}/
-    defaults: { _controller: NZZMyTownBundle:Admin:editProject }
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:editProject }
 
 nzz_my_town_admin_remove_project:
-    pattern: /admin/project/remove/{projectId}/
-    defaults: { _controller: NZZMyTownBundle:Admin:edit }
+    pattern: /admin/project/remove/{projectId}
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProject }
+
+
+#admin for points
+#project admin actions
+nzz_my_town_admin_points_dashboard:
+    pattern: /admin/points/{projectId}
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:index }
+
+nzz_my_town_api_publish_item:
+    pattern:  /point/{pointId}
+    defaults: { _controller: NZZMyTownBundle:Api:publish }
+
+nzz_my_town_api_remove_item:
+    pattern:  /admin/edit/{projectId}
+    defaults: { _controller: NZZMyTownBundle:Api:remove }
+
 
 nzz_my_town_api_save:
     pattern:  /{projectShortname}/{lang}
@@ -53,10 +68,4 @@ nzz_my_town_api_get_all:
     pattern:  /{project}/getAll
     defaults: { _controller: NZZMyTownBundle:Api:getAll }
 
-nzz_my_town_api_publish_item:
-    pattern:  /{project}/{itemId}
-    defaults: { _controller: NZZMyTownBundle:Api:publish }
 
-nzz_my_town_api_remove_item:
-    pattern:  /admin/edit/{projectId}
-    defaults: { _controller: NZZMyTownBundle:Api:remove }
