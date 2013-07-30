@@ -24,6 +24,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
  * @method PointQuery orderBySubmittername($order = Criteria::ASC) Order by the submitterName column
  * @method PointQuery orderBySubmitterlocation($order = Criteria::ASC) Order by the submitterLocation column
+ * @method PointQuery orderByIsPublished($order = Criteria::ASC) Order by the is_published column
  * @method PointQuery orderByProjectid($order = Criteria::ASC) Order by the projectId column
  *
  * @method PointQuery groupById() Group by the id column
@@ -32,6 +33,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery groupByLongitude() Group by the longitude column
  * @method PointQuery groupBySubmittername() Group by the submitterName column
  * @method PointQuery groupBySubmitterlocation() Group by the submitterLocation column
+ * @method PointQuery groupByIsPublished() Group by the is_published column
  * @method PointQuery groupByProjectid() Group by the projectId column
  *
  * @method PointQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -50,6 +52,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method Point findOneByLongitude(double $longitude) Return the first Point filtered by the longitude column
  * @method Point findOneBySubmittername(string $submitterName) Return the first Point filtered by the submitterName column
  * @method Point findOneBySubmitterlocation(string $submitterLocation) Return the first Point filtered by the submitterLocation column
+ * @method Point findOneByIsPublished(boolean $is_published) Return the first Point filtered by the is_published column
  * @method Point findOneByProjectid(int $projectId) Return the first Point filtered by the projectId column
  *
  * @method array findById(int $id) Return Point objects filtered by the id column
@@ -58,6 +61,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method array findByLongitude(double $longitude) Return Point objects filtered by the longitude column
  * @method array findBySubmittername(string $submitterName) Return Point objects filtered by the submitterName column
  * @method array findBySubmitterlocation(string $submitterLocation) Return Point objects filtered by the submitterLocation column
+ * @method array findByIsPublished(boolean $is_published) Return Point objects filtered by the is_published column
  * @method array findByProjectid(int $projectId) Return Point objects filtered by the projectId column
  */
 abstract class BasePointQuery extends ModelCriteria
@@ -160,7 +164,7 @@ abstract class BasePointQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `projectId` FROM `point` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `is_published`, `projectId` FROM `point` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -460,6 +464,33 @@ abstract class BasePointQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(PointPeer::SUBMITTERLOCATION, $submitterlocation, $comparison);
+    }
+
+    /**
+     * Filter the query on the is_published column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIsPublished(true); // WHERE is_published = true
+     * $query->filterByIsPublished('yes'); // WHERE is_published = true
+     * </code>
+     *
+     * @param     boolean|string $isPublished The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterByIsPublished($isPublished = null, $comparison = null)
+    {
+        if (is_string($isPublished)) {
+            $isPublished = in_array(strtolower($isPublished), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(PointPeer::IS_PUBLISHED, $isPublished, $comparison);
     }
 
     /**

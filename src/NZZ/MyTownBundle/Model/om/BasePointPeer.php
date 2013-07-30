@@ -30,13 +30,13 @@ abstract class BasePointPeer
     const TM_CLASS = 'PointTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 8;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /** the column name for the id field */
     const ID = 'point.id';
@@ -55,6 +55,9 @@ abstract class BasePointPeer
 
     /** the column name for the submitterLocation field */
     const SUBMITTERLOCATION = 'point.submitterLocation';
+
+    /** the column name for the is_published field */
+    const IS_PUBLISHED = 'point.is_published';
 
     /** the column name for the projectId field */
     const PROJECTID = 'point.projectId';
@@ -78,12 +81,12 @@ abstract class BasePointPeer
      * e.g. PointPeer::$fieldNames[PointPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Description', 'Latitude', 'Longitude', 'Submittername', 'Submitterlocation', 'Projectid', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'description', 'latitude', 'longitude', 'submittername', 'submitterlocation', 'projectid', ),
-        BasePeer::TYPE_COLNAME => array (PointPeer::ID, PointPeer::DESCRIPTION, PointPeer::LATITUDE, PointPeer::LONGITUDE, PointPeer::SUBMITTERNAME, PointPeer::SUBMITTERLOCATION, PointPeer::PROJECTID, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'DESCRIPTION', 'LATITUDE', 'LONGITUDE', 'SUBMITTERNAME', 'SUBMITTERLOCATION', 'PROJECTID', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'description', 'latitude', 'longitude', 'submitterName', 'submitterLocation', 'projectId', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Description', 'Latitude', 'Longitude', 'Submittername', 'Submitterlocation', 'IsPublished', 'Projectid', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'description', 'latitude', 'longitude', 'submittername', 'submitterlocation', 'isPublished', 'projectid', ),
+        BasePeer::TYPE_COLNAME => array (PointPeer::ID, PointPeer::DESCRIPTION, PointPeer::LATITUDE, PointPeer::LONGITUDE, PointPeer::SUBMITTERNAME, PointPeer::SUBMITTERLOCATION, PointPeer::IS_PUBLISHED, PointPeer::PROJECTID, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'DESCRIPTION', 'LATITUDE', 'LONGITUDE', 'SUBMITTERNAME', 'SUBMITTERLOCATION', 'IS_PUBLISHED', 'PROJECTID', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'description', 'latitude', 'longitude', 'submitterName', 'submitterLocation', 'is_published', 'projectId', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -93,12 +96,12 @@ abstract class BasePointPeer
      * e.g. PointPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Description' => 1, 'Latitude' => 2, 'Longitude' => 3, 'Submittername' => 4, 'Submitterlocation' => 5, 'Projectid' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'description' => 1, 'latitude' => 2, 'longitude' => 3, 'submittername' => 4, 'submitterlocation' => 5, 'projectid' => 6, ),
-        BasePeer::TYPE_COLNAME => array (PointPeer::ID => 0, PointPeer::DESCRIPTION => 1, PointPeer::LATITUDE => 2, PointPeer::LONGITUDE => 3, PointPeer::SUBMITTERNAME => 4, PointPeer::SUBMITTERLOCATION => 5, PointPeer::PROJECTID => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'DESCRIPTION' => 1, 'LATITUDE' => 2, 'LONGITUDE' => 3, 'SUBMITTERNAME' => 4, 'SUBMITTERLOCATION' => 5, 'PROJECTID' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'description' => 1, 'latitude' => 2, 'longitude' => 3, 'submitterName' => 4, 'submitterLocation' => 5, 'projectId' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Description' => 1, 'Latitude' => 2, 'Longitude' => 3, 'Submittername' => 4, 'Submitterlocation' => 5, 'IsPublished' => 6, 'Projectid' => 7, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'description' => 1, 'latitude' => 2, 'longitude' => 3, 'submittername' => 4, 'submitterlocation' => 5, 'isPublished' => 6, 'projectid' => 7, ),
+        BasePeer::TYPE_COLNAME => array (PointPeer::ID => 0, PointPeer::DESCRIPTION => 1, PointPeer::LATITUDE => 2, PointPeer::LONGITUDE => 3, PointPeer::SUBMITTERNAME => 4, PointPeer::SUBMITTERLOCATION => 5, PointPeer::IS_PUBLISHED => 6, PointPeer::PROJECTID => 7, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'DESCRIPTION' => 1, 'LATITUDE' => 2, 'LONGITUDE' => 3, 'SUBMITTERNAME' => 4, 'SUBMITTERLOCATION' => 5, 'IS_PUBLISHED' => 6, 'PROJECTID' => 7, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'description' => 1, 'latitude' => 2, 'longitude' => 3, 'submitterName' => 4, 'submitterLocation' => 5, 'is_published' => 6, 'projectId' => 7, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -178,6 +181,7 @@ abstract class BasePointPeer
             $criteria->addSelectColumn(PointPeer::LONGITUDE);
             $criteria->addSelectColumn(PointPeer::SUBMITTERNAME);
             $criteria->addSelectColumn(PointPeer::SUBMITTERLOCATION);
+            $criteria->addSelectColumn(PointPeer::IS_PUBLISHED);
             $criteria->addSelectColumn(PointPeer::PROJECTID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
@@ -186,6 +190,7 @@ abstract class BasePointPeer
             $criteria->addSelectColumn($alias . '.longitude');
             $criteria->addSelectColumn($alias . '.submitterName');
             $criteria->addSelectColumn($alias . '.submitterLocation');
+            $criteria->addSelectColumn($alias . '.is_published');
             $criteria->addSelectColumn($alias . '.projectId');
         }
     }
