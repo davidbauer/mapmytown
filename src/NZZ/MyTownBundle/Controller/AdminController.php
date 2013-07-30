@@ -2,13 +2,18 @@
 
 namespace NZZ\MyTownBundle\Controller;
 
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
+use NZZ\MyTownBundle\Model\ProjectsQuery;
 
 class AdminController extends Controller
 {
     public function indexAction()
     {
+        $projects  = ProjectsQuery::create()
+            ->find();
+
         return $this->render('NZZMyTownBundle:Admin:index.html.twig', array(
             )
         );
