@@ -27,7 +27,7 @@ class AdminPointController extends Controller
         $points  = PointQuery::create()
             ->joinProject()
             ->filterByProjectid($projectId)
-            ->offset($offset)
+            ->offset($offset * $limit)
             ->orderById(Criteria::DESC)
             ->limit($limit)
             ->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
@@ -45,7 +45,8 @@ class AdminPointController extends Controller
                 'limit' => $limit,
                 'fields' => $fields,
                 'points' => $points,
-                'projectId' => $projectId
+                'projectId' => $projectId,
+                'page' => $offset
             )
         );
     }

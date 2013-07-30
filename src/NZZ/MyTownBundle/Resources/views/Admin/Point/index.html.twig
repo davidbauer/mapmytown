@@ -27,15 +27,7 @@
                      {% endfor %}
              </table>
          <div class="pagination">
-             <ul>
-                 <li><a href="#">Prev</a></li>
-                 <li><a href="#">1</a></li>
-                 <li><a href="#">2</a></li>
-                 <li><a href="#">3</a></li>
-                 <li><a href="#">4</a></li>
-                 <li><a href="#">5</a></li>
-                 <li><a href="#">Next</a></li>
-             </ul>
+
          </div>
     </div>
  {% endblock %}
@@ -53,7 +45,7 @@
                 items: {{ count }},
                 itemsOnPage: {{ limit }},
                 onPageClick: function(pageNumber, event) {
-                    window.location ="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': projectId }) }}?offset=" + (pageNumber-1)*{{ limit }};
+                    window.location ="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': projectId }) }}?offset=" + pageNumber + '#page-' + pageNumber;
                 }
             });
         });
