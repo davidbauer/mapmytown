@@ -1,11 +1,10 @@
 {% extends "NZZMyTownBundle::layout.html.twig" %}
  {% block body %}
      <div class="container">
-
-             <table class="table table-bordered">
+             <table class="table table-condensed">
                  <tr>
                     {% for field in fields %}
-                        <td> {{ field }}</td>
+                        <td class="text-info text-center"> {{ field }}</td>
                     {% endfor %}
                         <td> </td>
                  </tr>
@@ -26,7 +25,7 @@
                      </tr>
                      {% endfor %}
              </table>
-         <div class="pagination">
+         <div class="pagination  pagination-centered">
 
          </div>
     </div>

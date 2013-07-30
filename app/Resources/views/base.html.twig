@@ -17,7 +17,11 @@
     </head>
     <body>
         {% block header%}
-            <a class="btn btn-warning" href="{{ path('nzz_my_town_admin_dashboard') }}"> <h1>Welcome to MyTowm Project</h1></a>
+            <div class="page-header">
+                <div class="text-center">
+                    <a class="btn btn-inverse" href="{{ path('nzz_my_town_admin_dashboard') }}"> <h1>Welcome to MyTowm Project</h1></a>
+                </div>
+             </div>
         {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
