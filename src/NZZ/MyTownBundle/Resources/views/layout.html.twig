@@ -23,9 +23,20 @@
           'bundles/nzzmytown/vendor/bootstrap/js/bootstrap.min.js'
           'bundles/nzzmytown/vendor/underscore/underscore-min.js'
           'bundles/nzzmytown/vendor/backbone/backbone.js'
+          'bundles/nzzmytown/vendor/handlebars/handlebars.js'
+          'bundles/nzzmytown/js/utils/BackboneExtensions.js'
           'bundles/nzzmytown/js/app.js'
           'bundles/nzzmytown/js/views/RootView.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
+{% endblock %}
+
+{% block templates %}
+
+<script id="template-root-view" type="text/x-handlebars-template">{% raw %}
+<h1>{{ title }}</h1>
+<div class="span10" id="map"></div>
+{% endraw %}</script>
+
 {% endblock %}
