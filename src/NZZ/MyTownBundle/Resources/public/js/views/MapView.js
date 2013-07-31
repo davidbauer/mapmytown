@@ -6,6 +6,7 @@
       // 'click': 'onMapClick'
     },
 
+
     initialize: function() {
       _.bindAll(this, 'initMap', 'onMapClick', 'addPoint', 'renderPoints');
 
@@ -31,22 +32,22 @@
     },
 
     addPoint: function(point) {
-      var myIcon = L.icon({
-          iconUrl: '/bundles/nzzmytown/images/nzz.png',
-          iconSize: [25, 41],
-          iconAnchor: [22, 30]
-      });
       var latlng = new L.LatLng(point.latitude, point.longitude);
-      var marker = new L.marker(latlng, {icon: myIcon});
+      var circle = L.circle(latlng, 5, {
+        color: '#fff',
+        weight: 2,
+        fillColor: '#79cb59',
+        fillOpacity: 0.9
+      });
 
-      marker.addTo(this.map);
+      circle.addTo(this.map);
     },
 
     onMapClick: function(evt) {
       var latlng = this.map.mouseEventToLatLng(evt);
 
       var myIcon = L.icon({
-          iconUrl: '/bundles/nzzmytown/images/nzz.png',
+          iconUrl: '/bundles/nzzmytown/images/marker.png',
           iconSize: [25, 41],
           iconAnchor: [22, 30],
           popupAnchor: [-3, -20],
