@@ -20,6 +20,7 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
 
 /**
  * @method ProjectQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method ProjectQuery orderByShortname($order = Criteria::ASC) Order by the shortname column
  * @method ProjectQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method ProjectQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method ProjectQuery orderByCenterlatitude($order = Criteria::ASC) Order by the centerLatitude column
@@ -28,6 +29,7 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  * @method ProjectQuery orderByLanguage($order = Criteria::ASC) Order by the language column
  *
  * @method ProjectQuery groupById() Group by the id column
+ * @method ProjectQuery groupByShortname() Group by the shortname column
  * @method ProjectQuery groupByTitle() Group by the title column
  * @method ProjectQuery groupByDescription() Group by the description column
  * @method ProjectQuery groupByCenterlatitude() Group by the centerLatitude column
@@ -50,6 +52,7 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  * @method Project findOne(PropelPDO $con = null) Return the first Project matching the query
  * @method Project findOneOrCreate(PropelPDO $con = null) Return the first Project matching the query, or a new Project object populated from the query conditions when no match is found
  *
+ * @method Project findOneByShortname(string $shortname) Return the first Project filtered by the shortname column
  * @method Project findOneByTitle(string $title) Return the first Project filtered by the title column
  * @method Project findOneByDescription(string $description) Return the first Project filtered by the description column
  * @method Project findOneByCenterlatitude(double $centerLatitude) Return the first Project filtered by the centerLatitude column
@@ -58,6 +61,7 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  * @method Project findOneByLanguage(string $language) Return the first Project filtered by the language column
  *
  * @method array findById(int $id) Return Project objects filtered by the id column
+ * @method array findByShortname(string $shortname) Return Project objects filtered by the shortname column
  * @method array findByTitle(string $title) Return Project objects filtered by the title column
  * @method array findByDescription(string $description) Return Project objects filtered by the description column
  * @method array findByCenterlatitude(double $centerLatitude) Return Project objects filtered by the centerLatitude column
@@ -165,7 +169,7 @@ abstract class BaseProjectQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `title`, `description`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language` FROM `project` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `shortname`, `title`, `description`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language` FROM `project` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -294,6 +298,35 @@ abstract class BaseProjectQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProjectPeer::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the shortname column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByShortname('fooValue');   // WHERE shortname = 'fooValue'
+     * $query->filterByShortname('%fooValue%'); // WHERE shortname LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $shortname The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProjectQuery The current query, for fluid interface
+     */
+    public function filterByShortname($shortname = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($shortname)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $shortname)) {
+                $shortname = str_replace('*', '%', $shortname);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProjectPeer::SHORTNAME, $shortname, $comparison);
     }
 
     /**

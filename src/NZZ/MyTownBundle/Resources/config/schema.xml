@@ -14,12 +14,16 @@
             <parameter name="Collate" value="utf8_general_ci"/>
         </vendor>
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="shortname" type="VARCHAR" size="10"/>
         <column name="title" type="VARCHAR" size="255" required="true"/>
         <column name="description" type="LONGVARCHAR"/>
         <column name="centerLatitude" type="FLOAT"/>
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
         <column name="language" type="VARCHAR" size="2"/>
+        <unique name="shortname">
+            <unique-column name="shortname"/>
+        </unique>
     </table>
     <table name="logo" phpName="Logo" idMethod="native">
         <vendor type="mysql">
