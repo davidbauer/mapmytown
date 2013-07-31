@@ -2,47 +2,17 @@
  * HEADER
  * Styling for the application header
  */
- .header {
-  background: #fff;
-  width: 100%;
-  padding: 10px 0;
-  position: absolute;
-  z-index: 300;
-  -webkit-box-shadow:  0px 0px 5px 0px rgba(0, 0, 0, 0.65);
-          box-shadow:  0px 0px 5px 0px rgba(0, 0, 0, 0.65);
+.header{
+  padding: 0 20px 10px;
+  border-bottom: 1px solid #ddd;
 }
 .header__heading{
   font-size: 18px;
   line-height: 1.5;
-  margin: 0;
-  margin-left: 20px;
 }
 .header__subheading{
   font-weight: normal;
 }
 .header__form{
   display: inline;
-}
-.header__notes{
-  color: #999;
-  font-size: 12px;
-  margin-left: 20px;
-}
-.sharing__list{
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 60px;
-  right: 10px;
-  z-index: 250;
-}
- .sharing__item{
-  display: inline-block;
-}
-#embedding_code{
-  border: 1px solid #eee;
-  outline: none;
-  -webkit-box-shadow:  none;
-          box-shadow:  none;
 }

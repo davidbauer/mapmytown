@@ -2,22 +2,27 @@
  * BRANDING
  * Styling for the branding list
  */
+ .branding__section{
+  background: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow: hidden;
+ }
  .branding__list{
    list-style: none;
    padding: 0;
    margin: 0;
-   float: right;
    position: relative;
    display: block; 
  }
  .branding__item{
    position: relative; 
-   float: right;
+   float: left;
    display: block;
    margin-right: 20px;
  }
  .branding__item img{
-   margin: 5px 0 0 0;
+   margin: 0;
    opacity: 0.5;
  }
  .branding__item a:hover img{

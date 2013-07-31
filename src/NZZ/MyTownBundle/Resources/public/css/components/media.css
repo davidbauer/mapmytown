@@ -1,0 +1,32 @@
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { 
+  .span-sidebar-left{
+    margin-left: 0;
+  }
+  .footer {
+    width: 100%;
+  }
+  .sidebar{
+    position: fixed;
+    height: auto;
+    overflow: auto;
+    width: 100%;
+  }
+  .comments__section{
+    padding: 0;
+    border: none;
+  }
+  .comments__list li{
+    display: none;
+  }
+  .comments__list li.selected{
+    display: block;
+    padding: 10px 20px;
+    border: none;
+  }
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+  
+}

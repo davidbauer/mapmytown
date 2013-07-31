@@ -44,98 +44,198 @@
 {% block templates %}
 
 <script id="template-root-view" type="text/x-handlebars-template">{% raw %}
-<div class="header">
-  <div class="row-fluid">
-    <div class="span6">
-      <h1 class="header__heading">Stadtgeflüster <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten von 
-        <form class="header__form form-inline">
-          <select class="input-small">
-            <option value="Zürich">Zürich</option>
-            <option value="basel">Basel</option>
-            <option value="geneva">Geneva</option>
-          </select>
-        </form>
-        </span></h1>
-    </div>
-    <div class="span6">
-      <ul class="branding__list">
-        <li class="branding__item">
-          <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche"></a>
+<div class="app-container">
+
+  <div class="content span-sidebar-left" id="map"></div>
+
+  <div class="sidebar">
+    <header class="header">
+      <h1 class="header__heading">Stadtgeflüster 
+        <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten Ihrer Stadt
+        </span>
+      </h1>
+      <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
+      <p>
+        <a href="#" id="submit__wisdom__btn" class="btn btn-primary">Submit Your Wisdom</a>
+        <a href="#" id="cancel__marker__btn" class="btn btn-secondary">Cancel</a>
+        <a href="#commentModal" id="submit__marker__btn" class="btn btn-primary" data-toggle="modal">Submit Marker</a>
+        <a href="#thanksModal" class="btn btn-primary" data-toggle="modal">Thanks</a>
+      </p>
+    </header>
+
+    <section class="sidebar__section comments__section">
+      <ul class="comments__list">
+        <li class="comments__item comment selected">
+          <h3 class="comment__title">Selected Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
         </li>
-        <li class="branding__item">
-          <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps"></a>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
         </li>
-        <li class="branding__item">
-          <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung"></a>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
+        </li>
+        <li class="comments__item comment">
+          <h3 class="comment__title">Comment Title</h3>
+          <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+          <span class="comment__author">Andres Kaminski</span>
         </li>
       </ul>
+    </section>
+  </div>
+
+  <div class="footer">
+    <section class="sidebar__section sharing__section">
+      <span class="sharing__label">Share on</span>
+      <ul class="sharing__list">
+        <li class="sharing__item">
+          <a href="#" 
+            class="btn"
+            onclick="
+              window.open(
+                'https://twitter.com/share?url='+encodeURIComponent(location.href), 
+                'twitter-share-dialog', 
+                'width=626,height=436'); 
+              return false;">
+            Twitter
+          </a>
+        </li>
+        <li class="sharing__item">
+          <a href="#" 
+            class="btn"
+            onclick="
+              window.open(
+                'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
+                'facebook-share-dialog', 
+                'width=626,height=436'); 
+              return false;">
+            Facebook
+          </a>
+        </li>
+      </ul>
+      <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">Terms and Conditions</a>
+    </section>
+
+    <section class="sidebar__section branding__section">
+    <ul class="branding__list">
+      <li class="branding__item">
+        <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche" width="80"></a>
+      </li>
+      <li class="branding__item">
+        <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps" width="80"></a>
+      </li>
+      <li class="branding__item">
+        <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung" width="80"></a>
+      </li>
+    </ul>
+    </section>
+  </div>
+
+  <div id="commentModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">[Form Heading]</h3>
+    </div>
+    <div class="modal-body">
+      <form class="">
+        <fieldset>
+          <label>Title</label>
+          <input type="text">
+          <label>Comment</label>
+          <textarea rows="3"></textarea>
+          <label class="radio inline">
+            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            Positive
+          </label>
+          <label class="radio inline">
+            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+            Neutral
+          </label>
+          <label class="radio inline">
+            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+            Negative
+          </label>
+          <label>Your Name</label>
+          <input type="text">
+          <label>Your Location</label>
+          <input type="text">
+        </fieldset>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button class="btn btn-primary">Save changes</button>
     </div>
   </div>
-</div>
-<div class="content span-sidebar-left" id="map"></div>
- <ul class="sharing__list">
-  <li class="sharing__item">
-    <a href="#" class="btn embed_popover" data-toggle="popover" title="Embed this map" >Embed</a>
-  </li>
-  <li class="sharing__item"><a href="#" class="btn">Twitter</a></li>
-  <li class="sharing__item"><a href="#" class="btn">Facebook</a></li>
-</ul>
-<div class="sidebar sidebar-left">
-  <section class="sidebar__introduction">
-    <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
-    <a href="#" class="sidebar__btn btn btn-primary" data-toggle="collapse" data-target="#submit__comment">{{t "form.add"}}</a>
-  </section>
-  <div id="submit__comment" class="collapse">
-    <p class="sidebar__text">First, mark the position of the place that you would like to comment on.</p>
+
+  <div id="thanksModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Thank you" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="tacModalLabel">Thank you!</h3>
+    </div>
+    <div class="modal-body">
+      <p>[Thank you!]</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary">Add another comment</button>
+    </div>
   </div>
-  <h2 class="sidebar__heading">Aktuelle Einträge</h2>
-  <ul class="comments__list">
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-    <li class="comments__item comment">
-      <h3 class="comment__title">Comment Title</h3>
-      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-      <span class="comment__author">Andres Kaminski</span>
-    </li>
-  </ul>
+
+  <div id="tacModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Terms and Conditions" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="tacModalLabel">Terms and Conditions</h3>
+    </div>
+    <div class="modal-body">
+      <p>[Terms and Conditions]</p>
+    </div>
+  </div>
+
 </div>
 {% endraw %}</script>
 
