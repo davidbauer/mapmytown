@@ -54,6 +54,7 @@ class LogoTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('ProjectData', 'NZZ\\MyTownBundle\\Model\\ProjectData', RelationMap::ONE_TO_MANY, array('id' => 'logo_id', ), 'CASCADE', 'CASCADE', 'ProjectDatas');
         $this->addRelation('ProjectLogo', 'NZZ\\MyTownBundle\\Model\\ProjectLogo', RelationMap::ONE_TO_MANY, array('id' => 'logo_id', ), 'CASCADE', 'CASCADE', 'ProjectLogos');
     } // buildRelations()
 

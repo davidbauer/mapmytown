@@ -1,0 +1,29 @@
+/**
+ * COMMENTS
+ * Styling for the comments list
+ */
+ .comments__list{
+  list-style: none;
+  /* Height of the header and height of the footer*/
+  margin: 0;
+  padding: 0;
+}
+.comments__item{
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+}
+.comment__title{
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+.comment__text{
+  font-family: Georgia, serif;
+  font-size: 12px;
+  line-height: 1.25;
+  margin-bottom: 0;
+}
+.comment__author{
+  color: #999;
+  font-size: 12px;
+}

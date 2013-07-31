@@ -3,7 +3,8 @@
  * Layout styling
  */
  html,
- body{
+ body,
+ .app-container{
   height: 100%;
   width: 100%;
   padding: 0;

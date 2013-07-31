@@ -14,15 +14,46 @@
             <parameter name="Collate" value="utf8_general_ci"/>
         </vendor>
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-        <column name="shortname" type="VARCHAR" size="10"/>
+        <column name="slug" type="VARCHAR" size="10"/>
+        <column name="defaultZoom" type="INTEGER"/>
+        <unique name="slug">
+            <unique-column name="slug"/>
+        </unique>
+    </table>
+    <table name="project_data" idMethod="native">
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+            <parameter name="Collate" value="utf8_general_ci"/>
+        </vendor>
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="project_id" phpName="projectId" type="INTEGER" required="true"/>
         <column name="title" type="VARCHAR" size="255" required="true"/>
         <column name="description" type="LONGVARCHAR"/>
+        <column name="info" type="LONGVARCHAR"/>
         <column name="centerLatitude" type="FLOAT"/>
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
-        <column name="language" type="VARCHAR" size="2"/>
-        <unique name="shortname">
-            <unique-column name="shortname"/>
+        <column name="language" type="VARCHAR" size="2" required="true"/>
+        <column name="logo_id" phpName="logoId" type="INTEGER" required="false"/>
+        <foreign-key foreignTable="project" name="fk1_pm_project_id" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="project_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="logo" name="fk2_pm_logo_id" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="logo_id" foreign="id"/>
+        </foreign-key>
+        <index name="k1_pm_project_id">
+            <index-column name="project_id"/>
+        </index>
+        <index name="k2_pm_logo_id">
+            <index-column name="logo_id"/>
+        </index>
+        <index name="k3_pm_language">
+            <index-column name="language"/>
+        </index>
+        <unique name="project_lang_UNIQUE">
+            <unique-column name="project_id"/>
+            <unique-column name="language"/>
         </unique>
     </table>
     <table name="logo" phpName="Logo" idMethod="native">

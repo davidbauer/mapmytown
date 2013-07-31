@@ -16,6 +16,8 @@ use \PropelPDO;
 use NZZ\MyTownBundle\Model\Logo;
 use NZZ\MyTownBundle\Model\LogoPeer;
 use NZZ\MyTownBundle\Model\LogoQuery;
+use NZZ\MyTownBundle\Model\ProjectData;
+use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\ProjectLogo;
 use NZZ\MyTownBundle\Model\ProjectLogoQuery;
 
@@ -65,6 +67,12 @@ abstract class BaseLogo extends BaseObject implements Persistent
     protected $url;
 
     /**
+     * @var        PropelObjectCollection|ProjectData[] Collection to store aggregation of ProjectData objects.
+     */
+    protected $collProjectDatas;
+    protected $collProjectDatasPartial;
+
+    /**
      * @var        PropelObjectCollection|ProjectLogo[] Collection to store aggregation of ProjectLogo objects.
      */
     protected $collProjectLogos;
@@ -89,6 +97,12 @@ abstract class BaseLogo extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInClearAllReferencesDeep = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var        PropelObjectCollection
+     */
+    protected $projectDatasScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -326,6 +340,8 @@ abstract class BaseLogo extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collProjectDatas = null;
+
             $this->collProjectLogos = null;
 
         } // if (deep)
@@ -450,6 +466,24 @@ abstract class BaseLogo extends BaseObject implements Persistent
                 }
                 $affectedRows += 1;
                 $this->resetModified();
+            }
+
+            if ($this->projectDatasScheduledForDeletion !== null) {
+                if (!$this->projectDatasScheduledForDeletion->isEmpty()) {
+                    foreach ($this->projectDatasScheduledForDeletion as $projectData) {
+                        // need to save related object because we set the relation to null
+                        $projectData->save($con);
+                    }
+                    $this->projectDatasScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collProjectDatas !== null) {
+                foreach ($this->collProjectDatas as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             if ($this->projectLogosScheduledForDeletion !== null) {
@@ -629,6 +663,14 @@ abstract class BaseLogo extends BaseObject implements Persistent
             }
 
 
+                if ($this->collProjectDatas !== null) {
+                    foreach ($this->collProjectDatas as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
                 if ($this->collProjectLogos !== null) {
                     foreach ($this->collProjectLogos as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -719,6 +761,9 @@ abstract class BaseLogo extends BaseObject implements Persistent
             $keys[3] => $this->getUrl(),
         );
         if ($includeForeignObjects) {
+            if (null !== $this->collProjectDatas) {
+                $result['ProjectDatas'] = $this->collProjectDatas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collProjectLogos) {
                 $result['ProjectLogos'] = $this->collProjectLogos->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -885,6 +930,12 @@ abstract class BaseLogo extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
+            foreach ($this->getProjectDatas() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addProjectData($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getProjectLogos() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addProjectLogo($relObj->copy($deepCopy));
@@ -952,9 +1003,255 @@ abstract class BaseLogo extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
+        if ('ProjectData' == $relationName) {
+            $this->initProjectDatas();
+        }
         if ('ProjectLogo' == $relationName) {
             $this->initProjectLogos();
         }
+    }
+
+    /**
+     * Clears out the collProjectDatas collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return Logo The current object (for fluent API support)
+     * @see        addProjectDatas()
+     */
+    public function clearProjectDatas()
+    {
+        $this->collProjectDatas = null; // important to set this to null since that means it is uninitialized
+        $this->collProjectDatasPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collProjectDatas collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialProjectDatas($v = true)
+    {
+        $this->collProjectDatasPartial = $v;
+    }
+
+    /**
+     * Initializes the collProjectDatas collection.
+     *
+     * By default this just sets the collProjectDatas collection to an empty array (like clearcollProjectDatas());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initProjectDatas($overrideExisting = true)
+    {
+        if (null !== $this->collProjectDatas && !$overrideExisting) {
+            return;
+        }
+        $this->collProjectDatas = new PropelObjectCollection();
+        $this->collProjectDatas->setModel('ProjectData');
+    }
+
+    /**
+     * Gets an array of ProjectData objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this Logo is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|ProjectData[] List of ProjectData objects
+     * @throws PropelException
+     */
+    public function getProjectDatas($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collProjectDatasPartial && !$this->isNew();
+        if (null === $this->collProjectDatas || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collProjectDatas) {
+                // return empty collection
+                $this->initProjectDatas();
+            } else {
+                $collProjectDatas = ProjectDataQuery::create(null, $criteria)
+                    ->filterByLogo($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collProjectDatasPartial && count($collProjectDatas)) {
+                      $this->initProjectDatas(false);
+
+                      foreach($collProjectDatas as $obj) {
+                        if (false == $this->collProjectDatas->contains($obj)) {
+                          $this->collProjectDatas->append($obj);
+                        }
+                      }
+
+                      $this->collProjectDatasPartial = true;
+                    }
+
+                    $collProjectDatas->getInternalIterator()->rewind();
+                    return $collProjectDatas;
+                }
+
+                if($partial && $this->collProjectDatas) {
+                    foreach($this->collProjectDatas as $obj) {
+                        if($obj->isNew()) {
+                            $collProjectDatas[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collProjectDatas = $collProjectDatas;
+                $this->collProjectDatasPartial = false;
+            }
+        }
+
+        return $this->collProjectDatas;
+    }
+
+    /**
+     * Sets a collection of ProjectData objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $projectDatas A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return Logo The current object (for fluent API support)
+     */
+    public function setProjectDatas(PropelCollection $projectDatas, PropelPDO $con = null)
+    {
+        $projectDatasToDelete = $this->getProjectDatas(new Criteria(), $con)->diff($projectDatas);
+
+        $this->projectDatasScheduledForDeletion = unserialize(serialize($projectDatasToDelete));
+
+        foreach ($projectDatasToDelete as $projectDataRemoved) {
+            $projectDataRemoved->setLogo(null);
+        }
+
+        $this->collProjectDatas = null;
+        foreach ($projectDatas as $projectData) {
+            $this->addProjectData($projectData);
+        }
+
+        $this->collProjectDatas = $projectDatas;
+        $this->collProjectDatasPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related ProjectData objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related ProjectData objects.
+     * @throws PropelException
+     */
+    public function countProjectDatas(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collProjectDatasPartial && !$this->isNew();
+        if (null === $this->collProjectDatas || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collProjectDatas) {
+                return 0;
+            }
+
+            if($partial && !$criteria) {
+                return count($this->getProjectDatas());
+            }
+            $query = ProjectDataQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByLogo($this)
+                ->count($con);
+        }
+
+        return count($this->collProjectDatas);
+    }
+
+    /**
+     * Method called to associate a ProjectData object to this object
+     * through the ProjectData foreign key attribute.
+     *
+     * @param    ProjectData $l ProjectData
+     * @return Logo The current object (for fluent API support)
+     */
+    public function addProjectData(ProjectData $l)
+    {
+        if ($this->collProjectDatas === null) {
+            $this->initProjectDatas();
+            $this->collProjectDatasPartial = true;
+        }
+        if (!in_array($l, $this->collProjectDatas->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddProjectData($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param    ProjectData $projectData The projectData object to add.
+     */
+    protected function doAddProjectData($projectData)
+    {
+        $this->collProjectDatas[]= $projectData;
+        $projectData->setLogo($this);
+    }
+
+    /**
+     * @param    ProjectData $projectData The projectData object to remove.
+     * @return Logo The current object (for fluent API support)
+     */
+    public function removeProjectData($projectData)
+    {
+        if ($this->getProjectDatas()->contains($projectData)) {
+            $this->collProjectDatas->remove($this->collProjectDatas->search($projectData));
+            if (null === $this->projectDatasScheduledForDeletion) {
+                $this->projectDatasScheduledForDeletion = clone $this->collProjectDatas;
+                $this->projectDatasScheduledForDeletion->clear();
+            }
+            $this->projectDatasScheduledForDeletion[]= $projectData;
+            $projectData->setLogo(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Logo is new, it will return
+     * an empty collection; or if this Logo has previously
+     * been saved, it will retrieve related ProjectDatas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Logo.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|ProjectData[] List of ProjectData objects
+     */
+    public function getProjectDatasJoinProject($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = ProjectDataQuery::create(null, $criteria);
+        $query->joinWith('Project', $join_behavior);
+
+        return $this->getProjectDatas($query, $con);
     }
 
     /**
@@ -1231,6 +1528,11 @@ abstract class BaseLogo extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
+            if ($this->collProjectDatas) {
+                foreach ($this->collProjectDatas as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collProjectLogos) {
                 foreach ($this->collProjectLogos as $o) {
                     $o->clearAllReferences($deep);
@@ -1240,6 +1542,10 @@ abstract class BaseLogo extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
+        if ($this->collProjectDatas instanceof PropelCollection) {
+            $this->collProjectDatas->clearIterator();
+        }
+        $this->collProjectDatas = null;
         if ($this->collProjectLogos instanceof PropelCollection) {
             $this->collProjectLogos->clearIterator();
         }

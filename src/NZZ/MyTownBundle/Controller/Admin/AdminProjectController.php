@@ -8,7 +8,6 @@ use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 
 use BasePeer;
 use NZZ\MyTownBundle\Model\Project;
-use NZZ\MyTownBundle\Model\ProjectPeer;
 use NZZ\MyTownBundle\Model\ProjectQuery;
 
 class AdminProjectController extends Controller
@@ -20,7 +19,7 @@ class AdminProjectController extends Controller
         }
         $projects  = ProjectQuery::create()
             ->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
-        $projectsFields = ProjectPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
+        $projectsFields = array('id', 'slug', 'defaultZoom');
         return $this->render('NZZMyTownBundle:Admin\Project:index.html.twig', array(
                 'fields' => $projectsFields,
                 'projects' => $projects
@@ -37,6 +36,7 @@ class AdminProjectController extends Controller
         $form = $this->createFormBuilder($project)
             ->add('title', 'text', array('required' => true))
             ->add('description','textarea', array('required' => true))
+            ->add('info','textarea')
             ->add('centerlatitude','text', array('required' => true))
             ->add('centerlatitude', 'text', array('required' => true))
             ->add('centerlongitude', 'text', array('required' => true))
