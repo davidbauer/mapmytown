@@ -31,13 +31,13 @@ abstract class BaseProjectPeer
     const TM_CLASS = 'ProjectTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 3;
+    const NUM_COLUMNS = 4;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 3;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /** the column name for the id field */
     const ID = 'project.id';
@@ -47,6 +47,9 @@ abstract class BaseProjectPeer
 
     /** the column name for the defaultZoom field */
     const DEFAULTZOOM = 'project.defaultZoom';
+
+    /** the column name for the defaultLanguage field */
+    const DEFAULTLANGUAGE = 'project.defaultLanguage';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -67,12 +70,12 @@ abstract class BaseProjectPeer
      * e.g. ProjectPeer::$fieldNames[ProjectPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Slug', 'Defaultzoom', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'slug', 'defaultzoom', ),
-        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID, ProjectPeer::SLUG, ProjectPeer::DEFAULTZOOM, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'SLUG', 'DEFAULTZOOM', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'slug', 'defaultZoom', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Slug', 'Defaultzoom', 'Defaultlanguage', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'slug', 'defaultzoom', 'defaultlanguage', ),
+        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID, ProjectPeer::SLUG, ProjectPeer::DEFAULTZOOM, ProjectPeer::DEFAULTLANGUAGE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'SLUG', 'DEFAULTZOOM', 'DEFAULTLANGUAGE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'slug', 'defaultZoom', 'defaultLanguage', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
@@ -82,12 +85,12 @@ abstract class BaseProjectPeer
      * e.g. ProjectPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Slug' => 1, 'Defaultzoom' => 2, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'slug' => 1, 'defaultzoom' => 2, ),
-        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID => 0, ProjectPeer::SLUG => 1, ProjectPeer::DEFAULTZOOM => 2, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'SLUG' => 1, 'DEFAULTZOOM' => 2, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'slug' => 1, 'defaultZoom' => 2, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Slug' => 1, 'Defaultzoom' => 2, 'Defaultlanguage' => 3, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'slug' => 1, 'defaultzoom' => 2, 'defaultlanguage' => 3, ),
+        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID => 0, ProjectPeer::SLUG => 1, ProjectPeer::DEFAULTZOOM => 2, ProjectPeer::DEFAULTLANGUAGE => 3, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'SLUG' => 1, 'DEFAULTZOOM' => 2, 'DEFAULTLANGUAGE' => 3, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'slug' => 1, 'defaultZoom' => 2, 'defaultLanguage' => 3, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
@@ -164,10 +167,12 @@ abstract class BaseProjectPeer
             $criteria->addSelectColumn(ProjectPeer::ID);
             $criteria->addSelectColumn(ProjectPeer::SLUG);
             $criteria->addSelectColumn(ProjectPeer::DEFAULTZOOM);
+            $criteria->addSelectColumn(ProjectPeer::DEFAULTLANGUAGE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
             $criteria->addSelectColumn($alias . '.slug');
             $criteria->addSelectColumn($alias . '.defaultZoom');
+            $criteria->addSelectColumn($alias . '.defaultLanguage');
         }
     }
 

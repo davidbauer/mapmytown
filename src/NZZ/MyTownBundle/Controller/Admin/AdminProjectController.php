@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 use BasePeer;
 use NZZ\MyTownBundle\Model\Project;
 use NZZ\MyTownBundle\Model\ProjectQuery;
+use NZZ\MyTownBundle\Model\ProjectDataQuery;
 
 class AdminProjectController extends Controller
 {
@@ -34,15 +35,10 @@ class AdminProjectController extends Controller
         }
         $project = new Project();
         $form = $this->createFormBuilder($project)
-            ->add('title', 'text', array('required' => true))
-            ->add('description','textarea', array('required' => true))
-            ->add('info','textarea')
-            ->add('centerlatitude','text', array('required' => true))
-            ->add('centerlatitude', 'text', array('required' => true))
-            ->add('centerlongitude', 'text', array('required' => true))
+            ->add('slug', 'text', array('required' => true))
             ->add('defaultzoom', 'text', array('required' => true))
-            ->add('language', 'choice', array('required' => true,
-                    'choices'   => array('en' => 'English', 'fr' => 'French', 'de' => 'Deutsch')))
+//            ->add('language', 'choice', array('required' => true,
+//                    'choices'   => array('en' => 'English', 'fr' => 'French', 'de' => 'Deutsch')))
             ->add('save', 'submit')
             ->getForm();
 
@@ -59,27 +55,35 @@ class AdminProjectController extends Controller
         }
         $data = $this->getRequest()->get('form');
         if (!empty($data['id'])) {
-            $project = ProjectQuery::create()->findOneById($data['id']);
+            $this->saveProjectData($data);
         } else {
             $project  = new Project();
+            $project->setSlug($data['slug']);
+            $project->setDefaultzoom($data['defaultzoom']);
+            $project->save();
         }
-        $project->setTitle($data['title']);
-        $project->setDescription($data['description']);
-        $project->setCenterlatitude($data['centerlatitude']);
-        $project->setCenterlongitude($data['centerlongitude']);
-        $project->setDefaultzoom($data['defaultzoom']);
-        $project->setLanguage($data['language']);
-        $project->save();
 
         return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
     }
 
+    private function saveProjectData($data)
+    {
+
+        $projectData = ProjectDataQuery::create()
+            ->filterByprojectId($data['id'])
+            ->filterByLanguage($data['language'])
+            ->findOne();
+
+        var_dump($projectData);die;
+    }
     public function editProjectAction($projectId)
     {
         if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->redirect($this->generateUrl('login'));
         }
-        $project = ProjectQuery::create()->findOneById($projectId);
+        $project = ProjectDataQuery::create()
+            ->filterByLanguage('de')
+            ->findOneById($projectId);
         $form = $this->createFormBuilder($project)
             ->add('id','text',array('read_only' => true))
             ->add('title', 'text', array('required' => true))
@@ -89,7 +93,8 @@ class AdminProjectController extends Controller
             ->add('centerlongitude', 'text', array('required' => true))
             ->add('defaultzoom', 'text', array('required' => true))
             ->add('language', 'choice', array('required' => true,
-                    'choices'   => array('en' => 'English', 'fr' => 'French', 'de' => 'Deutsch')))
+                    'choices'   => array( 'de' => 'Deutsch', 'en' => 'English', 'fr' => 'French')
+                    ))
             ->add('save', 'submit')
             ->getForm();
 
