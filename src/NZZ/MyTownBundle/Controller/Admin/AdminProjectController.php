@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 use BasePeer;
 use NZZ\MyTownBundle\Model\Project;
 use NZZ\MyTownBundle\Model\ProjectQuery;
+use NZZ\MyTownBundle\Model\ProjectData;
 use NZZ\MyTownBundle\Model\ProjectDataQuery;
 
 class AdminProjectController extends Controller
@@ -20,7 +21,8 @@ class AdminProjectController extends Controller
         }
         $projects  = ProjectQuery::create()
             ->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
-        $projectsFields = array('id', 'slug', 'defaultZoom');
+        $projectsFields = array('id', 'slug', 'defaultZoom', 'defaultLanguage' );
+
         return $this->render('NZZMyTownBundle:Admin\Project:index.html.twig', array(
                 'fields' => $projectsFields,
                 'projects' => $projects
@@ -37,8 +39,8 @@ class AdminProjectController extends Controller
         $form = $this->createFormBuilder($project)
             ->add('slug', 'text', array('required' => true))
             ->add('defaultzoom', 'text', array('required' => true))
-//            ->add('language', 'choice', array('required' => true,
-//                    'choices'   => array('en' => 'English', 'fr' => 'French', 'de' => 'Deutsch')))
+            ->add('defaultlanguage', 'choice', array('required' => true,
+                'choices'   => array('de' => 'Deutsch','fr' => 'French', 'en' => 'English')))
             ->add('save', 'submit')
             ->getForm();
 
@@ -54,12 +56,15 @@ class AdminProjectController extends Controller
             return $this->redirect($this->generateUrl('login'));
         }
         $data = $this->getRequest()->get('form');
+
         if (!empty($data['id'])) {
             $this->saveProjectData($data);
         } else {
             $project  = new Project();
             $project->setSlug($data['slug']);
             $project->setDefaultzoom($data['defaultzoom']);
+            $project->setDefaultlanguage($data['defaultlanguage']);
+
             $project->save();
         }
 
@@ -68,38 +73,65 @@ class AdminProjectController extends Controller
 
     private function saveProjectData($data)
     {
-
+        /** @var  $projectData ProjectData*/
         $projectData = ProjectDataQuery::create()
-            ->filterByprojectId($data['id'])
+            ->filterByprojectId($data['projectId'])
             ->filterByLanguage($data['language'])
             ->findOne();
 
-        var_dump($projectData);die;
+        if ($projectData) {
+            $projectData->setTitle($data['title']);
+            $projectData->setDescription($data['description']);
+            $projectData->setInfo($data['info']);
+            $projectData->setCenterlongitude($data['centerlongitude']);
+            $projectData->setCenterlatitude($data['centerlatitude']);
+            $projectData->setDefaultzoom($data['defaultzoom']);
+            $projectData->setLanguage($data['language']);
+            $projectData->save();
+        }
+
     }
     public function editProjectAction($projectId)
     {
         if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->redirect($this->generateUrl('login'));
         }
-        $project = ProjectDataQuery::create()
-            ->filterByLanguage('de')
-            ->findOneById($projectId);
-        $form = $this->createFormBuilder($project)
-            ->add('id','text',array('read_only' => true))
-            ->add('title', 'text', array('required' => true))
-            ->add('description', 'textarea', array('required' => true))
-            ->add('centerlatitude', 'text', array('required' => true))
-            ->add('centerlatitude', 'text', array('required' => true))
-            ->add('centerlongitude', 'text', array('required' => true))
-            ->add('defaultzoom', 'text', array('required' => true))
-            ->add('language', 'choice', array('required' => true,
+        $request = $this->getRequest()->query;
+        $project = ProjectQuery::create()->findOneById($projectId);
+        $lang = ($request->get('lang')) ? ($request->get('lang')) : $project->getDefaultlanguage() ;
+        /** @var  $projectData ProjectData*/
+        $projectData = ProjectDataQuery::create()
+            ->filterByLanguage($lang)
+            ->filterByprojectId($project->getId())
+            ->findOneOrCreate();
+        $zoom = $projectData->getDefaultzoom();
+        if (empty($zoom)) {
+            $zoom = $project->getDefaultzoom();
+        }
+        $language = $projectData->getLanguage();
+        if (empty($language)) {
+            $language = $project->getDefaultlanguage();
+        }
+
+        $form = $this->createFormBuilder($projectData)
+            ->add('id','text', array('read_only' => true))
+            ->add('title', 'text', array('required' => true, 'data' => $projectData->getTitle()))
+            ->add('description', 'textarea', array('required' => true, 'data' => $projectData->getDescription()))
+            ->add('info', 'textarea', array('required' => false, 'data' => $projectData->getInfo()))
+            ->add('centerlatitude', 'text', array('required' => true, 'data' => $projectData->getCenterlatitude()))
+            ->add('centerlongitude', 'text', array('required' => true, 'data' => $projectData->getCenterlongitude()))
+            ->add('defaultzoom', 'text', array('required' => true, 'data' => $zoom))
+            ->add('language', 'choice', array('required' => true,'data' => $language,
                     'choices'   => array( 'de' => 'Deutsch', 'en' => 'English', 'fr' => 'French')
                     ))
             ->add('save', 'submit')
+            ->add('remove', 'button')
+            ->add('projectId','hidden', array('data' => $project->getId()))
             ->getForm();
 
         return $this->render('NZZMyTownBundle:Admin\Project:editProject.html.twig', array(
-                'form' => $form->createView()
+                'form' => $form->createView(),
+                'projectId' => $projectId
             )
         );
     }
@@ -111,6 +143,23 @@ class AdminProjectController extends Controller
         }
         $project = ProjectQuery::create()->findOneById($projectId);
         $project->delete();
+
+        return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
+    }
+
+    public function removeProjectDataAction($projectId)
+    {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
+        $lang = ($this->getRequest()->get('lang')) ? ($this->getRequest()->get('lang')): '';
+
+        $projectData = ProjectDataQuery::create()
+            ->filterByLanguage($lang)
+            ->filterByprojectId($projectId)
+            ->findOne();
+
+        $projectData->delete();
 
         return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
     }
