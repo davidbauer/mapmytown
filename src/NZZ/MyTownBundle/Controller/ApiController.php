@@ -3,12 +3,14 @@
 namespace NZZ\MyTownBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 use NZZ\MyTownBundle\Model\ProjectQuery;
 use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\PointQuery;
+use NZZ\MyTownBundle\Model\Point;
 
 class ApiController extends Controller
 {
@@ -52,13 +54,36 @@ class ApiController extends Controller
 
     }
 
-    public function saveAction($project)
+    public function saveAction($projectSlug)
     {
         $request = $this->getRequest();
         $parameters = $request->request->all();
-        if (!empty($parameters)) {
-
+        if (empty($parameters['title']) || empty($parameters['description']) || empty($parameters['sentiment']) || empty($parameters['latitude']) || empty($parameters['longitude'])) {
+            return new Response('Not enough data for save action', 500);
         }
-//        var_dump($parameters);die;
+
+        $project = ProjectQuery::create()->findOneBySlug($projectSlug);
+
+        if (!$project) {
+            return new Response('No such project', 500);
+        }
+
+        $point = new Point();
+        $point->setProjectid($project->getId());
+        $point->setTitle($parameters['title']);
+        $point->setDescription($parameters['description']);
+        $point->setSentiment($parameters['sentiment']);
+        $point->setLatitude($parameters['latitude']);
+        $point->setLongitude($parameters['longitude']);
+        $point->setAuthorName($parameters['authorName']);
+        $point->setAuthorLocation($parameters['authorLocation']);
+
+        try {
+            $point->save();
+        } catch (Exception $e) {
+            return new Response('Exception while saving data', 500);
+        }
+
+        return new Response('', 200);
     }
 }

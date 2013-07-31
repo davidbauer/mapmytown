@@ -39,8 +39,8 @@ class AdminPointController extends Controller
             'Description',
             'Latitude',
             'Longitude',
-            'User',
-            'User\'s location',
+            'Author',
+            'Author\'s location',
             'Sentiment'
         );
 
