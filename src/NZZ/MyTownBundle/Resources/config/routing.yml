@@ -6,10 +6,6 @@ login_check:
 logout:
     pattern:   /logout
 
-nzz_my_town_homepage:
-    pattern:  /{project}/{lang}/{zoom}
-    defaults: { _controller: NZZMyTownBundle:Default:index }
-
 #project admin actions
 nzz_my_town_admin_dashboard:
     pattern: /admin/
@@ -71,3 +67,10 @@ nzz_my_town_api_get_all:
     defaults: { _controller: NZZMyTownBundle:Api:getAll }
 
 
+nzz_my_town_homepage:
+    pattern:  /{project}/{lang}/{zoom}
+    defaults: { _controller: NZZMyTownBundle:Default:index }
+    requirements:
+        lang: '\w{2}'
+        projectShortname: '[^/]*'
+        _method: GET
