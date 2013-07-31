@@ -29,6 +29,9 @@ nzz_my_town_admin_remove_project:
     pattern: /admin/project/remove/{projectId}
     defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProject }
 
+nzz_my_town_admin_remove_project_data:
+    pattern: /admin/projectdata/remove/{projectId}
+    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProjectData }
 
 #admin for points
 #project admin actions
