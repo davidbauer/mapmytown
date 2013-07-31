@@ -30,106 +30,104 @@
        // config.lat = '{{ lat }}';
        // config.lon = '{{ lon }}';
    </script>
-   <div id="app-container"></div>
+   <div data-view="root" class="app-container"></div>
 {% endblock %}
 
 {% block templates %}
 
 <script id="template-root-view" type="text/x-handlebars-template">{% raw %}
-<div class="app-container">
-  <div class="header">
-    <div class="row-fluid">
-      <div class="span6">
-        <h1 class="header__heading">Stadtgeflüster <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten von 
-          <form class="header__form form-inline">
-            <select class="input-small">
-              <option value="Zürich">Zürich</option>
-              <option value="basel">Basel</option>
-              <option value="geneva">Geneva</option>
-            </select>
-          </form>
-          </span></h1>
-      </div>
-      <div class="span6">
-        <ul class="branding__list">
-          <li class="branding__item">
-            <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche"></a>
-          </li>
-          <li class="branding__item">
-            <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps"></a>
-          </li>
-          <li class="branding__item">
-            <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung"></a>
-          </li>
-        </ul>
-      </div>
+<div class="header">
+  <div class="row-fluid">
+    <div class="span6">
+      <h1 class="header__heading">Stadtgeflüster <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten von 
+        <form class="header__form form-inline">
+          <select class="input-small">
+            <option value="Zürich">Zürich</option>
+            <option value="basel">Basel</option>
+            <option value="geneva">Geneva</option>
+          </select>
+        </form>
+        </span></h1>
+    </div>
+    <div class="span6">
+      <ul class="branding__list">
+        <li class="branding__item">
+          <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche"></a>
+        </li>
+        <li class="branding__item">
+          <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps"></a>
+        </li>
+        <li class="branding__item">
+          <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung"></a>
+        </li>
+      </ul>
     </div>
   </div>
-  <div class="content span-sidebar-left" id="map"></div>
-   <ul class="sharing__list">
-    <li class="sharing__item">
-      <a href="#" class="btn embed_popover" data-toggle="popover" title="Embed this map" >Embed</a>
+</div>
+<div class="content span-sidebar-left" id="map"></div>
+ <ul class="sharing__list">
+  <li class="sharing__item">
+    <a href="#" class="btn embed_popover" data-toggle="popover" title="Embed this map" >Embed</a>
+  </li>
+  <li class="sharing__item"><a href="#" class="btn">Twitter</a></li>
+  <li class="sharing__item"><a href="#" class="btn">Facebook</a></li>
+</ul>
+<div class="sidebar sidebar-left">
+  <section class="sidebar__introduction">
+    <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
+    <a href="#" class="sidebar__btn btn btn-primary" data-toggle="collapse" data-target="#submit__comment">Submit Your Wisdom</a>
+  </section>
+  <div id="submit__comment" class="collapse">
+    <p class="sidebar__text">First, mark the position of the place that you would like to comment on.</p>
+  </div>
+  <h2 class="sidebar__heading">Aktuelle Einträge</h2>
+  <ul class="comments__list">
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
     </li>
-    <li class="sharing__item"><a href="#" class="btn">Twitter</a></li>
-    <li class="sharing__item"><a href="#" class="btn">Facebook</a></li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
+    <li class="comments__item comment">
+      <h3 class="comment__title">Comment Title</h3>
+      <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+      <span class="comment__author">Andres Kaminski</span>
+    </li>
   </ul>
-  <div class="sidebar sidebar-left">
-    <section class="sidebar__introduction">
-      <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
-      <a href="#" class="sidebar__btn btn btn-primary" data-toggle="collapse" data-target="#submit__comment">Submit Your Wisdom</a>
-    </section>
-    <div id="submit__comment" class="collapse">
-      <p class="sidebar__text">First, mark the position of the place that you would like to comment on.</p>
-    </div>
-    <h2 class="sidebar__heading">Aktuelle Einträge</h2>
-    <ul class="comments__list">
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-      <li class="comments__item comment">
-        <h3 class="comment__title">Comment Title</h3>
-        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-        <span class="comment__author">Andres Kaminski</span>
-      </li>
-    </ul>
-  </div>
 </div>
 {% endraw %}</script>
 
