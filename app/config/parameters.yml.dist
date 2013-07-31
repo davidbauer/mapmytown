@@ -32,3 +32,5 @@ parameters:
 
     admin_password: 'mapmytown'
     user_password: 'user'
+
+    point_limit: 1

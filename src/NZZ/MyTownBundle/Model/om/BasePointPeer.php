@@ -9,63 +9,70 @@ use \PDOStatement;
 use \Propel;
 use \PropelException;
 use \PropelPDO;
-use NZZ\MyTownBundle\Model\Projects;
-use NZZ\MyTownBundle\Model\ProjectsPeer;
-use NZZ\MyTownBundle\Model\map\ProjectsTableMap;
+use NZZ\MyTownBundle\Model\Point;
+use NZZ\MyTownBundle\Model\PointPeer;
+use NZZ\MyTownBundle\Model\ProjectPeer;
+use NZZ\MyTownBundle\Model\map\PointTableMap;
 
-abstract class BaseProjectsPeer
+abstract class BasePointPeer
 {
 
     /** the default database name for this class */
     const DATABASE_NAME = 'default';
 
     /** the table name for this class */
-    const TABLE_NAME = 'projects';
+    const TABLE_NAME = 'point';
 
     /** the related Propel class for this table */
-    const OM_CLASS = 'NZZ\\MyTownBundle\\Model\\Projects';
+    const OM_CLASS = 'NZZ\\MyTownBundle\\Model\\Point';
 
     /** the related TableMap class for this table */
-    const TM_CLASS = 'ProjectsTableMap';
+    const TM_CLASS = 'PointTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 9;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 9;
 
     /** the column name for the id field */
-    const ID = 'projects.id';
+    const ID = 'point.id';
 
-    /** the column name for the name field */
-    const NAME = 'projects.name';
+    /** the column name for the description field */
+    const DESCRIPTION = 'point.description';
 
-    /** the column name for the shortname field */
-    const SHORTNAME = 'projects.shortname';
+    /** the column name for the latitude field */
+    const LATITUDE = 'point.latitude';
 
-    /** the column name for the centerLatitude field */
-    const CENTERLATITUDE = 'projects.centerLatitude';
+    /** the column name for the longitude field */
+    const LONGITUDE = 'point.longitude';
 
-    /** the column name for the centerLongitude field */
-    const CENTERLONGITUDE = 'projects.centerLongitude';
+    /** the column name for the submitterName field */
+    const SUBMITTERNAME = 'point.submitterName';
 
-    /** the column name for the defaultZoom field */
-    const DEFAULTZOOM = 'projects.defaultZoom';
+    /** the column name for the submitterLocation field */
+    const SUBMITTERLOCATION = 'point.submitterLocation';
 
-    /** the column name for the language field */
-    const LANGUAGE = 'projects.language';
+    /** the column name for the sentiment field */
+    const SENTIMENT = 'point.sentiment';
+
+    /** the column name for the is_published field */
+    const IS_PUBLISHED = 'point.is_published';
+
+    /** the column name for the projectId field */
+    const PROJECTID = 'point.projectId';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
-     * An identiy map to hold any loaded instances of Projects objects.
+     * An identiy map to hold any loaded instances of Point objects.
      * This must be public so that other peer classes can access this when hydrating from JOIN
      * queries.
-     * @var        array Projects[]
+     * @var        array Point[]
      */
     public static $instances = array();
 
@@ -74,30 +81,30 @@ abstract class BaseProjectsPeer
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
-     * e.g. ProjectsPeer::$fieldNames[ProjectsPeer::TYPE_PHPNAME][0] = 'Id'
+     * e.g. PointPeer::$fieldNames[PointPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Shortname', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'shortname', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', ),
-        BasePeer::TYPE_COLNAME => array (ProjectsPeer::ID, ProjectsPeer::NAME, ProjectsPeer::SHORTNAME, ProjectsPeer::CENTERLATITUDE, ProjectsPeer::CENTERLONGITUDE, ProjectsPeer::DEFAULTZOOM, ProjectsPeer::LANGUAGE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'SHORTNAME', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'shortname', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Description', 'Latitude', 'Longitude', 'Submittername', 'Submitterlocation', 'Sentiment', 'IsPublished', 'Projectid', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'description', 'latitude', 'longitude', 'submittername', 'submitterlocation', 'sentiment', 'isPublished', 'projectid', ),
+        BasePeer::TYPE_COLNAME => array (PointPeer::ID, PointPeer::DESCRIPTION, PointPeer::LATITUDE, PointPeer::LONGITUDE, PointPeer::SUBMITTERNAME, PointPeer::SUBMITTERLOCATION, PointPeer::SENTIMENT, PointPeer::IS_PUBLISHED, PointPeer::PROJECTID, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'DESCRIPTION', 'LATITUDE', 'LONGITUDE', 'SUBMITTERNAME', 'SUBMITTERLOCATION', 'SENTIMENT', 'IS_PUBLISHED', 'PROJECTID', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'description', 'latitude', 'longitude', 'submitterName', 'submitterLocation', 'sentiment', 'is_published', 'projectId', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
-     * e.g. ProjectsPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
+     * e.g. PointPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Shortname' => 2, 'Centerlatitude' => 3, 'Centerlongitude' => 4, 'Defaultzoom' => 5, 'Language' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'centerlatitude' => 3, 'centerlongitude' => 4, 'defaultzoom' => 5, 'language' => 6, ),
-        BasePeer::TYPE_COLNAME => array (ProjectsPeer::ID => 0, ProjectsPeer::NAME => 1, ProjectsPeer::SHORTNAME => 2, ProjectsPeer::CENTERLATITUDE => 3, ProjectsPeer::CENTERLONGITUDE => 4, ProjectsPeer::DEFAULTZOOM => 5, ProjectsPeer::LANGUAGE => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'SHORTNAME' => 2, 'CENTERLATITUDE' => 3, 'CENTERLONGITUDE' => 4, 'DEFAULTZOOM' => 5, 'LANGUAGE' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'centerLatitude' => 3, 'centerLongitude' => 4, 'defaultZoom' => 5, 'language' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Description' => 1, 'Latitude' => 2, 'Longitude' => 3, 'Submittername' => 4, 'Submitterlocation' => 5, 'Sentiment' => 6, 'IsPublished' => 7, 'Projectid' => 8, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'description' => 1, 'latitude' => 2, 'longitude' => 3, 'submittername' => 4, 'submitterlocation' => 5, 'sentiment' => 6, 'isPublished' => 7, 'projectid' => 8, ),
+        BasePeer::TYPE_COLNAME => array (PointPeer::ID => 0, PointPeer::DESCRIPTION => 1, PointPeer::LATITUDE => 2, PointPeer::LONGITUDE => 3, PointPeer::SUBMITTERNAME => 4, PointPeer::SUBMITTERLOCATION => 5, PointPeer::SENTIMENT => 6, PointPeer::IS_PUBLISHED => 7, PointPeer::PROJECTID => 8, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'DESCRIPTION' => 1, 'LATITUDE' => 2, 'LONGITUDE' => 3, 'SUBMITTERNAME' => 4, 'SUBMITTERLOCATION' => 5, 'SENTIMENT' => 6, 'IS_PUBLISHED' => 7, 'PROJECTID' => 8, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'description' => 1, 'latitude' => 2, 'longitude' => 3, 'submitterName' => 4, 'submitterLocation' => 5, 'sentiment' => 6, 'is_published' => 7, 'projectId' => 8, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
     );
 
     /**
@@ -112,10 +119,10 @@ abstract class BaseProjectsPeer
      */
     public static function translateFieldName($name, $fromType, $toType)
     {
-        $toNames = ProjectsPeer::getFieldNames($toType);
-        $key = isset(ProjectsPeer::$fieldKeys[$fromType][$name]) ? ProjectsPeer::$fieldKeys[$fromType][$name] : null;
+        $toNames = PointPeer::getFieldNames($toType);
+        $key = isset(PointPeer::$fieldKeys[$fromType][$name]) ? PointPeer::$fieldKeys[$fromType][$name] : null;
         if ($key === null) {
-            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(ProjectsPeer::$fieldKeys[$fromType], true));
+            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(PointPeer::$fieldKeys[$fromType], true));
         }
 
         return $toNames[$key];
@@ -132,11 +139,11 @@ abstract class BaseProjectsPeer
      */
     public static function getFieldNames($type = BasePeer::TYPE_PHPNAME)
     {
-        if (!array_key_exists($type, ProjectsPeer::$fieldNames)) {
+        if (!array_key_exists($type, PointPeer::$fieldNames)) {
             throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME, BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. ' . $type . ' was given.');
         }
 
-        return ProjectsPeer::$fieldNames[$type];
+        return PointPeer::$fieldNames[$type];
     }
 
     /**
@@ -148,12 +155,12 @@ abstract class BaseProjectsPeer
      *        $c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
-     * @param      string $column The column name for current table. (i.e. ProjectsPeer::COLUMN_NAME).
+     * @param      string $column The column name for current table. (i.e. PointPeer::COLUMN_NAME).
      * @return string
      */
     public static function alias($alias, $column)
     {
-        return str_replace(ProjectsPeer::TABLE_NAME.'.', $alias.'.', $column);
+        return str_replace(PointPeer::TABLE_NAME.'.', $alias.'.', $column);
     }
 
     /**
@@ -171,21 +178,25 @@ abstract class BaseProjectsPeer
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(ProjectsPeer::ID);
-            $criteria->addSelectColumn(ProjectsPeer::NAME);
-            $criteria->addSelectColumn(ProjectsPeer::SHORTNAME);
-            $criteria->addSelectColumn(ProjectsPeer::CENTERLATITUDE);
-            $criteria->addSelectColumn(ProjectsPeer::CENTERLONGITUDE);
-            $criteria->addSelectColumn(ProjectsPeer::DEFAULTZOOM);
-            $criteria->addSelectColumn(ProjectsPeer::LANGUAGE);
+            $criteria->addSelectColumn(PointPeer::ID);
+            $criteria->addSelectColumn(PointPeer::DESCRIPTION);
+            $criteria->addSelectColumn(PointPeer::LATITUDE);
+            $criteria->addSelectColumn(PointPeer::LONGITUDE);
+            $criteria->addSelectColumn(PointPeer::SUBMITTERNAME);
+            $criteria->addSelectColumn(PointPeer::SUBMITTERLOCATION);
+            $criteria->addSelectColumn(PointPeer::SENTIMENT);
+            $criteria->addSelectColumn(PointPeer::IS_PUBLISHED);
+            $criteria->addSelectColumn(PointPeer::PROJECTID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.name');
-            $criteria->addSelectColumn($alias . '.shortname');
-            $criteria->addSelectColumn($alias . '.centerLatitude');
-            $criteria->addSelectColumn($alias . '.centerLongitude');
-            $criteria->addSelectColumn($alias . '.defaultZoom');
-            $criteria->addSelectColumn($alias . '.language');
+            $criteria->addSelectColumn($alias . '.description');
+            $criteria->addSelectColumn($alias . '.latitude');
+            $criteria->addSelectColumn($alias . '.longitude');
+            $criteria->addSelectColumn($alias . '.submitterName');
+            $criteria->addSelectColumn($alias . '.submitterLocation');
+            $criteria->addSelectColumn($alias . '.sentiment');
+            $criteria->addSelectColumn($alias . '.is_published');
+            $criteria->addSelectColumn($alias . '.projectId');
         }
     }
 
@@ -205,21 +216,21 @@ abstract class BaseProjectsPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(ProjectsPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(PointPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            ProjectsPeer::addSelectColumns($criteria);
+            PointPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-        $criteria->setDbName(ProjectsPeer::DATABASE_NAME); // Set the correct dbName
+        $criteria->setDbName(PointPeer::DATABASE_NAME); // Set the correct dbName
 
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         // BasePeer returns a PDOStatement
         $stmt = BasePeer::doCount($criteria, $con);
@@ -238,7 +249,7 @@ abstract class BaseProjectsPeer
      *
      * @param      Criteria $criteria object used to create the SELECT statement.
      * @param      PropelPDO $con
-     * @return                 Projects
+     * @return                 Point
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
      */
@@ -246,7 +257,7 @@ abstract class BaseProjectsPeer
     {
         $critcopy = clone $criteria;
         $critcopy->setLimit(1);
-        $objects = ProjectsPeer::doSelect($critcopy, $con);
+        $objects = PointPeer::doSelect($critcopy, $con);
         if ($objects) {
             return $objects[0];
         }
@@ -264,7 +275,7 @@ abstract class BaseProjectsPeer
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
-        return ProjectsPeer::populateObjects(ProjectsPeer::doSelectStmt($criteria, $con));
+        return PointPeer::populateObjects(PointPeer::doSelectStmt($criteria, $con));
     }
     /**
      * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -282,16 +293,16 @@ abstract class BaseProjectsPeer
     public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         if (!$criteria->hasSelectClause()) {
             $criteria = clone $criteria;
-            ProjectsPeer::addSelectColumns($criteria);
+            PointPeer::addSelectColumns($criteria);
         }
 
         // Set the correct dbName
-        $criteria->setDbName(ProjectsPeer::DATABASE_NAME);
+        $criteria->setDbName(PointPeer::DATABASE_NAME);
 
         // BasePeer returns a PDOStatement
         return BasePeer::doSelect($criteria, $con);
@@ -305,7 +316,7 @@ abstract class BaseProjectsPeer
      * to the cache in order to ensure that the same objects are always returned by doSelect*()
      * and retrieveByPK*() calls.
      *
-     * @param      Projects $obj A Projects object.
+     * @param      Point $obj A Point object.
      * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
      */
     public static function addInstanceToPool($obj, $key = null)
@@ -314,7 +325,7 @@ abstract class BaseProjectsPeer
             if ($key === null) {
                 $key = (string) $obj->getId();
             } // if key === null
-            ProjectsPeer::$instances[$key] = $obj;
+            PointPeer::$instances[$key] = $obj;
         }
     }
 
@@ -326,7 +337,7 @@ abstract class BaseProjectsPeer
      * methods in your stub classes -- you may need to explicitly remove objects
      * from the cache in order to prevent returning objects that no longer exist.
      *
-     * @param      mixed $value A Projects object or a primary key value.
+     * @param      mixed $value A Point object or a primary key value.
      *
      * @return void
      * @throws PropelException - if the value is invalid.
@@ -334,17 +345,17 @@ abstract class BaseProjectsPeer
     public static function removeInstanceFromPool($value)
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
-            if (is_object($value) && $value instanceof Projects) {
+            if (is_object($value) && $value instanceof Point) {
                 $key = (string) $value->getId();
             } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
                 $key = (string) $value;
             } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Projects object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Point object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
             }
 
-            unset(ProjectsPeer::$instances[$key]);
+            unset(PointPeer::$instances[$key]);
         }
     } // removeInstanceFromPool()
 
@@ -355,14 +366,14 @@ abstract class BaseProjectsPeer
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
      * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-     * @return   Projects Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+     * @return   Point Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
      * @see        getPrimaryKeyHash()
      */
     public static function getInstanceFromPool($key)
     {
         if (Propel::isInstancePoolingEnabled()) {
-            if (isset(ProjectsPeer::$instances[$key])) {
-                return ProjectsPeer::$instances[$key];
+            if (isset(PointPeer::$instances[$key])) {
+                return PointPeer::$instances[$key];
             }
         }
 
@@ -378,16 +389,16 @@ abstract class BaseProjectsPeer
     {
       if ($and_clear_all_references)
       {
-        foreach (ProjectsPeer::$instances as $instance)
+        foreach (PointPeer::$instances as $instance)
         {
           $instance->clearAllReferences(true);
         }
       }
-        ProjectsPeer::$instances = array();
+        PointPeer::$instances = array();
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to projects
+     * Method to invalidate the instance pool of all tables related to point
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -441,11 +452,11 @@ abstract class BaseProjectsPeer
         $results = array();
 
         // set the class once to avoid overhead in the loop
-        $cls = ProjectsPeer::getOMClass();
+        $cls = PointPeer::getOMClass();
         // populate the object(s)
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key = ProjectsPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj = ProjectsPeer::getInstanceFromPool($key))) {
+            $key = PointPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj = PointPeer::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -454,7 +465,7 @@ abstract class BaseProjectsPeer
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                ProjectsPeer::addInstanceToPool($obj, $key);
+                PointPeer::addInstanceToPool($obj, $key);
             } // if key exists
         }
         $stmt->closeCursor();
@@ -468,24 +479,262 @@ abstract class BaseProjectsPeer
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
-     * @return array (Projects object, last column rank)
+     * @return array (Point object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
     {
-        $key = ProjectsPeer::getPrimaryKeyHashFromRow($row, $startcol);
-        if (null !== ($obj = ProjectsPeer::getInstanceFromPool($key))) {
+        $key = PointPeer::getPrimaryKeyHashFromRow($row, $startcol);
+        if (null !== ($obj = PointPeer::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $startcol, true); // rehydrate
-            $col = $startcol + ProjectsPeer::NUM_HYDRATE_COLUMNS;
+            $col = $startcol + PointPeer::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = ProjectsPeer::OM_CLASS;
+            $cls = PointPeer::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $startcol);
-            ProjectsPeer::addInstanceToPool($obj, $key);
+            PointPeer::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related Project table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinProject(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(PointPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            PointPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(PointPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(PointPeer::PROJECTID, ProjectPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Selects a collection of Point objects pre-filled with their Project objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Point objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *         rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinProject(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(PointPeer::DATABASE_NAME);
+        }
+
+        PointPeer::addSelectColumns($criteria);
+        $startcol = PointPeer::NUM_HYDRATE_COLUMNS;
+        ProjectPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(PointPeer::PROJECTID, ProjectPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = PointPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = PointPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = PointPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                PointPeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = ProjectPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = ProjectPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = ProjectPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    ProjectPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (Point) to $obj2 (Project)
+                $obj2->addPoint($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining all related tables
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAll(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(PointPeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            PointPeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(PointPeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(PointPeer::PROJECTID, ProjectPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+    /**
+     * Selects a collection of Point objects pre-filled with all related objects.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of Point objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *         rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAll(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(PointPeer::DATABASE_NAME);
+        }
+
+        PointPeer::addSelectColumns($criteria);
+        $startcol2 = PointPeer::NUM_HYDRATE_COLUMNS;
+
+        ProjectPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ProjectPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(PointPeer::PROJECTID, ProjectPeer::ID, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = PointPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = PointPeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = PointPeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                PointPeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+            // Add objects for joined Project rows
+
+            $key2 = ProjectPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            if ($key2 !== null) {
+                $obj2 = ProjectPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = ProjectPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    ProjectPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 loaded
+
+                // Add the $obj1 (Point) to the collection in $obj2 (Project)
+                $obj2->addPoint($obj1);
+            } // if joined row not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
     }
 
     /**
@@ -497,7 +746,7 @@ abstract class BaseProjectsPeer
      */
     public static function getTableMap()
     {
-        return Propel::getDatabaseMap(ProjectsPeer::DATABASE_NAME)->getTable(ProjectsPeer::TABLE_NAME);
+        return Propel::getDatabaseMap(PointPeer::DATABASE_NAME)->getTable(PointPeer::TABLE_NAME);
     }
 
     /**
@@ -505,9 +754,9 @@ abstract class BaseProjectsPeer
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getDatabaseMap(BaseProjectsPeer::DATABASE_NAME);
-      if (!$dbMap->hasTable(BaseProjectsPeer::TABLE_NAME)) {
-        $dbMap->addTableObject(new ProjectsTableMap());
+      $dbMap = Propel::getDatabaseMap(BasePointPeer::DATABASE_NAME);
+      if (!$dbMap->hasTable(BasePointPeer::TABLE_NAME)) {
+        $dbMap->addTableObject(new PointTableMap());
       }
     }
 
@@ -519,13 +768,13 @@ abstract class BaseProjectsPeer
      */
     public static function getOMClass($row = 0, $colnum = 0)
     {
-        return ProjectsPeer::OM_CLASS;
+        return PointPeer::OM_CLASS;
     }
 
     /**
-     * Performs an INSERT on the database, given a Projects or Criteria object.
+     * Performs an INSERT on the database, given a Point or Criteria object.
      *
-     * @param      mixed $values Criteria or Projects object containing data that is used to create the INSERT statement.
+     * @param      mixed $values Criteria or Point object containing data that is used to create the INSERT statement.
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -534,22 +783,22 @@ abstract class BaseProjectsPeer
     public static function doInsert($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
         } else {
-            $criteria = $values->buildCriteria(); // build Criteria from Projects object
+            $criteria = $values->buildCriteria(); // build Criteria from Point object
         }
 
-        if ($criteria->containsKey(ProjectsPeer::ID) && $criteria->keyContainsValue(ProjectsPeer::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ProjectsPeer::ID.')');
+        if ($criteria->containsKey(PointPeer::ID) && $criteria->keyContainsValue(PointPeer::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.PointPeer::ID.')');
         }
 
 
         // Set the correct dbName
-        $criteria->setDbName(ProjectsPeer::DATABASE_NAME);
+        $criteria->setDbName(PointPeer::DATABASE_NAME);
 
         try {
             // use transaction because $criteria could contain info
@@ -566,9 +815,9 @@ abstract class BaseProjectsPeer
     }
 
     /**
-     * Performs an UPDATE on the database, given a Projects or Criteria object.
+     * Performs an UPDATE on the database, given a Point or Criteria object.
      *
-     * @param      mixed $values Criteria or Projects object containing data that is used to create the UPDATE statement.
+     * @param      mixed $values Criteria or Point object containing data that is used to create the UPDATE statement.
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
@@ -577,35 +826,35 @@ abstract class BaseProjectsPeer
     public static function doUpdate($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
-        $selectCriteria = new Criteria(ProjectsPeer::DATABASE_NAME);
+        $selectCriteria = new Criteria(PointPeer::DATABASE_NAME);
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
 
-            $comparison = $criteria->getComparison(ProjectsPeer::ID);
-            $value = $criteria->remove(ProjectsPeer::ID);
+            $comparison = $criteria->getComparison(PointPeer::ID);
+            $value = $criteria->remove(PointPeer::ID);
             if ($value) {
-                $selectCriteria->add(ProjectsPeer::ID, $value, $comparison);
+                $selectCriteria->add(PointPeer::ID, $value, $comparison);
             } else {
-                $selectCriteria->setPrimaryTableName(ProjectsPeer::TABLE_NAME);
+                $selectCriteria->setPrimaryTableName(PointPeer::TABLE_NAME);
             }
 
-        } else { // $values is Projects object
+        } else { // $values is Point object
             $criteria = $values->buildCriteria(); // gets full criteria
             $selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
         }
 
         // set the correct dbName
-        $criteria->setDbName(ProjectsPeer::DATABASE_NAME);
+        $criteria->setDbName(PointPeer::DATABASE_NAME);
 
         return BasePeer::doUpdate($selectCriteria, $criteria, $con);
     }
 
     /**
-     * Deletes all rows from the projects table.
+     * Deletes all rows from the point table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).
@@ -614,19 +863,19 @@ abstract class BaseProjectsPeer
     public static function doDeleteAll(PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            $affectedRows += BasePeer::doDeleteAll(ProjectsPeer::TABLE_NAME, $con, ProjectsPeer::DATABASE_NAME);
+            $affectedRows += BasePeer::doDeleteAll(PointPeer::TABLE_NAME, $con, PointPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            ProjectsPeer::clearInstancePool();
-            ProjectsPeer::clearRelatedInstancePool();
+            PointPeer::clearInstancePool();
+            PointPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -637,9 +886,9 @@ abstract class BaseProjectsPeer
     }
 
     /**
-     * Performs a DELETE on the database, given a Projects or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Point or Criteria object OR a primary key value.
      *
-     * @param      mixed $values Criteria or Projects object or primary key or array of primary keys
+     * @param      mixed $values Criteria or Point object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -650,32 +899,32 @@ abstract class BaseProjectsPeer
      public static function doDelete($values, PropelPDO $con = null)
      {
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             // invalidate the cache for all objects of this type, since we have no
             // way of knowing (without running a query) what objects should be invalidated
             // from the cache based on this Criteria.
-            ProjectsPeer::clearInstancePool();
+            PointPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
-        } elseif ($values instanceof Projects) { // it's a model object
+        } elseif ($values instanceof Point) { // it's a model object
             // invalidate the cache for this single object
-            ProjectsPeer::removeInstanceFromPool($values);
+            PointPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(ProjectsPeer::DATABASE_NAME);
-            $criteria->add(ProjectsPeer::ID, (array) $values, Criteria::IN);
+            $criteria = new Criteria(PointPeer::DATABASE_NAME);
+            $criteria->add(PointPeer::ID, (array) $values, Criteria::IN);
             // invalidate the cache for this object(s)
             foreach ((array) $values as $singleval) {
-                ProjectsPeer::removeInstanceFromPool($singleval);
+                PointPeer::removeInstanceFromPool($singleval);
             }
         }
 
         // Set the correct dbName
-        $criteria->setDbName(ProjectsPeer::DATABASE_NAME);
+        $criteria->setDbName(PointPeer::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -685,7 +934,7 @@ abstract class BaseProjectsPeer
             $con->beginTransaction();
 
             $affectedRows += BasePeer::doDelete($criteria, $con);
-            ProjectsPeer::clearRelatedInstancePool();
+            PointPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -696,13 +945,13 @@ abstract class BaseProjectsPeer
     }
 
     /**
-     * Validates all modified columns of given Projects object.
+     * Validates all modified columns of given Point object.
      * If parameter $columns is either a single column name or an array of column names
      * than only those columns are validated.
      *
      * NOTICE: This does not apply to primary or foreign keys for now.
      *
-     * @param      Projects $obj The object to validate.
+     * @param      Point $obj The object to validate.
      * @param      mixed $cols Column name or array of column names.
      *
      * @return mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -712,8 +961,8 @@ abstract class BaseProjectsPeer
         $columns = array();
 
         if ($cols) {
-            $dbMap = Propel::getDatabaseMap(ProjectsPeer::DATABASE_NAME);
-            $tableMap = $dbMap->getTable(ProjectsPeer::TABLE_NAME);
+            $dbMap = Propel::getDatabaseMap(PointPeer::DATABASE_NAME);
+            $tableMap = $dbMap->getTable(PointPeer::TABLE_NAME);
 
             if (! is_array($cols)) {
                 $cols = array($cols);
@@ -729,7 +978,7 @@ abstract class BaseProjectsPeer
 
         }
 
-        return BasePeer::doValidate(ProjectsPeer::DATABASE_NAME, ProjectsPeer::TABLE_NAME, $columns);
+        return BasePeer::doValidate(PointPeer::DATABASE_NAME, PointPeer::TABLE_NAME, $columns);
     }
 
     /**
@@ -737,23 +986,23 @@ abstract class BaseProjectsPeer
      *
      * @param      int $pk the primary key.
      * @param      PropelPDO $con the connection to use
-     * @return Projects
+     * @return Point
      */
     public static function retrieveByPK($pk, PropelPDO $con = null)
     {
 
-        if (null !== ($obj = ProjectsPeer::getInstanceFromPool((string) $pk))) {
+        if (null !== ($obj = PointPeer::getInstanceFromPool((string) $pk))) {
             return $obj;
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria = new Criteria(ProjectsPeer::DATABASE_NAME);
-        $criteria->add(ProjectsPeer::ID, $pk);
+        $criteria = new Criteria(PointPeer::DATABASE_NAME);
+        $criteria->add(PointPeer::ID, $pk);
 
-        $v = ProjectsPeer::doSelect($criteria, $con);
+        $v = PointPeer::doSelect($criteria, $con);
 
         return !empty($v) > 0 ? $v[0] : null;
     }
@@ -763,23 +1012,23 @@ abstract class BaseProjectsPeer
      *
      * @param      array $pks List of primary keys
      * @param      PropelPDO $con the connection to use
-     * @return Projects[]
+     * @return Point[]
      * @throws PropelException Any exceptions caught during processing will be
      *         rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(ProjectsPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         $objs = null;
         if (empty($pks)) {
             $objs = array();
         } else {
-            $criteria = new Criteria(ProjectsPeer::DATABASE_NAME);
-            $criteria->add(ProjectsPeer::ID, $pks, Criteria::IN);
-            $objs = ProjectsPeer::doSelect($criteria, $con);
+            $criteria = new Criteria(PointPeer::DATABASE_NAME);
+            $criteria->add(PointPeer::ID, $pks, Criteria::IN);
+            $objs = PointPeer::doSelect($criteria, $con);
         }
 
         return $objs;
@@ -789,5 +1038,5 @@ abstract class BaseProjectsPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseProjectsPeer::buildTableMap();
+BasePointPeer::buildTableMap();
 

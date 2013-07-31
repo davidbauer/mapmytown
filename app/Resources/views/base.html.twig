@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
+{#<html ng-app="demoapp">#}
     <head>
         <meta charset="UTF-8" />
         <title>{% block title %}My Town!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        {#'bundles/vfemytown/js/angular-leaflet-directive.min.js'#}
+        {% javascripts filter='?yui_js' output='js/*.js'
+        'bundles/nzzmytown/js/angular.min.js'
+        'bundles/nzzmytown/bootstrap/js/bootstrap.min.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </head>
     <body>
+        {% block header%}
+            <div class="page-header">
+                <div class="text-center">
+                    <a class="btn btn-inverse" href="{{ path('nzz_my_town_admin_dashboard') }}"> <h1>Welcome to Map My Towm Project</h1></a>
+                </div>
+             </div>
+        {% endblock %}
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        {% block footer %}
+            <div class="text-center">
+                <img src="{{ asset('bundles/nzzmytown/images/footer.png') }}">
+            </div>
+        {% endblock %}
         {% block templates %}{% endblock %}
+        {% block javascripts %}{% endblock %}
     </body>
 </html>

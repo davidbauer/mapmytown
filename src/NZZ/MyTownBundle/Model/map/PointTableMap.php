@@ -7,7 +7,7 @@ use \TableMap;
 
 
 /**
- * This class defines the structure of the 'projects' table.
+ * This class defines the structure of the 'point' table.
  *
  *
  *
@@ -18,13 +18,13 @@ use \TableMap;
  *
  * @package    propel.generator.src.NZZ.MyTownBundle.Model.map
  */
-class ProjectsTableMap extends TableMap
+class PointTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'src.NZZ.MyTownBundle.Model.map.ProjectsTableMap';
+    const CLASS_NAME = 'src.NZZ.MyTownBundle.Model.map.PointTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -36,19 +36,21 @@ class ProjectsTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('projects');
-        $this->setPhpName('Projects');
-        $this->setClassname('NZZ\\MyTownBundle\\Model\\Projects');
+        $this->setName('point');
+        $this->setPhpName('Point');
+        $this->setClassname('NZZ\\MyTownBundle\\Model\\Point');
         $this->setPackage('src.NZZ.MyTownBundle.Model');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
-        $this->addColumn('name', 'Name', 'VARCHAR', false, 255, null);
-        $this->addColumn('shortname', 'Shortname', 'VARCHAR', false, 10, null);
-        $this->addColumn('centerLatitude', 'Centerlatitude', 'FLOAT', false, null, null);
-        $this->addColumn('centerLongitude', 'Centerlongitude', 'FLOAT', false, null, null);
-        $this->addColumn('defaultZoom', 'Defaultzoom', 'INTEGER', false, null, null);
-        $this->addColumn('language', 'Language', 'VARCHAR', false, 2, null);
+        $this->addColumn('description', 'Description', 'VARCHAR', false, 255, null);
+        $this->addColumn('latitude', 'Latitude', 'FLOAT', false, null, null);
+        $this->addColumn('longitude', 'Longitude', 'FLOAT', false, null, null);
+        $this->addColumn('submitterName', 'Submittername', 'VARCHAR', false, 255, null);
+        $this->addColumn('submitterLocation', 'Submitterlocation', 'VARCHAR', false, 255, null);
+        $this->addColumn('sentiment', 'Sentiment', 'INTEGER', false, 1, 0);
+        $this->addColumn('is_published', 'IsPublished', 'BOOLEAN', true, 1, false);
+        $this->addForeignKey('projectId', 'Projectid', 'INTEGER', 'project', 'id', true, null, null);
         // validators
     } // initialize()
 
@@ -57,7 +59,7 @@ class ProjectsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Points', 'NZZ\\MyTownBundle\\Model\\Points', RelationMap::ONE_TO_MANY, array('id' => 'projectId', ), null, null, 'Pointss');
+        $this->addRelation('Project', 'NZZ\\MyTownBundle\\Model\\Project', RelationMap::MANY_TO_ONE, array('projectId' => 'id', ), null, null);
     } // buildRelations()
 
     /**

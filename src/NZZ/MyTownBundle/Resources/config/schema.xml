@@ -7,22 +7,59 @@
         <parameter name="tab_size" value="4"/>
         <parameter name="strip_comments" value="false"/>
     </behavior>
-    <table name="projects" idMethod="native">
+    <table name="project" idMethod="native">
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB"/>
             <parameter name="Charset" value="utf8"/>
             <parameter name="Collate" value="utf8_general_ci"/>
         </vendor>
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-        <column name="name" type="VARCHAR" size="255"/>
         <column name="shortname" type="VARCHAR" size="10"/>
+        <column name="title" type="VARCHAR" size="255" required="true"/>
+        <column name="description" type="LONGVARCHAR"/>
         <column name="centerLatitude" type="FLOAT"/>
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
         <column name="language" type="VARCHAR" size="2"/>
+        <unique name="shortname">
+            <unique-column name="shortname"/>
+        </unique>
     </table>
-
-    <table name="points" idMethod="native">
+    <table name="logo" phpName="Logo" idMethod="native">
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+            <parameter name="Collate" value="utf8_general_ci"/>
+        </vendor>
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="title" type="VARCHAR" size="255"/>
+        <column name="caption" type="VARCHAR" size="255"/>
+        <column name="url" type="LONGVARCHAR"/>
+    </table>
+    <table name="project_logo" phpName="ProjectLogo" idMethod="native">
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+            <parameter name="Collate" value="utf8_general_ci"/>
+        </vendor>
+        <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="project_id" phpName="projectId" type="INTEGER" required="true"/>
+        <column name="logo_id" phpName="logoId" type="INTEGER" required="true"/>
+        <column name="position" phpName="Position" type="INTEGER" required="false" defaultValue="0"/>
+        <foreign-key foreignTable="project" name="fk1_pl_project_id" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="project_id" foreign="id"/>
+        </foreign-key>
+        <foreign-key foreignTable="logo" name="fk2_pl_logo_id" onDelete="CASCADE" onUpdate="CASCADE">
+            <reference local="logo_id" foreign="id"/>
+        </foreign-key>
+        <index name="fk1_pl_project_id">
+            <index-column name="project_id"/>
+        </index>
+        <index name="fk2_pl_logo_id">
+            <index-column name="logo_id"/>
+        </index>
+    </table>
+    <table name="point" idMethod="native">
         <vendor type="mysql">
             <parameter name="Engine" value="InnoDB"/>
             <parameter name="Charset" value="utf8"/>
@@ -34,8 +71,10 @@
         <column name="longitude" type="FLOAT"/>
         <column name="submitterName" type="VARCHAR" size="255"/>
         <column name="submitterLocation" type="VARCHAR" size="255"/>
+        <column name="sentiment" type="INTEGER" size="1" defaultValue="0"/>
+        <column name="is_published" phpName="IsPublished" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
         <column name="projectId" type="INTEGER" required="true"/>
-        <foreign-key foreignTable="projects">
+        <foreign-key foreignTable="project">
             <reference local="projectId" foreign="id"/>
         </foreign-key>
     </table>
