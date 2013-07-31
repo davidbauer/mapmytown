@@ -6,7 +6,12 @@ params:
     concurrency_lock: ~
     bundle_name: AdminMyTownBundle
     pk_requirement: ~
-    fields: ~
+    fields:
+      language:
+        formType: choice
+        addFormOptions:
+          required: true
+          choices: [de: Deutsch , fr: French, en: English]
     object_actions:
         delete: ~
     batch_actions:
@@ -34,7 +39,7 @@ builders:
     edit:
         params:
             title: Editing project
-            display: [title, description,info, centerLatitude, centerLongitude, defaultZoom,language, buttonText ]
+            display: [language, title, description,info, centerLatitude, centerLongitude, defaultZoom, buttonText ]
             fields:
                 centerLatitude:
                     label: Center's latitude
@@ -46,6 +51,15 @@ builders:
                     label: Language
                 buttonText:
                     label: text for Button
+                description:
+                    formType: textarea
+                info:
+                    formType: textarea
+                language:
+                  formType: choice
+                  addFormOptions:
+                    required: true
+                    choices: [de: Deutsch , fr: French, en: English]
             actions:
                 save: ~
                 list: ~
