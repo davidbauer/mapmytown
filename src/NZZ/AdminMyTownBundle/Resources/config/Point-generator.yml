@@ -6,7 +6,6 @@ params:
     concurrency_lock: ~
     bundle_name: AdminMyTownBundle
     pk_requirement: ~
-    locale: fr
     fields:
         author_name:
           label: User
@@ -52,7 +51,11 @@ builders:
     new:
         params:
             title: New object for AdminMyTownBundle
-            display: ~
+            display: [ title, description, author_name, author_location, is_published ]
+    edit:
+        params:
+            title: "You're editing user's info"
+            display: [title, description, author_name, author_location, is_published, sentiment ]
             actions:
                 save: ~
                 list: ~
