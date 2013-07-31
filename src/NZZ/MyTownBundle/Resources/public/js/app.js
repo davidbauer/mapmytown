@@ -6,10 +6,6 @@
     models: {},
     views: {},
     config: {
-      city: 'Zürich',
-      lat: '47.369',
-      lon:  '8.542',
-      zoom: 18,
       project: 'nzz',
       mapboxKey: 'sylke-gruhnwald.map-a6qno9vz'
     }

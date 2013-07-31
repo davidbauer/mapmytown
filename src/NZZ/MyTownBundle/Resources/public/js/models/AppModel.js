@@ -23,10 +23,14 @@
     },
 
     parse: function(result) {
-      var points = result.project.points;
+      // Comments
+      this.comments = new app.collections.CommentCollection(result.project.points);
       delete result.project.points;
+
+      // Set project data      
       this.set(result.project);
-      this.set({points: points});
+
+      // Mark deferred as resolved
       this.deferred.resolve();
       this.deferred = null;
     }

@@ -27,12 +27,11 @@
     },
 
     renderPoints: function() {
-      var points = this.model.get('points');
-      _.each(points, this.addPoint);
+      this.model.comments.forEach(this.addPoint);
     },
 
     addPoint: function(point) {
-      var latlng = new L.LatLng(point.latitude, point.longitude);
+      var latlng = new L.LatLng(point.get('latitude'), point.get('longitude'));
       var circle = L.circle(latlng, 5, {
         color: '#fff',
         weight: 2,
