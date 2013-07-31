@@ -7,6 +7,11 @@ NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_point:
 _welcome:
     pattern: /a2
     defaults: { _controller: NZZAdminMyTownBundle:Dashboard:index }
+    
+NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_projectdata:
+    resource: "@NZZAdminMyTownBundle/Controller/Projectdata/"
+    type:     admingenerator
+    prefix:   /a2/projectdata
 
 NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_project:
     resource: "@NZZAdminMyTownBundle/Controller/Project/"
