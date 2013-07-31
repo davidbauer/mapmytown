@@ -11,12 +11,8 @@
              {% for project in projects %}
                  <tr>
                      <td> <a href="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': project.id }) }}">{{ project.id }}</a></td>
-                     <td> {{ project.title|default('') }}</td>
-                     <td> {{ project.description|default('') }}</td>
-                     <td> {{ project.centerLatitude|default('') }}</td>
-                     <td> {{ project.centerLongitude|default('') }}</td>
+                     <td> {{ project.slug|default('') }}</td>
                      <td> {{ project.defaultZoom|default('') }}</td>
-                     <td> {{ project.language|default('') }}</td>
                      <td> <a class="btn btn-warning" href="{{ path('nzz_my_town_admin_edit_project', {'projectId': project.id }) }}"><i class="icon-edit">e</i></a></td>
                      <td> <a class="btn btn-danger" href="{{ path('nzz_my_town_admin_remove_project', {'projectId': project.id }) }}"><i>x</i></a></td>
                  </tr>

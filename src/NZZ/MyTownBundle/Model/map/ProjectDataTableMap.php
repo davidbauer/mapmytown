@@ -46,6 +46,7 @@ class ProjectDataTableMap extends TableMap
         $this->addForeignKey('project_id', 'projectId', 'INTEGER', 'project', 'id', true, null, null);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
         $this->addColumn('description', 'Description', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('info', 'Info', 'LONGVARCHAR', false, null, null);
         $this->addColumn('centerLatitude', 'Centerlatitude', 'FLOAT', false, null, null);
         $this->addColumn('centerLongitude', 'Centerlongitude', 'FLOAT', false, null, null);
         $this->addColumn('defaultZoom', 'Defaultzoom', 'INTEGER', false, null, null);

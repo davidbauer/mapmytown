@@ -23,6 +23,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method ProjectDataQuery orderByprojectId($order = Criteria::ASC) Order by the project_id column
  * @method ProjectDataQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method ProjectDataQuery orderByDescription($order = Criteria::ASC) Order by the description column
+ * @method ProjectDataQuery orderByInfo($order = Criteria::ASC) Order by the info column
  * @method ProjectDataQuery orderByCenterlatitude($order = Criteria::ASC) Order by the centerLatitude column
  * @method ProjectDataQuery orderByCenterlongitude($order = Criteria::ASC) Order by the centerLongitude column
  * @method ProjectDataQuery orderByDefaultzoom($order = Criteria::ASC) Order by the defaultZoom column
@@ -33,6 +34,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method ProjectDataQuery groupByprojectId() Group by the project_id column
  * @method ProjectDataQuery groupByTitle() Group by the title column
  * @method ProjectDataQuery groupByDescription() Group by the description column
+ * @method ProjectDataQuery groupByInfo() Group by the info column
  * @method ProjectDataQuery groupByCenterlatitude() Group by the centerLatitude column
  * @method ProjectDataQuery groupByCenterlongitude() Group by the centerLongitude column
  * @method ProjectDataQuery groupByDefaultzoom() Group by the defaultZoom column
@@ -57,6 +59,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method ProjectData findOneByprojectId(int $project_id) Return the first ProjectData filtered by the project_id column
  * @method ProjectData findOneByTitle(string $title) Return the first ProjectData filtered by the title column
  * @method ProjectData findOneByDescription(string $description) Return the first ProjectData filtered by the description column
+ * @method ProjectData findOneByInfo(string $info) Return the first ProjectData filtered by the info column
  * @method ProjectData findOneByCenterlatitude(double $centerLatitude) Return the first ProjectData filtered by the centerLatitude column
  * @method ProjectData findOneByCenterlongitude(double $centerLongitude) Return the first ProjectData filtered by the centerLongitude column
  * @method ProjectData findOneByDefaultzoom(int $defaultZoom) Return the first ProjectData filtered by the defaultZoom column
@@ -67,6 +70,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method array findByprojectId(int $project_id) Return ProjectData objects filtered by the project_id column
  * @method array findByTitle(string $title) Return ProjectData objects filtered by the title column
  * @method array findByDescription(string $description) Return ProjectData objects filtered by the description column
+ * @method array findByInfo(string $info) Return ProjectData objects filtered by the info column
  * @method array findByCenterlatitude(double $centerLatitude) Return ProjectData objects filtered by the centerLatitude column
  * @method array findByCenterlongitude(double $centerLongitude) Return ProjectData objects filtered by the centerLongitude column
  * @method array findByDefaultzoom(int $defaultZoom) Return ProjectData objects filtered by the defaultZoom column
@@ -173,7 +177,7 @@ abstract class BaseProjectDataQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `project_id`, `title`, `description`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language`, `logo_id` FROM `project_data` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `project_id`, `title`, `description`, `info`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language`, `logo_id` FROM `project_data` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -404,6 +408,35 @@ abstract class BaseProjectDataQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProjectDataPeer::DESCRIPTION, $description, $comparison);
+    }
+
+    /**
+     * Filter the query on the info column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByInfo('fooValue');   // WHERE info = 'fooValue'
+     * $query->filterByInfo('%fooValue%'); // WHERE info LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $info The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProjectDataQuery The current query, for fluid interface
+     */
+    public function filterByInfo($info = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($info)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $info)) {
+                $info = str_replace('*', '%', $info);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProjectDataPeer::INFO, $info, $comparison);
     }
 
     /**
