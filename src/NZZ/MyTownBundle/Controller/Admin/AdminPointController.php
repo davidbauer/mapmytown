@@ -3,20 +3,22 @@
 namespace NZZ\MyTownBundle\Controller\Admin;
 
 
-use NZZ\MyTownBundle\Model\PointQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use BasePeer;
-use Criteria;
 use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 
-use NZZ\MyTownBundle\Model\ProjectQuery;
-use NZZ\MyTownBundle\Model\Project;
+use Criteria;
+use BasePeer;
 use NZZ\MyTownBundle\Model\PointPeer;
+use NZZ\MyTownBundle\Model\PointQuery;
+use NZZ\MyTownBundle\Model\ProjectQuery;
 
 class AdminPointController extends Controller
 {
     public function indexAction($projectId)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $limit = $this->container->getParameter('point_limit');
         $request = $this->getRequest()->query;
         $page = ($request->get('page')) ? ($request->get('page')) : 1 ;
@@ -54,6 +56,9 @@ class AdminPointController extends Controller
 
     public function removeAction($pointId)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $point = PointQuery::create()->findOneById($pointId);
 
         $point->delete();
@@ -63,6 +68,9 @@ class AdminPointController extends Controller
 
     public function publishAction($pointId)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $point = PointQuery::create()->findOneById($pointId);
 
         $point->setIsPublished(true)->save();
@@ -72,6 +80,9 @@ class AdminPointController extends Controller
 
     public function unPublishAction($pointId)
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $point = PointQuery::create()->findOneById($pointId);
 
         $point->setIsPublished(false)->save();

@@ -19,11 +19,16 @@
         {% block header%}
             <div class="page-header">
                 <div class="text-center">
-                    <a class="btn btn-inverse" href="{{ path('nzz_my_town_admin_dashboard') }}"> <h1>Welcome to MyTowm Project</h1></a>
+                    <a class="btn btn-inverse" href="{{ path('nzz_my_town_admin_dashboard') }}"> <h1>Welcome to Map My Towm Project</h1></a>
                 </div>
              </div>
         {% endblock %}
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
+        {% block footer %}
+            <div class="text-center">
+                <img src="{{ asset('bundles/nzzmytown/images/footer.png') }}">
+            </div>
+        {% endblock %}
     </body>
 </html>

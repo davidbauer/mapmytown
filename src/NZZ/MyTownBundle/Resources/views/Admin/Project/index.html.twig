@@ -6,7 +6,7 @@
                 {% for field in fields %}
                     <td class="text-info text-center"> {{ field }}</td>
                 {% endfor %}
-                    <td> </td>
+                    <td class="text-center"> <a class="label label-info" href="{{ path('nzz_my_town_admin_add_project') }}">Add Project</a> </td>
              </tr>
              {% for project in projects %}
                  <tr>
@@ -22,6 +22,5 @@
                  </tr>
                  {% endfor %}
          </table>
-         <a class="label label-info" href="{{ path('nzz_my_town_admin_add_project') }}">Add Project</a>
      </div>
  {% endblock %}

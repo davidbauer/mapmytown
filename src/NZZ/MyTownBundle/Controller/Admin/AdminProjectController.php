@@ -4,21 +4,24 @@ namespace NZZ\MyTownBundle\Controller\Admin;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use BasePeer;
 use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 
-use NZZ\MyTownBundle\Model\ProjectQuery;
+use BasePeer;
 use NZZ\MyTownBundle\Model\Project;
 use NZZ\MyTownBundle\Model\ProjectPeer;
+use NZZ\MyTownBundle\Model\ProjectQuery;
 
 class AdminProjectController extends Controller
 {
     public function indexAction()
     {
+        if (false === $this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($this->generateUrl('login'));
+        }
         $projects  = ProjectQuery::create()
             ->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
         $projectsFields = ProjectPeer::getFieldNames(BasePeer::TYPE_FIELDNAME);
-        return $this->render('NZZMyTownBundle:Admin:index.html.twig', array(
+        return $this->render('NZZMyTownBundle:Admin\Project:index.html.twig', array(
                 'fields' => $projectsFields,
                 'projects' => $projects
             )
@@ -43,7 +46,7 @@ class AdminProjectController extends Controller
             ->add('save', 'submit')
             ->getForm();
 
-        return $this->render('NZZMyTownBundle:Admin:add.html.twig', array(
+        return $this->render('NZZMyTownBundle:Admin\Project:add.html.twig', array(
                 'form' => $form->createView()
             )
         );
@@ -90,7 +93,7 @@ class AdminProjectController extends Controller
             ->add('save', 'submit')
             ->getForm();
 
-        return $this->render('NZZMyTownBundle:Admin:editProject.html.twig', array(
+        return $this->render('NZZMyTownBundle:Admin\Project:editProject.html.twig', array(
                 'form' => $form->createView()
             )
         );
