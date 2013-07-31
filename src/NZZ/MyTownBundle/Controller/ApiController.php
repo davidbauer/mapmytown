@@ -3,10 +3,8 @@
 namespace NZZ\MyTownBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Tests\Constraints\CallbackValidatorTest_Class;
 use NZZ\MyTownBundle\Model\ProjectQuery;
 use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\PointQuery;
