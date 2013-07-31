@@ -1,5 +1,6 @@
 {
   "form": {
+    "heading": "Markieren Sie einen Ort",
     "title": "Was haben Sie markiert?",
     "description": "Beschreiben Sie den markierten Punkt",
     "sentiment": "Das ist...?",
