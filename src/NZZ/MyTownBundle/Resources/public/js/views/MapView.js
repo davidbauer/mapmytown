@@ -31,11 +31,25 @@
     },
 
     addPoint: function(point) {
+      function colorCircle(sentiment) {
+        switch (parseInt(sentiment, 10)) {
+          case 0:
+            return "#bec7d3";
+            break;
+          case 1:
+            return "#79cb59";
+            break;
+          default:
+            return "#bf292a";
+            break;
+        };
+      };
+      
       var latlng = new L.LatLng(point.get('latitude'), point.get('longitude'));
       var circle = L.circle(latlng, 5, {
         color: '#fff',
         weight: 2,
-        fillColor: '#79cb59',
+        fillColor: colorCircle(point.get('sentiment')),
         fillOpacity: 0.9
       });
 
