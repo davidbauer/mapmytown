@@ -54,7 +54,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method Point findOneByLongitude(double $longitude) Return the first Point filtered by the longitude column
  * @method Point findOneBySubmittername(string $submitterName) Return the first Point filtered by the submitterName column
  * @method Point findOneBySubmitterlocation(string $submitterLocation) Return the first Point filtered by the submitterLocation column
- * @method Point findOneBySentiment(string $sentiment) Return the first Point filtered by the sentiment column
+ * @method Point findOneBySentiment(int $sentiment) Return the first Point filtered by the sentiment column
  * @method Point findOneByIsPublished(boolean $is_published) Return the first Point filtered by the is_published column
  * @method Point findOneByProjectid(int $projectId) Return the first Point filtered by the projectId column
  *
@@ -64,7 +64,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method array findByLongitude(double $longitude) Return Point objects filtered by the longitude column
  * @method array findBySubmittername(string $submitterName) Return Point objects filtered by the submitterName column
  * @method array findBySubmitterlocation(string $submitterLocation) Return Point objects filtered by the submitterLocation column
- * @method array findBySentiment(string $sentiment) Return Point objects filtered by the sentiment column
+ * @method array findBySentiment(int $sentiment) Return Point objects filtered by the sentiment column
  * @method array findByIsPublished(boolean $is_published) Return Point objects filtered by the is_published column
  * @method array findByProjectid(int $projectId) Return Point objects filtered by the projectId column
  */
@@ -475,24 +475,37 @@ abstract class BasePointQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterBySentiment('fooValue');   // WHERE sentiment = 'fooValue'
-     * $query->filterBySentiment('%fooValue%'); // WHERE sentiment LIKE '%fooValue%'
+     * $query->filterBySentiment(1234); // WHERE sentiment = 1234
+     * $query->filterBySentiment(array(12, 34)); // WHERE sentiment IN (12, 34)
+     * $query->filterBySentiment(array('min' => 12)); // WHERE sentiment >= 12
+     * $query->filterBySentiment(array('max' => 12)); // WHERE sentiment <= 12
      * </code>
      *
-     * @param     string $sentiment The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     mixed $sentiment The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return PointQuery The current query, for fluid interface
      */
     public function filterBySentiment($sentiment = null, $comparison = null)
     {
-        if (null === $comparison) {
-            if (is_array($sentiment)) {
+        if (is_array($sentiment)) {
+            $useMinMax = false;
+            if (isset($sentiment['min'])) {
+                $this->addUsingAlias(PointPeer::SENTIMENT, $sentiment['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($sentiment['max'])) {
+                $this->addUsingAlias(PointPeer::SENTIMENT, $sentiment['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $sentiment)) {
-                $sentiment = str_replace('*', '%', $sentiment);
-                $comparison = Criteria::LIKE;
             }
         }
 

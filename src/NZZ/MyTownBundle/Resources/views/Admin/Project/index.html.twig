@@ -10,9 +10,9 @@
              </tr>
              {% for project in projects %}
                  <tr>
-                     <td> {{ project.id }}</td>
-                     <td> {{ project.name|default('') }}</td>
-                     <td> <a href="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': project.id }) }}">{{ project.shortname|default('') }}</a></td>
+                     <td> <a href="{{ path('nzz_my_town_admin_points_dashboard', {'projectId': project.id }) }}">{{ project.id }}</a></td>
+                     <td> {{ project.title|default('') }}</td>
+                     <td> {{ project.description|default('') }}</td>
                      <td> {{ project.centerLatitude|default('') }}</td>
                      <td> {{ project.centerLongitude|default('') }}</td>
                      <td> {{ project.defaultZoom|default('') }}</td>

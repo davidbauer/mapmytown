@@ -35,8 +35,8 @@ class AdminProjectController extends Controller
         }
         $project = new Project();
         $form = $this->createFormBuilder($project)
-            ->add('name', 'text', array('required' => true))
-            ->add('shortname','text', array('required' => true))
+            ->add('title', 'text', array('required' => true))
+            ->add('description','text', array('required' => true))
             ->add('centerlatitude','text', array('required' => true))
             ->add('centerlatitude', 'text', array('required' => true))
             ->add('centerlongitude', 'text', array('required' => true))
@@ -63,8 +63,8 @@ class AdminProjectController extends Controller
         } else {
             $project  = new Project();
         }
-        $project->setName($data['name']);
-        $project->setShortname($data['shortname']);
+        $project->setTitle($data['title']);
+        $project->setDescription($data['description']);
         $project->setCenterlatitude($data['centerlatitude']);
         $project->setCenterlongitude($data['centerlongitude']);
         $project->setDefaultzoom($data['defaultzoom']);
@@ -82,8 +82,8 @@ class AdminProjectController extends Controller
         $project = ProjectQuery::create()->findOneById($projectId);
         $form = $this->createFormBuilder($project)
             ->add('id','text',array('read_only' => true))
-            ->add('name', 'text', array('required' => true))
-            ->add('shortname', 'text', array('required' => true))
+            ->add('title', 'text', array('required' => true))
+            ->add('description', 'textarea', array('required' => true))
             ->add('centerlatitude', 'text', array('required' => true))
             ->add('centerlatitude', 'text', array('required' => true))
             ->add('centerlongitude', 'text', array('required' => true))

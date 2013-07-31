@@ -76,7 +76,8 @@ abstract class BasePoint extends BaseObject implements Persistent
 
     /**
      * The value for the sentiment field.
-     * @var        string
+     * Note: this column has a database default value of: 0
+     * @var        int
      */
     protected $sentiment;
 
@@ -126,6 +127,7 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function applyDefaultValues()
     {
+        $this->sentiment = 0;
         $this->is_published = false;
     }
 
@@ -202,7 +204,7 @@ abstract class BasePoint extends BaseObject implements Persistent
     /**
      * Get the [sentiment] column value.
      *
-     * @return string
+     * @return int
      */
     public function getSentiment()
     {
@@ -358,13 +360,13 @@ abstract class BasePoint extends BaseObject implements Persistent
     /**
      * Set the value of [sentiment] column.
      *
-     * @param string $v new value
+     * @param int $v new value
      * @return Point The current object (for fluent API support)
      */
     public function setSentiment($v)
     {
         if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
+            $v = (int) $v;
         }
 
         if ($this->sentiment !== $v) {
@@ -440,6 +442,10 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->sentiment !== 0) {
+                return false;
+            }
+
             if ($this->is_published !== false) {
                 return false;
             }
@@ -472,7 +478,7 @@ abstract class BasePoint extends BaseObject implements Persistent
             $this->longitude = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
             $this->submittername = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->submitterlocation = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->sentiment = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->sentiment = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
             $this->is_published = ($row[$startcol + 7] !== null) ? (boolean) $row[$startcol + 7] : null;
             $this->projectid = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
             $this->resetModified();
@@ -768,7 +774,7 @@ abstract class BasePoint extends BaseObject implements Persistent
                         $stmt->bindValue($identifier, $this->submitterlocation, PDO::PARAM_STR);
                         break;
                     case '`sentiment`':
-                        $stmt->bindValue($identifier, $this->sentiment, PDO::PARAM_STR);
+                        $stmt->bindValue($identifier, $this->sentiment, PDO::PARAM_INT);
                         break;
                     case '`is_published`':
                         $stmt->bindValue($identifier, (int) $this->is_published, PDO::PARAM_INT);

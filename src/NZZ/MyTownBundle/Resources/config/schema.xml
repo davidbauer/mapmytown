@@ -67,7 +67,7 @@
         <column name="longitude" type="FLOAT"/>
         <column name="submitterName" type="VARCHAR" size="255"/>
         <column name="submitterLocation" type="VARCHAR" size="255"/>
-        <column name="sentiment" type="VARCHAR" size="255"/>
+        <column name="sentiment" type="INTEGER" size="1" defaultValue="0"/>
         <column name="is_published" phpName="IsPublished" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
         <column name="projectId" type="INTEGER" required="true"/>
         <foreign-key foreignTable="project">
