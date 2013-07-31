@@ -15,8 +15,6 @@
       // var template = this.compileTemplate(this.template);
       // this.$el.html(template());
 
-      // FIXME
-      this.$el.css({height: "1000px"});
       _.defer(_.bind(function(){
         this.map = L.mapbox.map(this.el, app.config.mapboxKey);
         this.map.setView(new L.LatLng(app.config.lat, app.config.lon), parseInt(app.config.zoom, 10));
