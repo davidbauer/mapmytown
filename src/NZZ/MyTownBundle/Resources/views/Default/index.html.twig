@@ -83,7 +83,7 @@
 <div class="sidebar sidebar-left">
   <section class="sidebar__introduction">
     <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
-    <a href="#" class="sidebar__btn btn btn-primary" data-toggle="collapse" data-target="#submit__comment">{{t "form.add"}}</a>
+    <a href="#" class="sidebar__btn btn btn-primary" data-toggle="collapse" data-target="#submit__comment">{{t "formAdd"}}</a>
   </section>
   <div id="submit__comment" class="collapse">
     <p class="sidebar__text">First, mark the position of the place that you would like to comment on.</p>
@@ -136,16 +136,6 @@
       <span class="comment__author">Andres Kaminski</span>
     </li>
   </ul>
-</div>
-{% endraw %}</script>
-
-<script id="template-map-view" type="text/x-handlebars-template">{% raw %}
-<div class="control-group">
-  <label for="author">Author</label>
-  <input type="text" id="author" ng-model="author" size=20 required>
-  <label for="comment">Comment</label>
-  <input type="text" id="comment" ng-model="comment" required>
-  <button class="btn btn-danger" ng-click="save()">Save</button>
 </div>
 {% endraw %}</script>
 

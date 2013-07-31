@@ -1,27 +1,45 @@
 (function () {
   "use strict";
   window.app.views.MapView = Backbone.View.extend({
-    template: 'map-view',
-
     events: {
       // Currently disabled until we have the editing mode
       // 'click': 'onMapClick'
     },
 
     initialize: function() {
-      _.bindAll(this, 'onMapClick');
+      _.bindAll(this, 'initMap', 'onMapClick', 'addPoint', 'renderPoints');
+
+      this.listenTo(this.model, 'change:points', this.renderPoints);
     },
 
     render: function() {
-      // var template = this.compileTemplate(this.template);
-      // this.$el.html(template());
-
-      _.defer(_.bind(function(){
-        this.map = L.mapbox.map(this.el, app.config.mapboxKey);
-        this.map.setView(new L.LatLng(app.config.lat, app.config.lon), parseInt(app.config.zoom, 10));
-      }, this));
-
+      _.defer(this.initMap);
       return this;
+    },
+
+    initMap: function() {
+      var mapCenter = new L.LatLng(this.model.get('latitude'), this.model.get('longitude'));
+      this.map = L.mapbox.map(this.el, app.config.mapboxKey);
+      this.map.setView(mapCenter, parseInt(this.model.get('zoom'), 10));
+
+      this.renderPoints();
+    },
+
+    renderPoints: function() {
+      var points = this.model.get('points');
+      _.each(points, this.addPoint);
+    },
+
+    addPoint: function(point) {
+      var myIcon = L.icon({
+          iconUrl: '/bundles/nzzmytown/images/nzz.png',
+          iconSize: [25, 41],
+          iconAnchor: [22, 30]
+      });
+      var latlng = new L.LatLng(point.latitude, point.longitude);
+      var marker = new L.marker(latlng, {icon: myIcon});
+
+      marker.addTo(this.map);
     },
 
     onMapClick: function(evt) {

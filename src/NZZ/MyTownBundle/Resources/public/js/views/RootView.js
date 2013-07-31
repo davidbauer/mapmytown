@@ -9,7 +9,9 @@
         title: "Title"
       }));
 
-      var mapView = new app.views.MapView();
+      var mapView = new app.views.MapView({
+        model: this.model
+      });
       this.$('#map').html(mapView.render().el);
 
       return this;

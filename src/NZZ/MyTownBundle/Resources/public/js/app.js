@@ -20,8 +20,14 @@
     },
 
     index: function () {
-      this.currentView = new app.views.RootView({el: "[data-view='root']"});
-      this.currentView.render();
+      var appModel = new app.models.AppModel();
+      appModel.fetch().done(function() {
+        var currentView = new app.views.RootView({
+          model: appModel,
+          el: "[data-view='root']"
+        });
+        currentView.render();
+      });
     }
   });
 }());
