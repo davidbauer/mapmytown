@@ -3,8 +3,7 @@
  * Styling for the comments list
  */
  .comments__section{
-  padding-left: 0;
-  padding-right: 0;
+  padding: 0;
   border: none;
  }
  .comments__list{
