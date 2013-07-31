@@ -95,6 +95,12 @@ abstract class BaseProjectData extends BaseObject implements Persistent
     protected $language;
 
     /**
+     * The value for the buttontext field.
+     * @var        string
+     */
+    protected $buttontext;
+
+    /**
      * The value for the logo_id field.
      * @var        int
      */
@@ -218,6 +224,16 @@ abstract class BaseProjectData extends BaseObject implements Persistent
     public function getLanguage()
     {
         return $this->language;
+    }
+
+    /**
+     * Get the [buttontext] column value.
+     *
+     * @return string
+     */
+    public function getButtontext()
+    {
+        return $this->buttontext;
     }
 
     /**
@@ -424,6 +440,27 @@ abstract class BaseProjectData extends BaseObject implements Persistent
     } // setLanguage()
 
     /**
+     * Set the value of [buttontext] column.
+     *
+     * @param string $v new value
+     * @return ProjectData The current object (for fluent API support)
+     */
+    public function setButtontext($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->buttontext !== $v) {
+            $this->buttontext = $v;
+            $this->modifiedColumns[] = ProjectDataPeer::BUTTONTEXT;
+        }
+
+
+        return $this;
+    } // setButtontext()
+
+    /**
      * Set the value of [logo_id] column.
      *
      * @param int $v new value
@@ -489,7 +526,8 @@ abstract class BaseProjectData extends BaseObject implements Persistent
             $this->centerlongitude = ($row[$startcol + 6] !== null) ? (double) $row[$startcol + 6] : null;
             $this->defaultzoom = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
             $this->language = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->logo_id = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
+            $this->buttontext = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->logo_id = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -498,7 +536,7 @@ abstract class BaseProjectData extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 10; // 10 = ProjectDataPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 11; // 11 = ProjectDataPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating ProjectData object", $e);
@@ -764,6 +802,9 @@ abstract class BaseProjectData extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectDataPeer::LANGUAGE)) {
             $modifiedColumns[':p' . $index++]  = '`language`';
         }
+        if ($this->isColumnModified(ProjectDataPeer::BUTTONTEXT)) {
+            $modifiedColumns[':p' . $index++]  = '`buttonText`';
+        }
         if ($this->isColumnModified(ProjectDataPeer::LOGO_ID)) {
             $modifiedColumns[':p' . $index++]  = '`logo_id`';
         }
@@ -804,6 +845,9 @@ abstract class BaseProjectData extends BaseObject implements Persistent
                         break;
                     case '`language`':
                         $stmt->bindValue($identifier, $this->language, PDO::PARAM_STR);
+                        break;
+                    case '`buttonText`':
+                        $stmt->bindValue($identifier, $this->buttontext, PDO::PARAM_STR);
                         break;
                     case '`logo_id`':
                         $stmt->bindValue($identifier, $this->logo_id, PDO::PARAM_INT);
@@ -988,6 +1032,9 @@ abstract class BaseProjectData extends BaseObject implements Persistent
                 return $this->getLanguage();
                 break;
             case 9:
+                return $this->getButtontext();
+                break;
+            case 10:
                 return $this->getlogoId();
                 break;
             default:
@@ -1028,7 +1075,8 @@ abstract class BaseProjectData extends BaseObject implements Persistent
             $keys[6] => $this->getCenterlongitude(),
             $keys[7] => $this->getDefaultzoom(),
             $keys[8] => $this->getLanguage(),
-            $keys[9] => $this->getlogoId(),
+            $keys[9] => $this->getButtontext(),
+            $keys[10] => $this->getlogoId(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aProject) {
@@ -1099,6 +1147,9 @@ abstract class BaseProjectData extends BaseObject implements Persistent
                 $this->setLanguage($value);
                 break;
             case 9:
+                $this->setButtontext($value);
+                break;
+            case 10:
                 $this->setlogoId($value);
                 break;
         } // switch()
@@ -1134,7 +1185,8 @@ abstract class BaseProjectData extends BaseObject implements Persistent
         if (array_key_exists($keys[6], $arr)) $this->setCenterlongitude($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setDefaultzoom($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setLanguage($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setlogoId($arr[$keys[9]]);
+        if (array_key_exists($keys[9], $arr)) $this->setButtontext($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setlogoId($arr[$keys[10]]);
     }
 
     /**
@@ -1155,6 +1207,7 @@ abstract class BaseProjectData extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectDataPeer::CENTERLONGITUDE)) $criteria->add(ProjectDataPeer::CENTERLONGITUDE, $this->centerlongitude);
         if ($this->isColumnModified(ProjectDataPeer::DEFAULTZOOM)) $criteria->add(ProjectDataPeer::DEFAULTZOOM, $this->defaultzoom);
         if ($this->isColumnModified(ProjectDataPeer::LANGUAGE)) $criteria->add(ProjectDataPeer::LANGUAGE, $this->language);
+        if ($this->isColumnModified(ProjectDataPeer::BUTTONTEXT)) $criteria->add(ProjectDataPeer::BUTTONTEXT, $this->buttontext);
         if ($this->isColumnModified(ProjectDataPeer::LOGO_ID)) $criteria->add(ProjectDataPeer::LOGO_ID, $this->logo_id);
 
         return $criteria;
@@ -1227,6 +1280,7 @@ abstract class BaseProjectData extends BaseObject implements Persistent
         $copyObj->setCenterlongitude($this->getCenterlongitude());
         $copyObj->setDefaultzoom($this->getDefaultzoom());
         $copyObj->setLanguage($this->getLanguage());
+        $copyObj->setButtontext($this->getButtontext());
         $copyObj->setlogoId($this->getlogoId());
 
         if ($deepCopy && !$this->startCopy) {
@@ -1404,6 +1458,7 @@ abstract class BaseProjectData extends BaseObject implements Persistent
         $this->centerlongitude = null;
         $this->defaultzoom = null;
         $this->language = null;
+        $this->buttontext = null;
         $this->logo_id = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;

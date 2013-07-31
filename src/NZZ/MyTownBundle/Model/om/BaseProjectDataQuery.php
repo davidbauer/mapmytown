@@ -28,6 +28,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method ProjectDataQuery orderByCenterlongitude($order = Criteria::ASC) Order by the centerLongitude column
  * @method ProjectDataQuery orderByDefaultzoom($order = Criteria::ASC) Order by the defaultZoom column
  * @method ProjectDataQuery orderByLanguage($order = Criteria::ASC) Order by the language column
+ * @method ProjectDataQuery orderByButtontext($order = Criteria::ASC) Order by the buttonText column
  * @method ProjectDataQuery orderBylogoId($order = Criteria::ASC) Order by the logo_id column
  *
  * @method ProjectDataQuery groupById() Group by the id column
@@ -39,6 +40,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method ProjectDataQuery groupByCenterlongitude() Group by the centerLongitude column
  * @method ProjectDataQuery groupByDefaultzoom() Group by the defaultZoom column
  * @method ProjectDataQuery groupByLanguage() Group by the language column
+ * @method ProjectDataQuery groupByButtontext() Group by the buttonText column
  * @method ProjectDataQuery groupBylogoId() Group by the logo_id column
  *
  * @method ProjectDataQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -64,6 +66,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method ProjectData findOneByCenterlongitude(double $centerLongitude) Return the first ProjectData filtered by the centerLongitude column
  * @method ProjectData findOneByDefaultzoom(int $defaultZoom) Return the first ProjectData filtered by the defaultZoom column
  * @method ProjectData findOneByLanguage(string $language) Return the first ProjectData filtered by the language column
+ * @method ProjectData findOneByButtontext(string $buttonText) Return the first ProjectData filtered by the buttonText column
  * @method ProjectData findOneBylogoId(int $logo_id) Return the first ProjectData filtered by the logo_id column
  *
  * @method array findById(int $id) Return ProjectData objects filtered by the id column
@@ -75,6 +78,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
  * @method array findByCenterlongitude(double $centerLongitude) Return ProjectData objects filtered by the centerLongitude column
  * @method array findByDefaultzoom(int $defaultZoom) Return ProjectData objects filtered by the defaultZoom column
  * @method array findByLanguage(string $language) Return ProjectData objects filtered by the language column
+ * @method array findByButtontext(string $buttonText) Return ProjectData objects filtered by the buttonText column
  * @method array findBylogoId(int $logo_id) Return ProjectData objects filtered by the logo_id column
  */
 abstract class BaseProjectDataQuery extends ModelCriteria
@@ -177,7 +181,7 @@ abstract class BaseProjectDataQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `project_id`, `title`, `description`, `info`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language`, `logo_id` FROM `project_data` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `project_id`, `title`, `description`, `info`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language`, `buttonText`, `logo_id` FROM `project_data` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -592,6 +596,35 @@ abstract class BaseProjectDataQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProjectDataPeer::LANGUAGE, $language, $comparison);
+    }
+
+    /**
+     * Filter the query on the buttonText column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByButtontext('fooValue');   // WHERE buttonText = 'fooValue'
+     * $query->filterByButtontext('%fooValue%'); // WHERE buttonText LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $buttontext The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProjectDataQuery The current query, for fluid interface
+     */
+    public function filterByButtontext($buttontext = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($buttontext)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $buttontext)) {
+                $buttontext = str_replace('*', '%', $buttontext);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProjectDataPeer::BUTTONTEXT, $buttontext, $comparison);
     }
 
     /**
