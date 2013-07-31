@@ -18,6 +18,10 @@
    position: relative; 
    float: left;
    display: block;
+   margin-right: 7px;
+ }
+ .branding__item__last{
+  margin-right: 0;
  }
  .branding__item img{
    margin: 0;

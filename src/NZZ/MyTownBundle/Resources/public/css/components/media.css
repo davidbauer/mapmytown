@@ -3,6 +3,25 @@
   .span-sidebar-left{
     margin-left: 0;
   }
+  .header__heading{
+    font-size: 20px;
+    line-height: 24px;
+  }
+  .header .sidebar__text{
+    font-size: 16px;
+    line-height: 24px;
+  }
+  a.btn-primary,
+  .btn-primary{
+    font-size: 16px;
+    line-height: 24px;
+  }
+  a.btn-secondary,
+  .btn-secondary{
+    font-size: 16px;
+    line-height: 24px;
+  }
+
   .footer {
     width: 100%;
     -webkit-box-shadow:  0px -2.5px 0px 2.5px rgba(0, 0, 0, 0.2);
@@ -38,5 +57,4 @@
  
 /* Landscape phones and down */
 @media (max-width: 480px) { 
-  
 }

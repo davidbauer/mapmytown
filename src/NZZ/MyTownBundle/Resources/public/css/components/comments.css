@@ -2,6 +2,11 @@
  * COMMENTS
  * Styling for the comments list
  */
+ .comments__section{
+  padding-left: 0;
+  padding-right: 0;
+  border: none;
+ }
  .comments__list{
   list-style: none;
   /* Height of the header and height of the footer*/
@@ -10,6 +15,7 @@
 }
 .comments__list li.selected{
     color: #fff;
+    background: #999;
     border: none;
 }
 .comments__list li.positive{
@@ -20,7 +26,7 @@
 }
 .comments__item{
   border-bottom: 1px solid #E6E5DC;
-  padding: 10px 0;
+  padding: 10px 20px;
 }
 .comment__title{
   font-size: 16px;
