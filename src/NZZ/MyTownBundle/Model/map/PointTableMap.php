@@ -43,14 +43,15 @@ class PointTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('title', 'Title', 'VARCHAR', false, 255, null);
         $this->addColumn('description', 'Description', 'VARCHAR', false, 255, null);
         $this->addColumn('latitude', 'Latitude', 'FLOAT', false, null, null);
         $this->addColumn('longitude', 'Longitude', 'FLOAT', false, null, null);
-        $this->addColumn('submitterName', 'Submittername', 'VARCHAR', false, 255, null);
-        $this->addColumn('submitterLocation', 'Submitterlocation', 'VARCHAR', false, 255, null);
+        $this->addColumn('author_name', 'AuthorName', 'VARCHAR', false, 255, null);
+        $this->addColumn('author_location', 'AuthorLocation', 'VARCHAR', false, 255, null);
         $this->addColumn('sentiment', 'Sentiment', 'INTEGER', false, 1, 0);
         $this->addColumn('is_published', 'IsPublished', 'BOOLEAN', true, 1, false);
-        $this->addForeignKey('projectId', 'Projectid', 'INTEGER', 'project', 'id', true, null, null);
+        $this->addForeignKey('project_id', 'ProjectId', 'INTEGER', 'project', 'id', true, null, null);
         // validators
     } // initialize()
 
@@ -59,7 +60,7 @@ class PointTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Project', 'NZZ\\MyTownBundle\\Model\\Project', RelationMap::MANY_TO_ONE, array('projectId' => 'id', ), null, null);
+        $this->addRelation('Project', 'NZZ\\MyTownBundle\\Model\\Project', RelationMap::MANY_TO_ONE, array('project_id' => 'id', ), null, null);
     } // buildRelations()
 
     /**
