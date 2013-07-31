@@ -45,6 +45,7 @@ class ProjectTableMap extends TableMap
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('slug', 'Slug', 'VARCHAR', false, 10, null);
         $this->addColumn('defaultZoom', 'Defaultzoom', 'INTEGER', false, null, null);
+        $this->addColumn('defaultLanguage', 'Defaultlanguage', 'VARCHAR', true, 2, null);
         // validators
     } // initialize()
 
