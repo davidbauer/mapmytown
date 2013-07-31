@@ -16,6 +16,8 @@ use \PropelPDO;
 use NZZ\MyTownBundle\Model\Point;
 use NZZ\MyTownBundle\Model\PointQuery;
 use NZZ\MyTownBundle\Model\Project;
+use NZZ\MyTownBundle\Model\ProjectData;
+use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\ProjectLogo;
 use NZZ\MyTownBundle\Model\ProjectLogoQuery;
 use NZZ\MyTownBundle\Model\ProjectPeer;
@@ -49,34 +51,10 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected $id;
 
     /**
-     * The value for the shortname field.
+     * The value for the slug field.
      * @var        string
      */
-    protected $shortname;
-
-    /**
-     * The value for the title field.
-     * @var        string
-     */
-    protected $title;
-
-    /**
-     * The value for the description field.
-     * @var        string
-     */
-    protected $description;
-
-    /**
-     * The value for the centerlatitude field.
-     * @var        double
-     */
-    protected $centerlatitude;
-
-    /**
-     * The value for the centerlongitude field.
-     * @var        double
-     */
-    protected $centerlongitude;
+    protected $slug;
 
     /**
      * The value for the defaultzoom field.
@@ -85,10 +63,10 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected $defaultzoom;
 
     /**
-     * The value for the language field.
-     * @var        string
+     * @var        PropelObjectCollection|ProjectData[] Collection to store aggregation of ProjectData objects.
      */
-    protected $language;
+    protected $collProjectDatas;
+    protected $collProjectDatasPartial;
 
     /**
      * @var        PropelObjectCollection|ProjectLogo[] Collection to store aggregation of ProjectLogo objects.
@@ -126,6 +104,12 @@ abstract class BaseProject extends BaseObject implements Persistent
      * An array of objects scheduled for deletion.
      * @var        PropelObjectCollection
      */
+    protected $projectDatasScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var        PropelObjectCollection
+     */
     protected $projectLogosScheduledForDeletion = null;
 
     /**
@@ -145,53 +129,13 @@ abstract class BaseProject extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [shortname] column value.
+     * Get the [slug] column value.
      *
      * @return string
      */
-    public function getShortname()
+    public function getSlug()
     {
-        return $this->shortname;
-    }
-
-    /**
-     * Get the [title] column value.
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Get the [description] column value.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Get the [centerlatitude] column value.
-     *
-     * @return double
-     */
-    public function getCenterlatitude()
-    {
-        return $this->centerlatitude;
-    }
-
-    /**
-     * Get the [centerlongitude] column value.
-     *
-     * @return double
-     */
-    public function getCenterlongitude()
-    {
-        return $this->centerlongitude;
+        return $this->slug;
     }
 
     /**
@@ -202,16 +146,6 @@ abstract class BaseProject extends BaseObject implements Persistent
     public function getDefaultzoom()
     {
         return $this->defaultzoom;
-    }
-
-    /**
-     * Get the [language] column value.
-     *
-     * @return string
-     */
-    public function getLanguage()
-    {
-        return $this->language;
     }
 
     /**
@@ -236,109 +170,25 @@ abstract class BaseProject extends BaseObject implements Persistent
     } // setId()
 
     /**
-     * Set the value of [shortname] column.
+     * Set the value of [slug] column.
      *
      * @param string $v new value
      * @return Project The current object (for fluent API support)
      */
-    public function setShortname($v)
+    public function setSlug($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (string) $v;
         }
 
-        if ($this->shortname !== $v) {
-            $this->shortname = $v;
-            $this->modifiedColumns[] = ProjectPeer::SHORTNAME;
+        if ($this->slug !== $v) {
+            $this->slug = $v;
+            $this->modifiedColumns[] = ProjectPeer::SLUG;
         }
 
 
         return $this;
-    } // setShortname()
-
-    /**
-     * Set the value of [title] column.
-     *
-     * @param string $v new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setTitle($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->title !== $v) {
-            $this->title = $v;
-            $this->modifiedColumns[] = ProjectPeer::TITLE;
-        }
-
-
-        return $this;
-    } // setTitle()
-
-    /**
-     * Set the value of [description] column.
-     *
-     * @param string $v new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setDescription($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[] = ProjectPeer::DESCRIPTION;
-        }
-
-
-        return $this;
-    } // setDescription()
-
-    /**
-     * Set the value of [centerlatitude] column.
-     *
-     * @param double $v new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setCenterlatitude($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (double) $v;
-        }
-
-        if ($this->centerlatitude !== $v) {
-            $this->centerlatitude = $v;
-            $this->modifiedColumns[] = ProjectPeer::CENTERLATITUDE;
-        }
-
-
-        return $this;
-    } // setCenterlatitude()
-
-    /**
-     * Set the value of [centerlongitude] column.
-     *
-     * @param double $v new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setCenterlongitude($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (double) $v;
-        }
-
-        if ($this->centerlongitude !== $v) {
-            $this->centerlongitude = $v;
-            $this->modifiedColumns[] = ProjectPeer::CENTERLONGITUDE;
-        }
-
-
-        return $this;
-    } // setCenterlongitude()
+    } // setSlug()
 
     /**
      * Set the value of [defaultzoom] column.
@@ -360,27 +210,6 @@ abstract class BaseProject extends BaseObject implements Persistent
 
         return $this;
     } // setDefaultzoom()
-
-    /**
-     * Set the value of [language] column.
-     *
-     * @param string $v new value
-     * @return Project The current object (for fluent API support)
-     */
-    public function setLanguage($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->language !== $v) {
-            $this->language = $v;
-            $this->modifiedColumns[] = ProjectPeer::LANGUAGE;
-        }
-
-
-        return $this;
-    } // setLanguage()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -415,13 +244,8 @@ abstract class BaseProject extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->shortname = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->title = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->description = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->centerlatitude = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
-            $this->centerlongitude = ($row[$startcol + 5] !== null) ? (double) $row[$startcol + 5] : null;
-            $this->defaultzoom = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
-            $this->language = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->slug = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->defaultzoom = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -430,7 +254,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 8; // 8 = ProjectPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = ProjectPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Project object", $e);
@@ -491,6 +315,8 @@ abstract class BaseProject extends BaseObject implements Persistent
         $this->hydrate($row, 0, true); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
+
+            $this->collProjectDatas = null;
 
             $this->collProjectLogos = null;
 
@@ -620,6 +446,23 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->resetModified();
             }
 
+            if ($this->projectDatasScheduledForDeletion !== null) {
+                if (!$this->projectDatasScheduledForDeletion->isEmpty()) {
+                    ProjectDataQuery::create()
+                        ->filterByPrimaryKeys($this->projectDatasScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->projectDatasScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collProjectDatas !== null) {
+                foreach ($this->collProjectDatas as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             if ($this->projectLogosScheduledForDeletion !== null) {
                 if (!$this->projectLogosScheduledForDeletion->isEmpty()) {
                     ProjectLogoQuery::create()
@@ -683,26 +526,11 @@ abstract class BaseProject extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(ProjectPeer::SHORTNAME)) {
-            $modifiedColumns[':p' . $index++]  = '`shortname`';
-        }
-        if ($this->isColumnModified(ProjectPeer::TITLE)) {
-            $modifiedColumns[':p' . $index++]  = '`title`';
-        }
-        if ($this->isColumnModified(ProjectPeer::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = '`description`';
-        }
-        if ($this->isColumnModified(ProjectPeer::CENTERLATITUDE)) {
-            $modifiedColumns[':p' . $index++]  = '`centerLatitude`';
-        }
-        if ($this->isColumnModified(ProjectPeer::CENTERLONGITUDE)) {
-            $modifiedColumns[':p' . $index++]  = '`centerLongitude`';
+        if ($this->isColumnModified(ProjectPeer::SLUG)) {
+            $modifiedColumns[':p' . $index++]  = '`slug`';
         }
         if ($this->isColumnModified(ProjectPeer::DEFAULTZOOM)) {
             $modifiedColumns[':p' . $index++]  = '`defaultZoom`';
-        }
-        if ($this->isColumnModified(ProjectPeer::LANGUAGE)) {
-            $modifiedColumns[':p' . $index++]  = '`language`';
         }
 
         $sql = sprintf(
@@ -718,26 +546,11 @@ abstract class BaseProject extends BaseObject implements Persistent
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`shortname`':
-                        $stmt->bindValue($identifier, $this->shortname, PDO::PARAM_STR);
-                        break;
-                    case '`title`':
-                        $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
-                        break;
-                    case '`description`':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
-                        break;
-                    case '`centerLatitude`':
-                        $stmt->bindValue($identifier, $this->centerlatitude, PDO::PARAM_STR);
-                        break;
-                    case '`centerLongitude`':
-                        $stmt->bindValue($identifier, $this->centerlongitude, PDO::PARAM_STR);
+                    case '`slug`':
+                        $stmt->bindValue($identifier, $this->slug, PDO::PARAM_STR);
                         break;
                     case '`defaultZoom`':
                         $stmt->bindValue($identifier, $this->defaultzoom, PDO::PARAM_INT);
-                        break;
-                    case '`language`':
-                        $stmt->bindValue($identifier, $this->language, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -838,6 +651,14 @@ abstract class BaseProject extends BaseObject implements Persistent
             }
 
 
+                if ($this->collProjectDatas !== null) {
+                    foreach ($this->collProjectDatas as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
                 if ($this->collProjectLogos !== null) {
                     foreach ($this->collProjectLogos as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -893,25 +714,10 @@ abstract class BaseProject extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getShortname();
+                return $this->getSlug();
                 break;
             case 2:
-                return $this->getTitle();
-                break;
-            case 3:
-                return $this->getDescription();
-                break;
-            case 4:
-                return $this->getCenterlatitude();
-                break;
-            case 5:
-                return $this->getCenterlongitude();
-                break;
-            case 6:
                 return $this->getDefaultzoom();
-                break;
-            case 7:
-                return $this->getLanguage();
                 break;
             default:
                 return null;
@@ -943,15 +749,13 @@ abstract class BaseProject extends BaseObject implements Persistent
         $keys = ProjectPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getShortname(),
-            $keys[2] => $this->getTitle(),
-            $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getCenterlatitude(),
-            $keys[5] => $this->getCenterlongitude(),
-            $keys[6] => $this->getDefaultzoom(),
-            $keys[7] => $this->getLanguage(),
+            $keys[1] => $this->getSlug(),
+            $keys[2] => $this->getDefaultzoom(),
         );
         if ($includeForeignObjects) {
+            if (null !== $this->collProjectDatas) {
+                $result['ProjectDatas'] = $this->collProjectDatas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collProjectLogos) {
                 $result['ProjectLogos'] = $this->collProjectLogos->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -996,25 +800,10 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setShortname($value);
+                $this->setSlug($value);
                 break;
             case 2:
-                $this->setTitle($value);
-                break;
-            case 3:
-                $this->setDescription($value);
-                break;
-            case 4:
-                $this->setCenterlatitude($value);
-                break;
-            case 5:
-                $this->setCenterlongitude($value);
-                break;
-            case 6:
                 $this->setDefaultzoom($value);
-                break;
-            case 7:
-                $this->setLanguage($value);
                 break;
         } // switch()
     }
@@ -1041,13 +830,8 @@ abstract class BaseProject extends BaseObject implements Persistent
         $keys = ProjectPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setShortname($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setDescription($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setCenterlatitude($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setCenterlongitude($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setDefaultzoom($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setLanguage($arr[$keys[7]]);
+        if (array_key_exists($keys[1], $arr)) $this->setSlug($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setDefaultzoom($arr[$keys[2]]);
     }
 
     /**
@@ -1060,13 +844,8 @@ abstract class BaseProject extends BaseObject implements Persistent
         $criteria = new Criteria(ProjectPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(ProjectPeer::ID)) $criteria->add(ProjectPeer::ID, $this->id);
-        if ($this->isColumnModified(ProjectPeer::SHORTNAME)) $criteria->add(ProjectPeer::SHORTNAME, $this->shortname);
-        if ($this->isColumnModified(ProjectPeer::TITLE)) $criteria->add(ProjectPeer::TITLE, $this->title);
-        if ($this->isColumnModified(ProjectPeer::DESCRIPTION)) $criteria->add(ProjectPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(ProjectPeer::CENTERLATITUDE)) $criteria->add(ProjectPeer::CENTERLATITUDE, $this->centerlatitude);
-        if ($this->isColumnModified(ProjectPeer::CENTERLONGITUDE)) $criteria->add(ProjectPeer::CENTERLONGITUDE, $this->centerlongitude);
+        if ($this->isColumnModified(ProjectPeer::SLUG)) $criteria->add(ProjectPeer::SLUG, $this->slug);
         if ($this->isColumnModified(ProjectPeer::DEFAULTZOOM)) $criteria->add(ProjectPeer::DEFAULTZOOM, $this->defaultzoom);
-        if ($this->isColumnModified(ProjectPeer::LANGUAGE)) $criteria->add(ProjectPeer::LANGUAGE, $this->language);
 
         return $criteria;
     }
@@ -1130,13 +909,8 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setShortname($this->getShortname());
-        $copyObj->setTitle($this->getTitle());
-        $copyObj->setDescription($this->getDescription());
-        $copyObj->setCenterlatitude($this->getCenterlatitude());
-        $copyObj->setCenterlongitude($this->getCenterlongitude());
+        $copyObj->setSlug($this->getSlug());
         $copyObj->setDefaultzoom($this->getDefaultzoom());
-        $copyObj->setLanguage($this->getLanguage());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1144,6 +918,12 @@ abstract class BaseProject extends BaseObject implements Persistent
             $copyObj->setNew(false);
             // store object hash to prevent cycle
             $this->startCopy = true;
+
+            foreach ($this->getProjectDatas() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addProjectData($relObj->copy($deepCopy));
+                }
+            }
 
             foreach ($this->getProjectLogos() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
@@ -1218,12 +998,258 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
+        if ('ProjectData' == $relationName) {
+            $this->initProjectDatas();
+        }
         if ('ProjectLogo' == $relationName) {
             $this->initProjectLogos();
         }
         if ('Point' == $relationName) {
             $this->initPoints();
         }
+    }
+
+    /**
+     * Clears out the collProjectDatas collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return Project The current object (for fluent API support)
+     * @see        addProjectDatas()
+     */
+    public function clearProjectDatas()
+    {
+        $this->collProjectDatas = null; // important to set this to null since that means it is uninitialized
+        $this->collProjectDatasPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collProjectDatas collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialProjectDatas($v = true)
+    {
+        $this->collProjectDatasPartial = $v;
+    }
+
+    /**
+     * Initializes the collProjectDatas collection.
+     *
+     * By default this just sets the collProjectDatas collection to an empty array (like clearcollProjectDatas());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initProjectDatas($overrideExisting = true)
+    {
+        if (null !== $this->collProjectDatas && !$overrideExisting) {
+            return;
+        }
+        $this->collProjectDatas = new PropelObjectCollection();
+        $this->collProjectDatas->setModel('ProjectData');
+    }
+
+    /**
+     * Gets an array of ProjectData objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this Project is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|ProjectData[] List of ProjectData objects
+     * @throws PropelException
+     */
+    public function getProjectDatas($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collProjectDatasPartial && !$this->isNew();
+        if (null === $this->collProjectDatas || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collProjectDatas) {
+                // return empty collection
+                $this->initProjectDatas();
+            } else {
+                $collProjectDatas = ProjectDataQuery::create(null, $criteria)
+                    ->filterByProject($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collProjectDatasPartial && count($collProjectDatas)) {
+                      $this->initProjectDatas(false);
+
+                      foreach($collProjectDatas as $obj) {
+                        if (false == $this->collProjectDatas->contains($obj)) {
+                          $this->collProjectDatas->append($obj);
+                        }
+                      }
+
+                      $this->collProjectDatasPartial = true;
+                    }
+
+                    $collProjectDatas->getInternalIterator()->rewind();
+                    return $collProjectDatas;
+                }
+
+                if($partial && $this->collProjectDatas) {
+                    foreach($this->collProjectDatas as $obj) {
+                        if($obj->isNew()) {
+                            $collProjectDatas[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collProjectDatas = $collProjectDatas;
+                $this->collProjectDatasPartial = false;
+            }
+        }
+
+        return $this->collProjectDatas;
+    }
+
+    /**
+     * Sets a collection of ProjectData objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $projectDatas A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return Project The current object (for fluent API support)
+     */
+    public function setProjectDatas(PropelCollection $projectDatas, PropelPDO $con = null)
+    {
+        $projectDatasToDelete = $this->getProjectDatas(new Criteria(), $con)->diff($projectDatas);
+
+        $this->projectDatasScheduledForDeletion = unserialize(serialize($projectDatasToDelete));
+
+        foreach ($projectDatasToDelete as $projectDataRemoved) {
+            $projectDataRemoved->setProject(null);
+        }
+
+        $this->collProjectDatas = null;
+        foreach ($projectDatas as $projectData) {
+            $this->addProjectData($projectData);
+        }
+
+        $this->collProjectDatas = $projectDatas;
+        $this->collProjectDatasPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related ProjectData objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related ProjectData objects.
+     * @throws PropelException
+     */
+    public function countProjectDatas(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collProjectDatasPartial && !$this->isNew();
+        if (null === $this->collProjectDatas || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collProjectDatas) {
+                return 0;
+            }
+
+            if($partial && !$criteria) {
+                return count($this->getProjectDatas());
+            }
+            $query = ProjectDataQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByProject($this)
+                ->count($con);
+        }
+
+        return count($this->collProjectDatas);
+    }
+
+    /**
+     * Method called to associate a ProjectData object to this object
+     * through the ProjectData foreign key attribute.
+     *
+     * @param    ProjectData $l ProjectData
+     * @return Project The current object (for fluent API support)
+     */
+    public function addProjectData(ProjectData $l)
+    {
+        if ($this->collProjectDatas === null) {
+            $this->initProjectDatas();
+            $this->collProjectDatasPartial = true;
+        }
+        if (!in_array($l, $this->collProjectDatas->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddProjectData($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param    ProjectData $projectData The projectData object to add.
+     */
+    protected function doAddProjectData($projectData)
+    {
+        $this->collProjectDatas[]= $projectData;
+        $projectData->setProject($this);
+    }
+
+    /**
+     * @param    ProjectData $projectData The projectData object to remove.
+     * @return Project The current object (for fluent API support)
+     */
+    public function removeProjectData($projectData)
+    {
+        if ($this->getProjectDatas()->contains($projectData)) {
+            $this->collProjectDatas->remove($this->collProjectDatas->search($projectData));
+            if (null === $this->projectDatasScheduledForDeletion) {
+                $this->projectDatasScheduledForDeletion = clone $this->collProjectDatas;
+                $this->projectDatasScheduledForDeletion->clear();
+            }
+            $this->projectDatasScheduledForDeletion[]= clone $projectData;
+            $projectData->setProject(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Project is new, it will return
+     * an empty collection; or if this Project has previously
+     * been saved, it will retrieve related ProjectDatas from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Project.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|ProjectData[] List of ProjectData objects
+     */
+    public function getProjectDatasJoinLogo($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = ProjectDataQuery::create(null, $criteria);
+        $query->joinWith('Logo', $join_behavior);
+
+        return $this->getProjectDatas($query, $con);
     }
 
     /**
@@ -1693,13 +1719,8 @@ abstract class BaseProject extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
-        $this->shortname = null;
-        $this->title = null;
-        $this->description = null;
-        $this->centerlatitude = null;
-        $this->centerlongitude = null;
+        $this->slug = null;
         $this->defaultzoom = null;
-        $this->language = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1722,6 +1743,11 @@ abstract class BaseProject extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
+            if ($this->collProjectDatas) {
+                foreach ($this->collProjectDatas as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collProjectLogos) {
                 foreach ($this->collProjectLogos as $o) {
                     $o->clearAllReferences($deep);
@@ -1736,6 +1762,10 @@ abstract class BaseProject extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
+        if ($this->collProjectDatas instanceof PropelCollection) {
+            $this->collProjectDatas->clearIterator();
+        }
+        $this->collProjectDatas = null;
         if ($this->collProjectLogos instanceof PropelCollection) {
             $this->collProjectLogos->clearIterator();
         }

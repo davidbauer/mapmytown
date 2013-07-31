@@ -15,6 +15,7 @@ use \PropelPDO;
 use NZZ\MyTownBundle\Model\Logo;
 use NZZ\MyTownBundle\Model\LogoPeer;
 use NZZ\MyTownBundle\Model\LogoQuery;
+use NZZ\MyTownBundle\Model\ProjectData;
 use NZZ\MyTownBundle\Model\ProjectLogo;
 
 /**
@@ -31,6 +32,10 @@ use NZZ\MyTownBundle\Model\ProjectLogo;
  * @method LogoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method LogoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method LogoQuery innerJoin($relation) Adds a INNER JOIN clause to the query
+ *
+ * @method LogoQuery leftJoinProjectData($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProjectData relation
+ * @method LogoQuery rightJoinProjectData($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProjectData relation
+ * @method LogoQuery innerJoinProjectData($relationAlias = null) Adds a INNER JOIN clause to the query using the ProjectData relation
  *
  * @method LogoQuery leftJoinProjectLogo($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProjectLogo relation
  * @method LogoQuery rightJoinProjectLogo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProjectLogo relation
@@ -364,6 +369,80 @@ abstract class BaseLogoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(LogoPeer::URL, $url, $comparison);
+    }
+
+    /**
+     * Filter the query by a related ProjectData object
+     *
+     * @param   ProjectData|PropelObjectCollection $projectData  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 LogoQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByProjectData($projectData, $comparison = null)
+    {
+        if ($projectData instanceof ProjectData) {
+            return $this
+                ->addUsingAlias(LogoPeer::ID, $projectData->getlogoId(), $comparison);
+        } elseif ($projectData instanceof PropelObjectCollection) {
+            return $this
+                ->useProjectDataQuery()
+                ->filterByPrimaryKeys($projectData->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByProjectData() only accepts arguments of type ProjectData or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the ProjectData relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return LogoQuery The current query, for fluid interface
+     */
+    public function joinProjectData($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('ProjectData');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'ProjectData');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the ProjectData relation ProjectData object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \NZZ\MyTownBundle\Model\ProjectDataQuery A secondary query class using the current class as primary query
+     */
+    public function useProjectDataQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinProjectData($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ProjectData', '\NZZ\MyTownBundle\Model\ProjectDataQuery');
     }
 
     /**

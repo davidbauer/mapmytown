@@ -11,6 +11,7 @@ use \PropelException;
 use \PropelPDO;
 use NZZ\MyTownBundle\Model\Logo;
 use NZZ\MyTownBundle\Model\LogoPeer;
+use NZZ\MyTownBundle\Model\ProjectDataPeer;
 use NZZ\MyTownBundle\Model\ProjectLogoPeer;
 use NZZ\MyTownBundle\Model\map\LogoTableMap;
 
@@ -378,6 +379,9 @@ abstract class BaseLogoPeer
      */
     public static function clearRelatedInstancePool()
     {
+        // Invalidate objects in ProjectDataPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        ProjectDataPeer::clearInstancePool();
         // Invalidate objects in ProjectLogoPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         ProjectLogoPeer::clearInstancePool();
