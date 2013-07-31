@@ -80,7 +80,7 @@ class ApiController extends Controller
 
         try {
             $point->save();
-        } catch (Exception $e) {
+        } catch (\PropelException $e) {
             return new Response('Exception while saving data', 500);
         }
 
