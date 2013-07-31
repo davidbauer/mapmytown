@@ -17,6 +17,10 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new NZZ\MyTownBundle\NZZMyTownBundle(),
             new Propel\PropelBundle\PropelBundle(),
+            new Admingenerator\GeneratorBundle\AdmingeneratorGeneratorBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new WhiteOctober\PagerfantaBundle\WhiteOctoberPagerfantaBundle(),
+            new NZZ\AdminMyTownBundle\NZZAdminMyTownBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
