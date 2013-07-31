@@ -4,7 +4,8 @@
     template: 'map-view',
 
     events: {
-      'click': 'onMapClick'
+      // Currently disabled until we have the editing mode
+      // 'click': 'onMapClick'
     },
 
     initialize: function() {
@@ -24,27 +25,23 @@
     },
 
     onMapClick: function(evt) {
-      // var w, s = document.createElement('div'),
-      //     c = evt.latlng;
-      // var myIcon = L.icon({
-      //     iconUrl: '/bundles/nzzmytown/images/' + app.config.project +'.png',
-      //     iconSize: [25, 41],
-      //     iconAnchor: [22, 30],
-      //     popupAnchor: [-3, -20],
-      //     shadowSize: [68, 95],
-      //     shadowAnchor: [22, 94]
-      // });
+      var latlng = this.map.mouseEventToLatLng(evt);
 
-      // var marker = new L.marker(evt.latlng, {riseOnHover: true, icon: myIcon});
+      var myIcon = L.icon({
+          iconUrl: '/bundles/nzzmytown/images/nzz.png',
+          iconSize: [25, 41],
+          iconAnchor: [22, 30],
+          popupAnchor: [-3, -20],
+          shadowSize: [68, 95],
+          shadowAnchor: [22, 94]
+      });
 
-      // // $compile(tmpl)($scope, function (clonedElement) {
-      // //     $(s).append(clonedElement);
-      // //     $scope.marker = marker;
-      // //     $scope.latlng = c;
-      // //     marker.bindPopup(s);
-      // // });
+      var marker = new L.marker(latlng, {
+        icon: myIcon,
+        riseOnHover: true
+      });
 
-      // marker.addTo(this.map).remove(marker);
+      marker.addTo(this.map);
     }
   });
 }());
