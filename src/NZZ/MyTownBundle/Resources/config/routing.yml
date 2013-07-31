@@ -47,19 +47,19 @@ nzz_my_town_admin_points_remove:
 
 
 nzz_my_town_api_save:
-    pattern:  /{projectShortname}/{lang}
+    pattern:  /{projectSlug}/{lang}
     defaults: { _controller: NZZMyTownBundle:Api:save }
     requirements:
         lang: '\w{2}'
-        projectShortname: '[^/]*'
+        projectSlug: '[^/]*'
         _method: POST
 
 nzz_my_town_api_points:
-    pattern:  /{projectShortname}/{lang}
+    pattern:  /{projectSlug}/{lang}
     defaults: { _controller: NZZMyTownBundle:Api:index }
     requirements:
         lang: '\w{2}'
-        projectShortname: '[^/]*'
+        projectSlug: '[^/]*'
         _method: GET
 
 nzz_my_town_api_get_all:
@@ -72,5 +72,5 @@ nzz_my_town_homepage:
     defaults: { _controller: NZZMyTownBundle:Default:index }
     requirements:
         lang: '\w{2}'
-        projectShortname: '[^/]*'
+        projectSlug: '[^/]*'
         _method: GET
