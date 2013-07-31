@@ -43,6 +43,7 @@ class ProjectTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
+        $this->addColumn('shortname', 'Shortname', 'VARCHAR', false, 10, null);
         $this->addColumn('title', 'Title', 'VARCHAR', true, 255, null);
         $this->addColumn('description', 'Description', 'LONGVARCHAR', false, null, null);
         $this->addColumn('centerLatitude', 'Centerlatitude', 'FLOAT', false, null, null);

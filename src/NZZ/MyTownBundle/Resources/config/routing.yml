@@ -6,16 +6,9 @@ login_check:
 logout:
     pattern:   /logout
 
-
 nzz_my_town_homepage:
-    pattern:  /{projectShortname}/{lang}
+    pattern:  /{project}/{lang}/{zoom}
     defaults: { _controller: NZZMyTownBundle:Default:index }
-    requirements:
-        lang: '\w{2}'
-        projectShortname: '[^/]*'
-        _method: GET
-
-
 
 #project admin actions
 nzz_my_town_admin_dashboard:
@@ -57,9 +50,6 @@ nzz_my_town_admin_points_remove:
     defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:remove }
 
 
-
-
-
 nzz_my_town_api_save:
     pattern:  /{projectShortname}/{lang}
     defaults: { _controller: NZZMyTownBundle:Api:save }
@@ -67,6 +57,14 @@ nzz_my_town_api_save:
         lang: '\w{2}'
         projectShortname: '[^/]*'
         _method: POST
+
+nzz_my_town_api_points:
+    pattern:  /{projectShortname}/{lang}
+    defaults: { _controller: NZZMyTownBundle:Api:index }
+    requirements:
+        lang: '\w{2}'
+        projectShortname: '[^/]*'
+        _method: GET
 
 nzz_my_town_api_get_all:
     pattern:  /{project}/getAll
