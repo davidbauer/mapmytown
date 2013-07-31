@@ -57,16 +57,16 @@ class AdminProjectController extends Controller
         }
         $data = $this->getRequest()->get('form');
 
-        if (!empty($data['id'])) {
+        if (!empty($data['title'])) {
             $this->saveProjectData($data);
         } else {
-            $project  = new Project();
-            $project->setSlug($data['slug']);
-            $project->setDefaultzoom($data['defaultzoom']);
-            $project->setDefaultlanguage($data['defaultlanguage']);
+                $project  = new Project();
+                $project->setSlug($data['slug']);
+                $project->setDefaultzoom($data['defaultzoom']);
+                $project->setDefaultlanguage($data['defaultlanguage']);
 
-            $project->save();
-        }
+                $project->save();
+            }
 
         return $this->redirect($this->generateUrl('nzz_my_town_admin_dashboard'));
     }
@@ -78,7 +78,10 @@ class AdminProjectController extends Controller
             ->filterByprojectId($data['projectId'])
             ->filterByLanguage($data['language'])
             ->findOne();
-
+        if (empty($projectData)) {
+            $projectData = new ProjectData();
+            $projectData->setprojectId($data['projectId'])->setLanguage($data['projectId']);
+        }
         if ($projectData) {
             $projectData->setTitle($data['title']);
             $projectData->setDescription($data['description']);
