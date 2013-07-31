@@ -1,8 +1,7 @@
 {% extends "NZZMyTownBundle::layout.html.twig" %}
 {% block body %}
     {% set target = app.request.server.get('HTTP_REFERER') %}
-    <div id="container">
-        <div class="span2"></div>
+    <div class="container alert">
         <div class="span10" style="margin: 0 auto;">
             {% if error %}
                 <div class="warning">
