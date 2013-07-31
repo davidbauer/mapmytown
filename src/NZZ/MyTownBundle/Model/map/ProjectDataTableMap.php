@@ -51,6 +51,7 @@ class ProjectDataTableMap extends TableMap
         $this->addColumn('centerLongitude', 'Centerlongitude', 'FLOAT', false, null, null);
         $this->addColumn('defaultZoom', 'Defaultzoom', 'INTEGER', false, null, null);
         $this->addColumn('language', 'Language', 'VARCHAR', true, 2, null);
+        $this->addColumn('buttonText', 'Buttontext', 'VARCHAR', true, 255, null);
         $this->addForeignKey('logo_id', 'logoId', 'INTEGER', 'logo', 'id', false, null, null);
         // validators
     } // initialize()

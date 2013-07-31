@@ -89,6 +89,7 @@ class AdminProjectController extends Controller
             $projectData->setCenterlongitude($data['centerlongitude']);
             $projectData->setCenterlatitude($data['centerlatitude']);
             $projectData->setDefaultzoom($data['defaultzoom']);
+            $projectData->setButtontext($data['buttontext']);
             $projectData->setLanguage($data['language']);
             $projectData->save();
         }
@@ -124,6 +125,7 @@ class AdminProjectController extends Controller
             ->add('title', 'text', array('required' => true, 'data' => $projectData->getTitle()))
             ->add('description', 'textarea', array('required' => true, 'data' => $projectData->getDescription()))
             ->add('info', 'textarea', array('required' => false, 'data' => $projectData->getInfo()))
+            ->add('buttontext', 'text', array('required' => false, 'data' => $projectData->getButtontext()))
             ->add('centerlatitude', 'text', array('required' => true, 'data' => $projectData->getCenterlatitude()))
             ->add('centerlongitude', 'text', array('required' => true, 'data' => $projectData->getCenterlongitude()))
             ->add('defaultzoom', 'text', array('required' => true, 'data' => $zoom))

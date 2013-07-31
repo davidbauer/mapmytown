@@ -36,6 +36,7 @@
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
         <column name="language" type="VARCHAR" size="2" required="true"/>
+        <column name="buttonText" type="VARCHAR" size="255" required="true"/>
         <column name="logo_id" phpName="logoId" type="INTEGER" required="false"/>
         <foreign-key foreignTable="project" name="fk1_pm_project_id" onDelete="CASCADE" onUpdate="CASCADE">
             <reference local="project_id" foreign="id"/>
