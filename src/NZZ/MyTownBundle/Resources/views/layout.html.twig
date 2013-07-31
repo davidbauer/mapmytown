@@ -1,8 +1,8 @@
 {% extends "::app_base.html.twig" %}
 {% block stylesheets %}
     {% stylesheets filter='?yui_css' output='css/*.css'
-    'bundles/nzzmytown/vendor/bootstrap/css/bootstrap.min.css'
-    'bundles/nzzmytown/vendor/bootstrap/css/bootstrap-responsive.css'
+    'bundles/nzzmytown/css/vendor/bootstrap/css/bootstrap.min.css'
+    'bundles/nzzmytown/css/vendor/bootstrap/css/bootstrap-responsive.css'
     'bundles/nzzmytown/css/base/layout.css'
     'bundles/nzzmytown/css/base/typography.css'
     'bundles/nzzmytown/css/components/entry.css'
@@ -25,11 +25,11 @@
 {% block javascripts %}
     <script src='http://api.tiles.mapbox.com/mapbox.js/v1.3.1/mapbox.js'></script>
     {% javascripts filter='?yui_js' output='js/*.js'
-          'bundles/nzzmytown/vendor/bootstrap/js/bootstrap.min.js'
-          'bundles/nzzmytown/vendor/underscore/underscore-min.js'
-          'bundles/nzzmytown/vendor/backbone/backbone.js'
-          'bundles/nzzmytown/vendor/i18next/i18next-1.6.3.min.js'
-          'bundles/nzzmytown/vendor/handlebars/handlebars.js'
+          'bundles/nzzmytown/js/vendor/bootstrap/js/bootstrap.min.js'
+          'bundles/nzzmytown/js/vendor/underscore/underscore-min.js'
+          'bundles/nzzmytown/js/vendor/backbone/backbone.js'
+          'bundles/nzzmytown/js/vendor/i18next/i18next-1.6.3.min.js'
+          'bundles/nzzmytown/js/vendor/handlebars/handlebars.js'
           'bundles/nzzmytown/js/utils/BackboneExtensions.js'
           'bundles/nzzmytown/js/utils/HandlebarsHelpers.js'
           'bundles/nzzmytown/js/ui.js'
