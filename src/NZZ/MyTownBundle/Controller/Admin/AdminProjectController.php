@@ -36,7 +36,7 @@ class AdminProjectController extends Controller
         $project = new Project();
         $form = $this->createFormBuilder($project)
             ->add('title', 'text', array('required' => true))
-            ->add('description','text', array('required' => true))
+            ->add('description','textarea', array('required' => true))
             ->add('centerlatitude','text', array('required' => true))
             ->add('centerlatitude', 'text', array('required' => true))
             ->add('centerlongitude', 'text', array('required' => true))
