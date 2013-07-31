@@ -6,4 +6,5 @@ use Admingenerated\NZZAdminMyTownBundle\BasePointController\ActionsController as
 
 class ActionsController extends BaseActionsController
 {
+
 }

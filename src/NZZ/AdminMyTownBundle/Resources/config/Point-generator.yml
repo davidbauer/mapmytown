@@ -6,7 +6,21 @@ params:
     concurrency_lock: ~
     bundle_name: AdminMyTownBundle
     pk_requirement: ~
-    fields: ~
+    fields:
+        author_name:
+          label: User
+        author_location:
+          label: Location
+        description:
+          formType: textarea
+        latitude:
+          label: Lat.
+        longitude:
+          label: Long.
+        project_slug:
+          label: Project
+          getter: getProjectSlug
+
     object_actions:
         delete: ~
     batch_actions:
@@ -14,27 +28,22 @@ params:
 builders:
     list:
         params:
-            title: List for AdminMyTownBundle
-            display: ~
+            title: Users activity in project
+            display: [ project_slug, title, description, author_name, author_location, is_published, sentiment ]
             actions:
                 new: ~
             object_actions:
                 edit: ~
                 delete: ~
+            max_per_page: 30
+            sort: [id, desc]
     filters:
         params:
-            display: ~
-    new:
-        params:
-            title: New object for AdminMyTownBundle
-            display: ~
-            actions:
-                save: ~
-                list: ~
+            display: [ title, description, author_name, author_location, is_published ]
     edit:
         params:
             title: "You're editing user's info"
-            display: ~
+            display: [title, description, author_name, author_location, is_published, sentiment ]
             actions:
                 save: ~
                 list: ~
