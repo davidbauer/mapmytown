@@ -1,3 +1,33 @@
 {
-  "formAdd": "Wissen hinzufügen"
+  "form": {
+    "title": "Was haben Sie markiert?",
+    "description": "Beschreiben Sie den markierten Punkt",
+    "sentiment": "Was teilen Sie?",
+    "sentiLabels": ["Empfehlung","Wissen","Warnung"],
+    "name": "Ihr Name",
+    "origin": "Woher kommen Sie?",
+    "add": "Eintragen",
+    "cancel": "Abbrechen"
+  },
+  
+  "thx": {
+	  "thankyou": "Danke für Ihren Eintrag.",
+	  "share": "Machen Sie andere darauf aufmerksam:",
+	  "tweet": "Mein #Stadtgeflüster: "
+  },
+  
+  "info": {
+	"linkTitle": "Nutzungsbedingungen und Informationen zu diesem Projekt",
+	"terms": "<p>Diese Karte wird von NZZ, Le Temps und TagesWoche bereitgestellt. Wir – die Redaktionen dieser drei Medien – möchten damit das Wissen von einzelnen Personen möglichst vielen zugänglich machen. Wir vertrauen auf Ihre konstruktive Mitarbeit, so dass viele gute Informationen und möglichst keine schlechten auf der Karte verzeichnet sind.</p><ul><li>Bitte tragen Sie nur Informationen ein, von denen Sie überzeugt sind, dass diese korrekt sind.</li><li>Einträge werblicher Natur sind nicht erlaubt. Gleiches gilt für solche mit justiziablem Inhalt.</li><li>Wir erlauben uns, Einträge, die unangemessen sind, zu löschen.</li>",
+	"inspiration": "Inspiriert von <a href='http://www.nytimes.com/newsgraphics/2013/06/07/bicycle-routes/' target='_blank'>«Your Biking Wisdom in 10 Words»</a> der New York Times.",
+	"credits": "Mitwirkende:<br/><a href='http://www.tageswoche.ch/' target='_blank'>TagesWoche</a> - David Bauer<br/><a href='http://letemps.ch/' target='_blank'>Le Temps - Mehdi Atmani</a><br/><a href='http://www.nzz.ch/' target='_blank'>Neue Zürcher Zeitung</a> - Volodymyr Fertak, Sylke Gruhnwald, Andres Kaminski, Oleg Slobodyan<br/><a href='http://interactivethings.com/' target='_blank'>Interactive Things</a> - Peter Gassner, Estelle Hary, Benjamin"  
+  },
+  
+  "embed": {
+	  "button": "Einbetten",
+	  "text": "Sie können diese Applikation auf Ihrer eigenen Website einbinden. Geben Sie Ihren Leserinnen und Lesern die Möglichkeit, Wissen aus ihrer Region zu ergänzen. Kopieren Sie den untenstehenden Code und fügen Sie ihn auf Ihrer Website ein. Bei Fragen wenden Sie sich an data@nzz.ch."
+  },
+  
+  "share" : "Teilen"
 }
+

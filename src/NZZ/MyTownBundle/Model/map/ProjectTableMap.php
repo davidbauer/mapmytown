@@ -56,7 +56,7 @@ class ProjectTableMap extends TableMap
     {
         $this->addRelation('ProjectData', 'NZZ\\MyTownBundle\\Model\\ProjectData', RelationMap::ONE_TO_MANY, array('id' => 'project_id', ), 'CASCADE', 'CASCADE', 'ProjectDatas');
         $this->addRelation('ProjectLogo', 'NZZ\\MyTownBundle\\Model\\ProjectLogo', RelationMap::ONE_TO_MANY, array('id' => 'project_id', ), 'CASCADE', 'CASCADE', 'ProjectLogos');
-        $this->addRelation('Point', 'NZZ\\MyTownBundle\\Model\\Point', RelationMap::ONE_TO_MANY, array('id' => 'projectId', ), null, null, 'Points');
+        $this->addRelation('Point', 'NZZ\\MyTownBundle\\Model\\Point', RelationMap::ONE_TO_MANY, array('id' => 'project_id', ), null, null, 'Points');
     } // buildRelations()
 
     /**

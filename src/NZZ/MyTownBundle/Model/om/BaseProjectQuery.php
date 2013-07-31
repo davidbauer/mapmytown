@@ -550,7 +550,7 @@ abstract class BaseProjectQuery extends ModelCriteria
     {
         if ($point instanceof Point) {
             return $this
-                ->addUsingAlias(ProjectPeer::ID, $point->getProjectid(), $comparison);
+                ->addUsingAlias(ProjectPeer::ID, $point->getProjectId(), $comparison);
         } elseif ($point instanceof PropelObjectCollection) {
             return $this
                 ->usePointQuery()

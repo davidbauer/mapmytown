@@ -36,6 +36,7 @@
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
         <column name="language" type="VARCHAR" size="2" required="true"/>
+        <column name="buttonText" type="VARCHAR" size="255" required="true"/>
         <column name="logo_id" phpName="logoId" type="INTEGER" required="false"/>
         <foreign-key foreignTable="project" name="fk1_pm_project_id" onDelete="CASCADE" onUpdate="CASCADE">
             <reference local="project_id" foreign="id"/>
@@ -98,16 +99,17 @@
             <parameter name="Collate" value="utf8_general_ci"/>
         </vendor>
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="title" type="VARCHAR" size="255"/>
         <column name="description" type="VARCHAR" size="255"/>
         <column name="latitude" type="FLOAT"/>
         <column name="longitude" type="FLOAT"/>
-        <column name="submitterName" type="VARCHAR" size="255"/>
-        <column name="submitterLocation" type="VARCHAR" size="255"/>
+        <column name="author_name" phpName="AuthorName" type="VARCHAR" size="255"/>
+        <column name="author_location" phpName="AuthorLocation" type="VARCHAR" size="255"/>
         <column name="sentiment" type="INTEGER" size="1" defaultValue="0"/>
-        <column name="is_published" phpName="IsPublished" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
-        <column name="projectId" type="INTEGER" required="true"/>
+        <column name="is_published" phpName="IsPublished" type="BOOLEAN" required="true" defaultValue="false"/>
+        <column name="project_id" phpName="ProjectId" type="INTEGER" required="true"/>
         <foreign-key foreignTable="project">
-            <reference local="projectId" foreign="id"/>
+            <reference local="project_id" foreign="id"/>
         </foreign-key>
     </table>
 </database>

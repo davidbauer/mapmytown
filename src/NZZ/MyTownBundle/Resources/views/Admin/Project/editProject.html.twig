@@ -1,4 +1,4 @@
-{% extends "NZZMyTownBundle::layout.html.twig" %}
+{% extends "NZZMyTownBundle::Admin/layout.html.twig" %}
  {% block body %}
      <div class="container">
          <form class="form" action="{{ path('nzz_my_town_admin_save_project') }}" method="post" {{ form_enctype(form) }}>
@@ -7,3 +7,16 @@
          </form>
      </div>
  {% endblock %}
+{% block javascripts %}
+{{ parent() }}
+<script type="text/javascript">
+     $('button#form_remove').click(function(){
+         var lang = $('select#form_language option:selected').val();
+         window.location ="{{ path('nzz_my_town_admin_remove_project_data', {'projectId': projectId }) }}?lang=" + lang;
+     });
+     $('select#form_language').change(function(e) {
+         var lang = $('select#form_language option:selected').val();
+         window.location ="{{ path('nzz_my_town_admin_edit_project', {'projectId': projectId }) }}?lang=" + lang;
+     });
+</script>
+{% endblock %}

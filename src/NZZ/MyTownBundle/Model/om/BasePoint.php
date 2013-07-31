@@ -45,6 +45,12 @@ abstract class BasePoint extends BaseObject implements Persistent
     protected $id;
 
     /**
+     * The value for the title field.
+     * @var        string
+     */
+    protected $title;
+
+    /**
      * The value for the description field.
      * @var        string
      */
@@ -63,16 +69,16 @@ abstract class BasePoint extends BaseObject implements Persistent
     protected $longitude;
 
     /**
-     * The value for the submittername field.
+     * The value for the author_name field.
      * @var        string
      */
-    protected $submittername;
+    protected $author_name;
 
     /**
-     * The value for the submitterlocation field.
+     * The value for the author_location field.
      * @var        string
      */
-    protected $submitterlocation;
+    protected $author_location;
 
     /**
      * The value for the sentiment field.
@@ -89,10 +95,10 @@ abstract class BasePoint extends BaseObject implements Persistent
     protected $is_published;
 
     /**
-     * The value for the projectid field.
+     * The value for the project_id field.
      * @var        int
      */
-    protected $projectid;
+    protected $project_id;
 
     /**
      * @var        Project
@@ -152,6 +158,16 @@ abstract class BasePoint extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [title] column value.
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
      * Get the [description] column value.
      *
      * @return string
@@ -182,23 +198,23 @@ abstract class BasePoint extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [submittername] column value.
+     * Get the [author_name] column value.
      *
      * @return string
      */
-    public function getSubmittername()
+    public function getAuthorName()
     {
-        return $this->submittername;
+        return $this->author_name;
     }
 
     /**
-     * Get the [submitterlocation] column value.
+     * Get the [author_location] column value.
      *
      * @return string
      */
-    public function getSubmitterlocation()
+    public function getAuthorLocation()
     {
-        return $this->submitterlocation;
+        return $this->author_location;
     }
 
     /**
@@ -222,13 +238,13 @@ abstract class BasePoint extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [projectid] column value.
+     * Get the [project_id] column value.
      *
      * @return int
      */
-    public function getProjectid()
+    public function getProjectId()
     {
-        return $this->projectid;
+        return $this->project_id;
     }
 
     /**
@@ -251,6 +267,27 @@ abstract class BasePoint extends BaseObject implements Persistent
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [title] column.
+     *
+     * @param string $v new value
+     * @return Point The current object (for fluent API support)
+     */
+    public function setTitle($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->title !== $v) {
+            $this->title = $v;
+            $this->modifiedColumns[] = PointPeer::TITLE;
+        }
+
+
+        return $this;
+    } // setTitle()
 
     /**
      * Set the value of [description] column.
@@ -316,46 +353,46 @@ abstract class BasePoint extends BaseObject implements Persistent
     } // setLongitude()
 
     /**
-     * Set the value of [submittername] column.
+     * Set the value of [author_name] column.
      *
      * @param string $v new value
      * @return Point The current object (for fluent API support)
      */
-    public function setSubmittername($v)
+    public function setAuthorName($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (string) $v;
         }
 
-        if ($this->submittername !== $v) {
-            $this->submittername = $v;
-            $this->modifiedColumns[] = PointPeer::SUBMITTERNAME;
+        if ($this->author_name !== $v) {
+            $this->author_name = $v;
+            $this->modifiedColumns[] = PointPeer::AUTHOR_NAME;
         }
 
 
         return $this;
-    } // setSubmittername()
+    } // setAuthorName()
 
     /**
-     * Set the value of [submitterlocation] column.
+     * Set the value of [author_location] column.
      *
      * @param string $v new value
      * @return Point The current object (for fluent API support)
      */
-    public function setSubmitterlocation($v)
+    public function setAuthorLocation($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (string) $v;
         }
 
-        if ($this->submitterlocation !== $v) {
-            $this->submitterlocation = $v;
-            $this->modifiedColumns[] = PointPeer::SUBMITTERLOCATION;
+        if ($this->author_location !== $v) {
+            $this->author_location = $v;
+            $this->modifiedColumns[] = PointPeer::AUTHOR_LOCATION;
         }
 
 
         return $this;
-    } // setSubmitterlocation()
+    } // setAuthorLocation()
 
     /**
      * Set the value of [sentiment] column.
@@ -408,20 +445,20 @@ abstract class BasePoint extends BaseObject implements Persistent
     } // setIsPublished()
 
     /**
-     * Set the value of [projectid] column.
+     * Set the value of [project_id] column.
      *
      * @param int $v new value
      * @return Point The current object (for fluent API support)
      */
-    public function setProjectid($v)
+    public function setProjectId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->projectid !== $v) {
-            $this->projectid = $v;
-            $this->modifiedColumns[] = PointPeer::PROJECTID;
+        if ($this->project_id !== $v) {
+            $this->project_id = $v;
+            $this->modifiedColumns[] = PointPeer::PROJECT_ID;
         }
 
         if ($this->aProject !== null && $this->aProject->getId() !== $v) {
@@ -430,7 +467,7 @@ abstract class BasePoint extends BaseObject implements Persistent
 
 
         return $this;
-    } // setProjectid()
+    } // setProjectId()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -473,14 +510,15 @@ abstract class BasePoint extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->description = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->latitude = ($row[$startcol + 2] !== null) ? (double) $row[$startcol + 2] : null;
-            $this->longitude = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
-            $this->submittername = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->submitterlocation = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->sentiment = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
-            $this->is_published = ($row[$startcol + 7] !== null) ? (boolean) $row[$startcol + 7] : null;
-            $this->projectid = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
+            $this->title = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->description = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->latitude = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
+            $this->longitude = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
+            $this->author_name = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->author_location = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->sentiment = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
+            $this->is_published = ($row[$startcol + 8] !== null) ? (boolean) $row[$startcol + 8] : null;
+            $this->project_id = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -489,7 +527,7 @@ abstract class BasePoint extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 9; // 9 = PointPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 10; // 10 = PointPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Point object", $e);
@@ -512,7 +550,7 @@ abstract class BasePoint extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aProject !== null && $this->projectid !== $this->aProject->getId()) {
+        if ($this->aProject !== null && $this->project_id !== $this->aProject->getId()) {
             $this->aProject = null;
         }
     } // ensureConsistency
@@ -720,6 +758,9 @@ abstract class BasePoint extends BaseObject implements Persistent
         if ($this->isColumnModified(PointPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
+        if ($this->isColumnModified(PointPeer::TITLE)) {
+            $modifiedColumns[':p' . $index++]  = '`title`';
+        }
         if ($this->isColumnModified(PointPeer::DESCRIPTION)) {
             $modifiedColumns[':p' . $index++]  = '`description`';
         }
@@ -729,11 +770,11 @@ abstract class BasePoint extends BaseObject implements Persistent
         if ($this->isColumnModified(PointPeer::LONGITUDE)) {
             $modifiedColumns[':p' . $index++]  = '`longitude`';
         }
-        if ($this->isColumnModified(PointPeer::SUBMITTERNAME)) {
-            $modifiedColumns[':p' . $index++]  = '`submitterName`';
+        if ($this->isColumnModified(PointPeer::AUTHOR_NAME)) {
+            $modifiedColumns[':p' . $index++]  = '`author_name`';
         }
-        if ($this->isColumnModified(PointPeer::SUBMITTERLOCATION)) {
-            $modifiedColumns[':p' . $index++]  = '`submitterLocation`';
+        if ($this->isColumnModified(PointPeer::AUTHOR_LOCATION)) {
+            $modifiedColumns[':p' . $index++]  = '`author_location`';
         }
         if ($this->isColumnModified(PointPeer::SENTIMENT)) {
             $modifiedColumns[':p' . $index++]  = '`sentiment`';
@@ -741,8 +782,8 @@ abstract class BasePoint extends BaseObject implements Persistent
         if ($this->isColumnModified(PointPeer::IS_PUBLISHED)) {
             $modifiedColumns[':p' . $index++]  = '`is_published`';
         }
-        if ($this->isColumnModified(PointPeer::PROJECTID)) {
-            $modifiedColumns[':p' . $index++]  = '`projectId`';
+        if ($this->isColumnModified(PointPeer::PROJECT_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`project_id`';
         }
 
         $sql = sprintf(
@@ -758,6 +799,9 @@ abstract class BasePoint extends BaseObject implements Persistent
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
+                    case '`title`':
+                        $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
+                        break;
                     case '`description`':
                         $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
                         break;
@@ -767,11 +811,11 @@ abstract class BasePoint extends BaseObject implements Persistent
                     case '`longitude`':
                         $stmt->bindValue($identifier, $this->longitude, PDO::PARAM_STR);
                         break;
-                    case '`submitterName`':
-                        $stmt->bindValue($identifier, $this->submittername, PDO::PARAM_STR);
+                    case '`author_name`':
+                        $stmt->bindValue($identifier, $this->author_name, PDO::PARAM_STR);
                         break;
-                    case '`submitterLocation`':
-                        $stmt->bindValue($identifier, $this->submitterlocation, PDO::PARAM_STR);
+                    case '`author_location`':
+                        $stmt->bindValue($identifier, $this->author_location, PDO::PARAM_STR);
                         break;
                     case '`sentiment`':
                         $stmt->bindValue($identifier, $this->sentiment, PDO::PARAM_INT);
@@ -779,8 +823,8 @@ abstract class BasePoint extends BaseObject implements Persistent
                     case '`is_published`':
                         $stmt->bindValue($identifier, (int) $this->is_published, PDO::PARAM_INT);
                         break;
-                    case '`projectId`':
-                        $stmt->bindValue($identifier, $this->projectid, PDO::PARAM_INT);
+                    case '`project_id`':
+                        $stmt->bindValue($identifier, $this->project_id, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -932,28 +976,31 @@ abstract class BasePoint extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getDescription();
+                return $this->getTitle();
                 break;
             case 2:
-                return $this->getLatitude();
+                return $this->getDescription();
                 break;
             case 3:
-                return $this->getLongitude();
+                return $this->getLatitude();
                 break;
             case 4:
-                return $this->getSubmittername();
+                return $this->getLongitude();
                 break;
             case 5:
-                return $this->getSubmitterlocation();
+                return $this->getAuthorName();
                 break;
             case 6:
-                return $this->getSentiment();
+                return $this->getAuthorLocation();
                 break;
             case 7:
-                return $this->getIsPublished();
+                return $this->getSentiment();
                 break;
             case 8:
-                return $this->getProjectid();
+                return $this->getIsPublished();
+                break;
+            case 9:
+                return $this->getProjectId();
                 break;
             default:
                 return null;
@@ -985,14 +1032,15 @@ abstract class BasePoint extends BaseObject implements Persistent
         $keys = PointPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getDescription(),
-            $keys[2] => $this->getLatitude(),
-            $keys[3] => $this->getLongitude(),
-            $keys[4] => $this->getSubmittername(),
-            $keys[5] => $this->getSubmitterlocation(),
-            $keys[6] => $this->getSentiment(),
-            $keys[7] => $this->getIsPublished(),
-            $keys[8] => $this->getProjectid(),
+            $keys[1] => $this->getTitle(),
+            $keys[2] => $this->getDescription(),
+            $keys[3] => $this->getLatitude(),
+            $keys[4] => $this->getLongitude(),
+            $keys[5] => $this->getAuthorName(),
+            $keys[6] => $this->getAuthorLocation(),
+            $keys[7] => $this->getSentiment(),
+            $keys[8] => $this->getIsPublished(),
+            $keys[9] => $this->getProjectId(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aProject) {
@@ -1036,28 +1084,31 @@ abstract class BasePoint extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setDescription($value);
+                $this->setTitle($value);
                 break;
             case 2:
-                $this->setLatitude($value);
+                $this->setDescription($value);
                 break;
             case 3:
-                $this->setLongitude($value);
+                $this->setLatitude($value);
                 break;
             case 4:
-                $this->setSubmittername($value);
+                $this->setLongitude($value);
                 break;
             case 5:
-                $this->setSubmitterlocation($value);
+                $this->setAuthorName($value);
                 break;
             case 6:
-                $this->setSentiment($value);
+                $this->setAuthorLocation($value);
                 break;
             case 7:
-                $this->setIsPublished($value);
+                $this->setSentiment($value);
                 break;
             case 8:
-                $this->setProjectid($value);
+                $this->setIsPublished($value);
+                break;
+            case 9:
+                $this->setProjectId($value);
                 break;
         } // switch()
     }
@@ -1084,14 +1135,15 @@ abstract class BasePoint extends BaseObject implements Persistent
         $keys = PointPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setDescription($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setLatitude($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setLongitude($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setSubmittername($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setSubmitterlocation($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setSentiment($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setIsPublished($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setProjectid($arr[$keys[8]]);
+        if (array_key_exists($keys[1], $arr)) $this->setTitle($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setDescription($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setLatitude($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setLongitude($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setAuthorName($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setAuthorLocation($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setSentiment($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setIsPublished($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setProjectId($arr[$keys[9]]);
     }
 
     /**
@@ -1104,14 +1156,15 @@ abstract class BasePoint extends BaseObject implements Persistent
         $criteria = new Criteria(PointPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(PointPeer::ID)) $criteria->add(PointPeer::ID, $this->id);
+        if ($this->isColumnModified(PointPeer::TITLE)) $criteria->add(PointPeer::TITLE, $this->title);
         if ($this->isColumnModified(PointPeer::DESCRIPTION)) $criteria->add(PointPeer::DESCRIPTION, $this->description);
         if ($this->isColumnModified(PointPeer::LATITUDE)) $criteria->add(PointPeer::LATITUDE, $this->latitude);
         if ($this->isColumnModified(PointPeer::LONGITUDE)) $criteria->add(PointPeer::LONGITUDE, $this->longitude);
-        if ($this->isColumnModified(PointPeer::SUBMITTERNAME)) $criteria->add(PointPeer::SUBMITTERNAME, $this->submittername);
-        if ($this->isColumnModified(PointPeer::SUBMITTERLOCATION)) $criteria->add(PointPeer::SUBMITTERLOCATION, $this->submitterlocation);
+        if ($this->isColumnModified(PointPeer::AUTHOR_NAME)) $criteria->add(PointPeer::AUTHOR_NAME, $this->author_name);
+        if ($this->isColumnModified(PointPeer::AUTHOR_LOCATION)) $criteria->add(PointPeer::AUTHOR_LOCATION, $this->author_location);
         if ($this->isColumnModified(PointPeer::SENTIMENT)) $criteria->add(PointPeer::SENTIMENT, $this->sentiment);
         if ($this->isColumnModified(PointPeer::IS_PUBLISHED)) $criteria->add(PointPeer::IS_PUBLISHED, $this->is_published);
-        if ($this->isColumnModified(PointPeer::PROJECTID)) $criteria->add(PointPeer::PROJECTID, $this->projectid);
+        if ($this->isColumnModified(PointPeer::PROJECT_ID)) $criteria->add(PointPeer::PROJECT_ID, $this->project_id);
 
         return $criteria;
     }
@@ -1175,14 +1228,15 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setTitle($this->getTitle());
         $copyObj->setDescription($this->getDescription());
         $copyObj->setLatitude($this->getLatitude());
         $copyObj->setLongitude($this->getLongitude());
-        $copyObj->setSubmittername($this->getSubmittername());
-        $copyObj->setSubmitterlocation($this->getSubmitterlocation());
+        $copyObj->setAuthorName($this->getAuthorName());
+        $copyObj->setAuthorLocation($this->getAuthorLocation());
         $copyObj->setSentiment($this->getSentiment());
         $copyObj->setIsPublished($this->getIsPublished());
-        $copyObj->setProjectid($this->getProjectid());
+        $copyObj->setProjectId($this->getProjectId());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1251,9 +1305,9 @@ abstract class BasePoint extends BaseObject implements Persistent
     public function setProject(Project $v = null)
     {
         if ($v === null) {
-            $this->setProjectid(NULL);
+            $this->setProjectId(NULL);
         } else {
-            $this->setProjectid($v->getId());
+            $this->setProjectId($v->getId());
         }
 
         $this->aProject = $v;
@@ -1279,8 +1333,8 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function getProject(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aProject === null && ($this->projectid !== null) && $doQuery) {
-            $this->aProject = ProjectQuery::create()->findPk($this->projectid, $con);
+        if ($this->aProject === null && ($this->project_id !== null) && $doQuery) {
+            $this->aProject = ProjectQuery::create()->findPk($this->project_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
@@ -1299,14 +1353,15 @@ abstract class BasePoint extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
+        $this->title = null;
         $this->description = null;
         $this->latitude = null;
         $this->longitude = null;
-        $this->submittername = null;
-        $this->submitterlocation = null;
+        $this->author_name = null;
+        $this->author_location = null;
         $this->sentiment = null;
         $this->is_published = null;
-        $this->projectid = null;
+        $this->project_id = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

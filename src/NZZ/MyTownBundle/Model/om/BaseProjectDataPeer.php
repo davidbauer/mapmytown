@@ -31,13 +31,13 @@ abstract class BaseProjectDataPeer
     const TM_CLASS = 'ProjectDataTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 11;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 11;
 
     /** the column name for the id field */
     const ID = 'project_data.id';
@@ -66,6 +66,9 @@ abstract class BaseProjectDataPeer
     /** the column name for the language field */
     const LANGUAGE = 'project_data.language';
 
+    /** the column name for the buttonText field */
+    const BUTTONTEXT = 'project_data.buttonText';
+
     /** the column name for the logo_id field */
     const LOGO_ID = 'project_data.logo_id';
 
@@ -88,12 +91,12 @@ abstract class BaseProjectDataPeer
      * e.g. ProjectDataPeer::$fieldNames[ProjectDataPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'projectId', 'Title', 'Description', 'Info', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', 'logoId', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'projectId', 'title', 'description', 'info', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', 'logoId', ),
-        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID, ProjectDataPeer::PROJECT_ID, ProjectDataPeer::TITLE, ProjectDataPeer::DESCRIPTION, ProjectDataPeer::INFO, ProjectDataPeer::CENTERLATITUDE, ProjectDataPeer::CENTERLONGITUDE, ProjectDataPeer::DEFAULTZOOM, ProjectDataPeer::LANGUAGE, ProjectDataPeer::LOGO_ID, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PROJECT_ID', 'TITLE', 'DESCRIPTION', 'INFO', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', 'LOGO_ID', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'project_id', 'title', 'description', 'info', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', 'logo_id', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'projectId', 'Title', 'Description', 'Info', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', 'Buttontext', 'logoId', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'projectId', 'title', 'description', 'info', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', 'buttontext', 'logoId', ),
+        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID, ProjectDataPeer::PROJECT_ID, ProjectDataPeer::TITLE, ProjectDataPeer::DESCRIPTION, ProjectDataPeer::INFO, ProjectDataPeer::CENTERLATITUDE, ProjectDataPeer::CENTERLONGITUDE, ProjectDataPeer::DEFAULTZOOM, ProjectDataPeer::LANGUAGE, ProjectDataPeer::BUTTONTEXT, ProjectDataPeer::LOGO_ID, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PROJECT_ID', 'TITLE', 'DESCRIPTION', 'INFO', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', 'BUTTONTEXT', 'LOGO_ID', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'project_id', 'title', 'description', 'info', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', 'buttonText', 'logo_id', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -103,12 +106,12 @@ abstract class BaseProjectDataPeer
      * e.g. ProjectDataPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'projectId' => 1, 'Title' => 2, 'Description' => 3, 'Info' => 4, 'Centerlatitude' => 5, 'Centerlongitude' => 6, 'Defaultzoom' => 7, 'Language' => 8, 'logoId' => 9, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'projectId' => 1, 'title' => 2, 'description' => 3, 'info' => 4, 'centerlatitude' => 5, 'centerlongitude' => 6, 'defaultzoom' => 7, 'language' => 8, 'logoId' => 9, ),
-        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID => 0, ProjectDataPeer::PROJECT_ID => 1, ProjectDataPeer::TITLE => 2, ProjectDataPeer::DESCRIPTION => 3, ProjectDataPeer::INFO => 4, ProjectDataPeer::CENTERLATITUDE => 5, ProjectDataPeer::CENTERLONGITUDE => 6, ProjectDataPeer::DEFAULTZOOM => 7, ProjectDataPeer::LANGUAGE => 8, ProjectDataPeer::LOGO_ID => 9, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PROJECT_ID' => 1, 'TITLE' => 2, 'DESCRIPTION' => 3, 'INFO' => 4, 'CENTERLATITUDE' => 5, 'CENTERLONGITUDE' => 6, 'DEFAULTZOOM' => 7, 'LANGUAGE' => 8, 'LOGO_ID' => 9, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'project_id' => 1, 'title' => 2, 'description' => 3, 'info' => 4, 'centerLatitude' => 5, 'centerLongitude' => 6, 'defaultZoom' => 7, 'language' => 8, 'logo_id' => 9, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'projectId' => 1, 'Title' => 2, 'Description' => 3, 'Info' => 4, 'Centerlatitude' => 5, 'Centerlongitude' => 6, 'Defaultzoom' => 7, 'Language' => 8, 'Buttontext' => 9, 'logoId' => 10, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'projectId' => 1, 'title' => 2, 'description' => 3, 'info' => 4, 'centerlatitude' => 5, 'centerlongitude' => 6, 'defaultzoom' => 7, 'language' => 8, 'buttontext' => 9, 'logoId' => 10, ),
+        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID => 0, ProjectDataPeer::PROJECT_ID => 1, ProjectDataPeer::TITLE => 2, ProjectDataPeer::DESCRIPTION => 3, ProjectDataPeer::INFO => 4, ProjectDataPeer::CENTERLATITUDE => 5, ProjectDataPeer::CENTERLONGITUDE => 6, ProjectDataPeer::DEFAULTZOOM => 7, ProjectDataPeer::LANGUAGE => 8, ProjectDataPeer::BUTTONTEXT => 9, ProjectDataPeer::LOGO_ID => 10, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PROJECT_ID' => 1, 'TITLE' => 2, 'DESCRIPTION' => 3, 'INFO' => 4, 'CENTERLATITUDE' => 5, 'CENTERLONGITUDE' => 6, 'DEFAULTZOOM' => 7, 'LANGUAGE' => 8, 'BUTTONTEXT' => 9, 'LOGO_ID' => 10, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'project_id' => 1, 'title' => 2, 'description' => 3, 'info' => 4, 'centerLatitude' => 5, 'centerLongitude' => 6, 'defaultZoom' => 7, 'language' => 8, 'buttonText' => 9, 'logo_id' => 10, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -191,6 +194,7 @@ abstract class BaseProjectDataPeer
             $criteria->addSelectColumn(ProjectDataPeer::CENTERLONGITUDE);
             $criteria->addSelectColumn(ProjectDataPeer::DEFAULTZOOM);
             $criteria->addSelectColumn(ProjectDataPeer::LANGUAGE);
+            $criteria->addSelectColumn(ProjectDataPeer::BUTTONTEXT);
             $criteria->addSelectColumn(ProjectDataPeer::LOGO_ID);
         } else {
             $criteria->addSelectColumn($alias . '.id');
@@ -202,6 +206,7 @@ abstract class BaseProjectDataPeer
             $criteria->addSelectColumn($alias . '.centerLongitude');
             $criteria->addSelectColumn($alias . '.defaultZoom');
             $criteria->addSelectColumn($alias . '.language');
+            $criteria->addSelectColumn($alias . '.buttonText');
             $criteria->addSelectColumn($alias . '.logo_id');
         }
     }
