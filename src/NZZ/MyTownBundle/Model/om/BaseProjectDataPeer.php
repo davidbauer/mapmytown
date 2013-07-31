@@ -31,13 +31,13 @@ abstract class BaseProjectDataPeer
     const TM_CLASS = 'ProjectDataTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 9;
+    const NUM_COLUMNS = 10;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 9;
+    const NUM_HYDRATE_COLUMNS = 10;
 
     /** the column name for the id field */
     const ID = 'project_data.id';
@@ -50,6 +50,9 @@ abstract class BaseProjectDataPeer
 
     /** the column name for the description field */
     const DESCRIPTION = 'project_data.description';
+
+    /** the column name for the info field */
+    const INFO = 'project_data.info';
 
     /** the column name for the centerLatitude field */
     const CENTERLATITUDE = 'project_data.centerLatitude';
@@ -85,12 +88,12 @@ abstract class BaseProjectDataPeer
      * e.g. ProjectDataPeer::$fieldNames[ProjectDataPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'projectId', 'Title', 'Description', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', 'logoId', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'projectId', 'title', 'description', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', 'logoId', ),
-        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID, ProjectDataPeer::PROJECT_ID, ProjectDataPeer::TITLE, ProjectDataPeer::DESCRIPTION, ProjectDataPeer::CENTERLATITUDE, ProjectDataPeer::CENTERLONGITUDE, ProjectDataPeer::DEFAULTZOOM, ProjectDataPeer::LANGUAGE, ProjectDataPeer::LOGO_ID, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PROJECT_ID', 'TITLE', 'DESCRIPTION', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', 'LOGO_ID', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'project_id', 'title', 'description', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', 'logo_id', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        BasePeer::TYPE_PHPNAME => array ('Id', 'projectId', 'Title', 'Description', 'Info', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', 'logoId', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'projectId', 'title', 'description', 'info', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', 'logoId', ),
+        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID, ProjectDataPeer::PROJECT_ID, ProjectDataPeer::TITLE, ProjectDataPeer::DESCRIPTION, ProjectDataPeer::INFO, ProjectDataPeer::CENTERLATITUDE, ProjectDataPeer::CENTERLONGITUDE, ProjectDataPeer::DEFAULTZOOM, ProjectDataPeer::LANGUAGE, ProjectDataPeer::LOGO_ID, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'PROJECT_ID', 'TITLE', 'DESCRIPTION', 'INFO', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', 'LOGO_ID', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'project_id', 'title', 'description', 'info', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', 'logo_id', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -100,12 +103,12 @@ abstract class BaseProjectDataPeer
      * e.g. ProjectDataPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'projectId' => 1, 'Title' => 2, 'Description' => 3, 'Centerlatitude' => 4, 'Centerlongitude' => 5, 'Defaultzoom' => 6, 'Language' => 7, 'logoId' => 8, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'projectId' => 1, 'title' => 2, 'description' => 3, 'centerlatitude' => 4, 'centerlongitude' => 5, 'defaultzoom' => 6, 'language' => 7, 'logoId' => 8, ),
-        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID => 0, ProjectDataPeer::PROJECT_ID => 1, ProjectDataPeer::TITLE => 2, ProjectDataPeer::DESCRIPTION => 3, ProjectDataPeer::CENTERLATITUDE => 4, ProjectDataPeer::CENTERLONGITUDE => 5, ProjectDataPeer::DEFAULTZOOM => 6, ProjectDataPeer::LANGUAGE => 7, ProjectDataPeer::LOGO_ID => 8, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PROJECT_ID' => 1, 'TITLE' => 2, 'DESCRIPTION' => 3, 'CENTERLATITUDE' => 4, 'CENTERLONGITUDE' => 5, 'DEFAULTZOOM' => 6, 'LANGUAGE' => 7, 'LOGO_ID' => 8, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'project_id' => 1, 'title' => 2, 'description' => 3, 'centerLatitude' => 4, 'centerLongitude' => 5, 'defaultZoom' => 6, 'language' => 7, 'logo_id' => 8, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'projectId' => 1, 'Title' => 2, 'Description' => 3, 'Info' => 4, 'Centerlatitude' => 5, 'Centerlongitude' => 6, 'Defaultzoom' => 7, 'Language' => 8, 'logoId' => 9, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'projectId' => 1, 'title' => 2, 'description' => 3, 'info' => 4, 'centerlatitude' => 5, 'centerlongitude' => 6, 'defaultzoom' => 7, 'language' => 8, 'logoId' => 9, ),
+        BasePeer::TYPE_COLNAME => array (ProjectDataPeer::ID => 0, ProjectDataPeer::PROJECT_ID => 1, ProjectDataPeer::TITLE => 2, ProjectDataPeer::DESCRIPTION => 3, ProjectDataPeer::INFO => 4, ProjectDataPeer::CENTERLATITUDE => 5, ProjectDataPeer::CENTERLONGITUDE => 6, ProjectDataPeer::DEFAULTZOOM => 7, ProjectDataPeer::LANGUAGE => 8, ProjectDataPeer::LOGO_ID => 9, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'PROJECT_ID' => 1, 'TITLE' => 2, 'DESCRIPTION' => 3, 'INFO' => 4, 'CENTERLATITUDE' => 5, 'CENTERLONGITUDE' => 6, 'DEFAULTZOOM' => 7, 'LANGUAGE' => 8, 'LOGO_ID' => 9, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'project_id' => 1, 'title' => 2, 'description' => 3, 'info' => 4, 'centerLatitude' => 5, 'centerLongitude' => 6, 'defaultZoom' => 7, 'language' => 8, 'logo_id' => 9, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
     /**
@@ -183,6 +186,7 @@ abstract class BaseProjectDataPeer
             $criteria->addSelectColumn(ProjectDataPeer::PROJECT_ID);
             $criteria->addSelectColumn(ProjectDataPeer::TITLE);
             $criteria->addSelectColumn(ProjectDataPeer::DESCRIPTION);
+            $criteria->addSelectColumn(ProjectDataPeer::INFO);
             $criteria->addSelectColumn(ProjectDataPeer::CENTERLATITUDE);
             $criteria->addSelectColumn(ProjectDataPeer::CENTERLONGITUDE);
             $criteria->addSelectColumn(ProjectDataPeer::DEFAULTZOOM);
@@ -193,6 +197,7 @@ abstract class BaseProjectDataPeer
             $criteria->addSelectColumn($alias . '.project_id');
             $criteria->addSelectColumn($alias . '.title');
             $criteria->addSelectColumn($alias . '.description');
+            $criteria->addSelectColumn($alias . '.info');
             $criteria->addSelectColumn($alias . '.centerLatitude');
             $criteria->addSelectColumn($alias . '.centerLongitude');
             $criteria->addSelectColumn($alias . '.defaultZoom');

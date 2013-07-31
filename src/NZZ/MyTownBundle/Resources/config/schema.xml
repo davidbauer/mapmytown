@@ -30,6 +30,7 @@
         <column name="project_id" phpName="projectId" type="INTEGER" required="true"/>
         <column name="title" type="VARCHAR" size="255" required="true"/>
         <column name="description" type="LONGVARCHAR"/>
+        <column name="info" type="LONGVARCHAR"/>
         <column name="centerLatitude" type="FLOAT"/>
         <column name="centerLongitude" type="FLOAT"/>
         <column name="defaultZoom" type="INTEGER"/>
