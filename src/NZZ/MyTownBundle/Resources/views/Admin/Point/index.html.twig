@@ -16,6 +16,7 @@
                          <td>{{ point.longitude|default('') }}</td>
                          <td>{{ point.submitterName|default('') }}</td>
                          <td>{{ point.submitterLocation|default('') }}</td>
+                         <td>{{ point.sentiment|default(0) }}</td>
                         {% if point.is_published|default(false) %}
                             <td> <a class="btn btn-warning" href="{{ path('nzz_my_town_admin_points_unpublish', {'pointId': point.id }) }}">Unpublish</a></td>
                         {% else %}

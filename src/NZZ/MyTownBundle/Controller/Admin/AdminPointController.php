@@ -41,7 +41,7 @@ class AdminPointController extends Controller
             'Longitude',
             'User',
             'User\'s location',
-            ''
+            'Sentiment'
         );
 
         return $this->render('NZZMyTownBundle:Admin\Point:index.html.twig', array(
