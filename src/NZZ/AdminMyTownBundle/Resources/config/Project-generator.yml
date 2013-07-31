@@ -1,0 +1,92 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\Project
+    locale: en
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields:
+        id:
+          label: ProjectId
+        slug:
+          addFormOptions:
+            required: true
+        defaultzoom:
+          addFormOptions:
+            required: true
+        defaultlanguage:
+          formType: choice
+          addFormOptions:
+            required: true
+            choices: [de: Deutsch , fr: French, en: English]
+
+
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Projects
+            display: ~
+            actions:
+                new: ~
+            object_actions:
+                edit: ~
+                delete: ~
+    filters:
+        params:
+            display: ~
+    new:
+        params:
+            title: add new project
+            display: [slug, defaultzoom, defaultlanguage]
+
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: ololo
+            display:
+                "Project" :
+                    - slug
+                    - defaultzoom
+                    - defaultlanguage
+                "Translations":
+                    - project_data
+
+            fields:
+              project_data:
+                getter: getProjectData
+                dbType: collection
+                formType: collection
+                addFormOptions:
+                  # use generated embed type
+                  type:             \NZZ\AdminMyTownBundle\Form\Type\ProjectData\EditType
+                  allow_add:        false
+                  allow_delete:     false
+                  error_bubbling:   true
+                  required: false
+                  options:
+                    required: false
+                    data_class:     NZZ\MyTownBundle\Model\ProjectData
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: ololo
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

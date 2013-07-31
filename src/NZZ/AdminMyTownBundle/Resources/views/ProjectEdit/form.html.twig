@@ -1,0 +1,14 @@
+{% extends_admingenerated "NZZAdminMyTownBundle:ProjectEdit:form.html.twig" %}
+ {% block form_fieldset_Translations %}
+     <fieldset class="form_block form_fieldset_Translations tab-pane">
+         <legend><span>{% trans from "Admin" %}Translations{% endtrans %}</span></legend>
+         <div class="row-fluid">
+             <div class="control-group form_field field_collection field_project_data">
+                 {% block form_project_data %}
+                     {{ form_row(form['project_data']) }}
+                 {% endblock form_project_data %}
+             </div>
+         </div>
+     </fieldset>
+     <a class="new">{% trans from "Admingenerator" %}action.generic.new{% endtrans %}</a>
+ {% endblock form_fieldset_Translations %}

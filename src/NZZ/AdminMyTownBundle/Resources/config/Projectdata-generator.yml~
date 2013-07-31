@@ -1,0 +1,53 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\Project
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Projects
+            display: ~
+            actions:
+                new: ~
+            object_actions:
+                edit: ~
+                delete: ~
+    filters:
+        params:
+            display: ~
+    new:
+        params:
+            title: add new project
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You're editing the object \"%object%\"|{ %object%: YourModel.title }|"
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "You're viewing the object \"%object%\"|{ %object%: YourModel.title }|"
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

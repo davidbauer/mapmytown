@@ -1,0 +1,20 @@
+
+{% extends "NZZAdminMyTownBundle::mytown_base_admin.html.twig" %}
+
+{% block stylesheets %}    {{ parent() }}
+{% endblock stylesheets %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock javascripts %}
+{% block body %}
+    {% block page_title %}
+{% endblock page_title %}
+    <div class="row-fluid">
+        <div class=" span9 ">
+           This is admin tool to create new projects, maintain user's comments.
+           Go to list of projects: <a href="{{ path('NZZ_AdminMyTownBundle_Project_list') }}">Projects</a>
+        </div>
+
+    </div>
+{% endblock body %}
