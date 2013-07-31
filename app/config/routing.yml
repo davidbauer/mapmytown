@@ -1,7 +1,7 @@
 NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_point:
     resource: "@NZZAdminMyTownBundle/Controller/Point/"
     type:     admingenerator
-    prefix:   /a2/point
+    prefix:   /a2/point/
 
 #Dashboard
 _welcome:
