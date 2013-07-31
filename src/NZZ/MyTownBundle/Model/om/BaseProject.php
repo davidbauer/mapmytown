@@ -49,6 +49,12 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected $id;
 
     /**
+     * The value for the shortname field.
+     * @var        string
+     */
+    protected $shortname;
+
+    /**
      * The value for the title field.
      * @var        string
      */
@@ -139,6 +145,16 @@ abstract class BaseProject extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [shortname] column value.
+     *
+     * @return string
+     */
+    public function getShortname()
+    {
+        return $this->shortname;
+    }
+
+    /**
      * Get the [title] column value.
      *
      * @return string
@@ -218,6 +234,27 @@ abstract class BaseProject extends BaseObject implements Persistent
 
         return $this;
     } // setId()
+
+    /**
+     * Set the value of [shortname] column.
+     *
+     * @param string $v new value
+     * @return Project The current object (for fluent API support)
+     */
+    public function setShortname($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->shortname !== $v) {
+            $this->shortname = $v;
+            $this->modifiedColumns[] = ProjectPeer::SHORTNAME;
+        }
+
+
+        return $this;
+    } // setShortname()
 
     /**
      * Set the value of [title] column.
@@ -378,12 +415,13 @@ abstract class BaseProject extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->title = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->description = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->centerlatitude = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
-            $this->centerlongitude = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
-            $this->defaultzoom = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
-            $this->language = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->shortname = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->title = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->description = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->centerlatitude = ($row[$startcol + 4] !== null) ? (double) $row[$startcol + 4] : null;
+            $this->centerlongitude = ($row[$startcol + 5] !== null) ? (double) $row[$startcol + 5] : null;
+            $this->defaultzoom = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
+            $this->language = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -392,7 +430,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 7; // 7 = ProjectPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = ProjectPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Project object", $e);
@@ -645,6 +683,9 @@ abstract class BaseProject extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
+        if ($this->isColumnModified(ProjectPeer::SHORTNAME)) {
+            $modifiedColumns[':p' . $index++]  = '`shortname`';
+        }
         if ($this->isColumnModified(ProjectPeer::TITLE)) {
             $modifiedColumns[':p' . $index++]  = '`title`';
         }
@@ -676,6 +717,9 @@ abstract class BaseProject extends BaseObject implements Persistent
                 switch ($columnName) {
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case '`shortname`':
+                        $stmt->bindValue($identifier, $this->shortname, PDO::PARAM_STR);
                         break;
                     case '`title`':
                         $stmt->bindValue($identifier, $this->title, PDO::PARAM_STR);
@@ -849,21 +893,24 @@ abstract class BaseProject extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getTitle();
+                return $this->getShortname();
                 break;
             case 2:
-                return $this->getDescription();
+                return $this->getTitle();
                 break;
             case 3:
-                return $this->getCenterlatitude();
+                return $this->getDescription();
                 break;
             case 4:
-                return $this->getCenterlongitude();
+                return $this->getCenterlatitude();
                 break;
             case 5:
-                return $this->getDefaultzoom();
+                return $this->getCenterlongitude();
                 break;
             case 6:
+                return $this->getDefaultzoom();
+                break;
+            case 7:
                 return $this->getLanguage();
                 break;
             default:
@@ -896,12 +943,13 @@ abstract class BaseProject extends BaseObject implements Persistent
         $keys = ProjectPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getTitle(),
-            $keys[2] => $this->getDescription(),
-            $keys[3] => $this->getCenterlatitude(),
-            $keys[4] => $this->getCenterlongitude(),
-            $keys[5] => $this->getDefaultzoom(),
-            $keys[6] => $this->getLanguage(),
+            $keys[1] => $this->getShortname(),
+            $keys[2] => $this->getTitle(),
+            $keys[3] => $this->getDescription(),
+            $keys[4] => $this->getCenterlatitude(),
+            $keys[5] => $this->getCenterlongitude(),
+            $keys[6] => $this->getDefaultzoom(),
+            $keys[7] => $this->getLanguage(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->collProjectLogos) {
@@ -948,21 +996,24 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setTitle($value);
+                $this->setShortname($value);
                 break;
             case 2:
-                $this->setDescription($value);
+                $this->setTitle($value);
                 break;
             case 3:
-                $this->setCenterlatitude($value);
+                $this->setDescription($value);
                 break;
             case 4:
-                $this->setCenterlongitude($value);
+                $this->setCenterlatitude($value);
                 break;
             case 5:
-                $this->setDefaultzoom($value);
+                $this->setCenterlongitude($value);
                 break;
             case 6:
+                $this->setDefaultzoom($value);
+                break;
+            case 7:
                 $this->setLanguage($value);
                 break;
         } // switch()
@@ -990,12 +1041,13 @@ abstract class BaseProject extends BaseObject implements Persistent
         $keys = ProjectPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setTitle($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setDescription($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setCenterlatitude($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setCenterlongitude($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setDefaultzoom($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setLanguage($arr[$keys[6]]);
+        if (array_key_exists($keys[1], $arr)) $this->setShortname($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setTitle($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setDescription($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setCenterlatitude($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setCenterlongitude($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setDefaultzoom($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setLanguage($arr[$keys[7]]);
     }
 
     /**
@@ -1008,6 +1060,7 @@ abstract class BaseProject extends BaseObject implements Persistent
         $criteria = new Criteria(ProjectPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(ProjectPeer::ID)) $criteria->add(ProjectPeer::ID, $this->id);
+        if ($this->isColumnModified(ProjectPeer::SHORTNAME)) $criteria->add(ProjectPeer::SHORTNAME, $this->shortname);
         if ($this->isColumnModified(ProjectPeer::TITLE)) $criteria->add(ProjectPeer::TITLE, $this->title);
         if ($this->isColumnModified(ProjectPeer::DESCRIPTION)) $criteria->add(ProjectPeer::DESCRIPTION, $this->description);
         if ($this->isColumnModified(ProjectPeer::CENTERLATITUDE)) $criteria->add(ProjectPeer::CENTERLATITUDE, $this->centerlatitude);
@@ -1077,6 +1130,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setShortname($this->getShortname());
         $copyObj->setTitle($this->getTitle());
         $copyObj->setDescription($this->getDescription());
         $copyObj->setCenterlatitude($this->getCenterlatitude());
@@ -1639,6 +1693,7 @@ abstract class BaseProject extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
+        $this->shortname = null;
         $this->title = null;
         $this->description = null;
         $this->centerlatitude = null;
