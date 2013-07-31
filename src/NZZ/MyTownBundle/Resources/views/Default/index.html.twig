@@ -175,7 +175,7 @@
 
 
 <script id="template-comment" type="text/x-handlebars-template">{% raw %}
-<li class="comments__item comment" data-id="{{id}}">
+<li class="comments__item comment {{#if selected}}selected{{/if}}" data-id="{{id}}">
   <h3 class="comment__title">{{title}}</h3>
   <p class="comment__text">{{description}}</p>
   {{#if authorName}}
