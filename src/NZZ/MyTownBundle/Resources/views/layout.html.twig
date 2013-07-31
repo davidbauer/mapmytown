@@ -9,6 +9,9 @@
     'bundles/nzzmytown/css/components/header.css'
     'bundles/nzzmytown/css/components/footer.css'
     'bundles/nzzmytown/css/components/map.css'
+    'bundles/nzzmytown/css/components/sidebar.css'
+    'bundles/nzzmytown/css/components/comments.css'
+    'bundles/nzzmytown/css/components/branding.css'
     'bundles/nzzmytown/css/app.css'
     %}
     <link rel="stylesheet" type="text/css" href="{{ asset_url }}" />
@@ -24,6 +27,7 @@
     {#'bundles/vfemytown/js/app.js'#}
     {% javascripts filter='?yui_js' output='js/*.js'
           'bundles/nzzmytown/js/app.js'
+          'bundles/nzzmytown/js/ui.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
