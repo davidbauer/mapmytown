@@ -23,10 +23,12 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  * @method ProjectQuery orderById($order = Criteria::ASC) Order by the id column
  * @method ProjectQuery orderBySlug($order = Criteria::ASC) Order by the slug column
  * @method ProjectQuery orderByDefaultzoom($order = Criteria::ASC) Order by the defaultZoom column
+ * @method ProjectQuery orderByDefaultlanguage($order = Criteria::ASC) Order by the defaultLanguage column
  *
  * @method ProjectQuery groupById() Group by the id column
  * @method ProjectQuery groupBySlug() Group by the slug column
  * @method ProjectQuery groupByDefaultzoom() Group by the defaultZoom column
+ * @method ProjectQuery groupByDefaultlanguage() Group by the defaultLanguage column
  *
  * @method ProjectQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ProjectQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -49,10 +51,12 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  *
  * @method Project findOneBySlug(string $slug) Return the first Project filtered by the slug column
  * @method Project findOneByDefaultzoom(int $defaultZoom) Return the first Project filtered by the defaultZoom column
+ * @method Project findOneByDefaultlanguage(string $defaultLanguage) Return the first Project filtered by the defaultLanguage column
  *
  * @method array findById(int $id) Return Project objects filtered by the id column
  * @method array findBySlug(string $slug) Return Project objects filtered by the slug column
  * @method array findByDefaultzoom(int $defaultZoom) Return Project objects filtered by the defaultZoom column
+ * @method array findByDefaultlanguage(string $defaultLanguage) Return Project objects filtered by the defaultLanguage column
  */
 abstract class BaseProjectQuery extends ModelCriteria
 {
@@ -154,7 +158,7 @@ abstract class BaseProjectQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `slug`, `defaultZoom` FROM `project` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `slug`, `defaultZoom`, `defaultLanguage` FROM `project` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -354,6 +358,35 @@ abstract class BaseProjectQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProjectPeer::DEFAULTZOOM, $defaultzoom, $comparison);
+    }
+
+    /**
+     * Filter the query on the defaultLanguage column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDefaultlanguage('fooValue');   // WHERE defaultLanguage = 'fooValue'
+     * $query->filterByDefaultlanguage('%fooValue%'); // WHERE defaultLanguage LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $defaultlanguage The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ProjectQuery The current query, for fluid interface
+     */
+    public function filterByDefaultlanguage($defaultlanguage = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($defaultlanguage)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $defaultlanguage)) {
+                $defaultlanguage = str_replace('*', '%', $defaultlanguage);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProjectPeer::DEFAULTLANGUAGE, $defaultlanguage, $comparison);
     }
 
     /**

@@ -63,6 +63,12 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected $defaultzoom;
 
     /**
+     * The value for the defaultlanguage field.
+     * @var        string
+     */
+    protected $defaultlanguage;
+
+    /**
      * @var        PropelObjectCollection|ProjectData[] Collection to store aggregation of ProjectData objects.
      */
     protected $collProjectDatas;
@@ -149,6 +155,16 @@ abstract class BaseProject extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [defaultlanguage] column value.
+     *
+     * @return string
+     */
+    public function getDefaultlanguage()
+    {
+        return $this->defaultlanguage;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param int $v new value
@@ -212,6 +228,27 @@ abstract class BaseProject extends BaseObject implements Persistent
     } // setDefaultzoom()
 
     /**
+     * Set the value of [defaultlanguage] column.
+     *
+     * @param string $v new value
+     * @return Project The current object (for fluent API support)
+     */
+    public function setDefaultlanguage($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->defaultlanguage !== $v) {
+            $this->defaultlanguage = $v;
+            $this->modifiedColumns[] = ProjectPeer::DEFAULTLANGUAGE;
+        }
+
+
+        return $this;
+    } // setDefaultlanguage()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -246,6 +283,7 @@ abstract class BaseProject extends BaseObject implements Persistent
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->slug = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->defaultzoom = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->defaultlanguage = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -254,7 +292,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 3; // 3 = ProjectPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = ProjectPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Project object", $e);
@@ -532,6 +570,9 @@ abstract class BaseProject extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectPeer::DEFAULTZOOM)) {
             $modifiedColumns[':p' . $index++]  = '`defaultZoom`';
         }
+        if ($this->isColumnModified(ProjectPeer::DEFAULTLANGUAGE)) {
+            $modifiedColumns[':p' . $index++]  = '`defaultLanguage`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `project` (%s) VALUES (%s)',
@@ -551,6 +592,9 @@ abstract class BaseProject extends BaseObject implements Persistent
                         break;
                     case '`defaultZoom`':
                         $stmt->bindValue($identifier, $this->defaultzoom, PDO::PARAM_INT);
+                        break;
+                    case '`defaultLanguage`':
+                        $stmt->bindValue($identifier, $this->defaultlanguage, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -719,6 +763,9 @@ abstract class BaseProject extends BaseObject implements Persistent
             case 2:
                 return $this->getDefaultzoom();
                 break;
+            case 3:
+                return $this->getDefaultlanguage();
+                break;
             default:
                 return null;
                 break;
@@ -751,6 +798,7 @@ abstract class BaseProject extends BaseObject implements Persistent
             $keys[0] => $this->getId(),
             $keys[1] => $this->getSlug(),
             $keys[2] => $this->getDefaultzoom(),
+            $keys[3] => $this->getDefaultlanguage(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->collProjectDatas) {
@@ -805,6 +853,9 @@ abstract class BaseProject extends BaseObject implements Persistent
             case 2:
                 $this->setDefaultzoom($value);
                 break;
+            case 3:
+                $this->setDefaultlanguage($value);
+                break;
         } // switch()
     }
 
@@ -832,6 +883,7 @@ abstract class BaseProject extends BaseObject implements Persistent
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setSlug($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setDefaultzoom($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setDefaultlanguage($arr[$keys[3]]);
     }
 
     /**
@@ -846,6 +898,7 @@ abstract class BaseProject extends BaseObject implements Persistent
         if ($this->isColumnModified(ProjectPeer::ID)) $criteria->add(ProjectPeer::ID, $this->id);
         if ($this->isColumnModified(ProjectPeer::SLUG)) $criteria->add(ProjectPeer::SLUG, $this->slug);
         if ($this->isColumnModified(ProjectPeer::DEFAULTZOOM)) $criteria->add(ProjectPeer::DEFAULTZOOM, $this->defaultzoom);
+        if ($this->isColumnModified(ProjectPeer::DEFAULTLANGUAGE)) $criteria->add(ProjectPeer::DEFAULTLANGUAGE, $this->defaultlanguage);
 
         return $criteria;
     }
@@ -911,6 +964,7 @@ abstract class BaseProject extends BaseObject implements Persistent
     {
         $copyObj->setSlug($this->getSlug());
         $copyObj->setDefaultzoom($this->getDefaultzoom());
+        $copyObj->setDefaultlanguage($this->getDefaultlanguage());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1721,6 +1775,7 @@ abstract class BaseProject extends BaseObject implements Persistent
         $this->id = null;
         $this->slug = null;
         $this->defaultzoom = null;
+        $this->defaultlanguage = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

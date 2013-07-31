@@ -16,6 +16,7 @@
         <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
         <column name="slug" type="VARCHAR" size="10"/>
         <column name="defaultZoom" type="INTEGER"/>
+        <column name="defaultLanguage" type="VARCHAR" size="2" required="true"/>
         <unique name="slug">
             <unique-column name="slug"/>
         </unique>

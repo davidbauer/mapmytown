@@ -1,121 +1,146 @@
 {% extends "NZZMyTownBundle::layout.html.twig" %}
- {% block header%}
- {% endblock %}
- {% block body %}
-     {% if project|default('nzz') == 'nzz' %}
-         {#lat = 47.369, lng = 8.542#}
-         {% set city = 'Zurich' %}
-         {% set lat = '47.369' %}
-         {% set lon =  '8.542' %}
-     {% elseif project|default('nzz') == 'tagw' %}
-         {#?lat=47.5546&lon=7.5944&#}
-         {% set city = 'Basel' %}
-         {%  set lat = 47.5546 %}
-         {%  set lon =  7.5944 %}
-     {% elseif project|default('nzz') == 'temps' %}
-         {#lat=46.2048&lon=6.143&#}
-         {% set city = 'Geneva' %}
-         {%  set lat = 46.2048 %}
-         {%  set lon =  6.143 %}
-     {% endif %}
-     <script type="text/javascript">
-         var config = {};
-         config.project = "{{ project }}";
-         config.lang = '{{ lang }}';
-         config.zoom = '{{ zoom }}';
-         config.lat = '{{ lat }}';
-         config.lon = '{{ lon }}';
-     </script>
-    <div class="app-container">
-      <div class="header">
-        <div class="row-fluid">
-          <div class="span6">
-            <h1 class="header__heading">Stadtgeflüster <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten von 
-              <form class="header__form form-inline">
-                <select class="input-small">
-                  <option value="{{ city }}">{{ city }}</option>
-                  <option value="basel">Basel</option>
-                  <option value="geneva">Geneva</option>
-                </select>
-              </form>
-              </span></h1>
-          </div>
-          <div class="span6">
-            <ul class="branding__list">
-              <li class="branding__item">
-                <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche"></a>
-              </li>
-              <li class="branding__item">
-                <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps"></a>
-              </li>
-              <li class="branding__item">
-                <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung"></a>
-              </li>
-            </ul>
-          </div>
-        </div>
+{% block body %}
+    {% if project|default('nzz') == 'nzz' %}
+        {#lat = 47.369, lng = 8.542#}
+        {% set city = 'Zurich' %}
+        {% set lat = '47.369' %}
+        {% set lon =  '8.542' %}
+    {% elseif project|default('nzz') == 'tagw' %}
+        {#?lat=47.5546&lon=7.5944&#}
+        {% set city = 'Basel' %}
+        {%  set lat = 47.5546 %}
+        {%  set lon =  7.5944 %}
+    {% elseif project|default('nzz') == 'temps' %}
+        {#lat=46.2048&lon=6.143&#}
+        {% set city = 'Geneva' %}
+        {%  set lat = 46.2048 %}
+        {%  set lon =  6.143 %}
+    {% endif %}
+    <script type="text/javascript">
+       $(function() {
+           // Start the app
+           var router = new app.routers.AppRouter();
+           Backbone.history.start();
+       });
+
+       // var config = {};
+       // config.project = "{{ project }}";
+       // config.lang = '{{ lang }}';
+       // config.zoom = '{{ zoom }}';
+       // config.lat = '{{ lat }}';
+       // config.lon = '{{ lon }}';
+   </script>
+   <div id="app-container"></div>
+{% endblock %}
+
+{% block templates %}
+
+<script id="template-root-view" type="text/x-handlebars-template">{% raw %}
+<div class="app-container">
+  <div class="header">
+    <div class="row-fluid">
+      <div class="span6">
+        <h1 class="header__heading">Stadtgeflüster <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten von 
+          <form class="header__form form-inline">
+            <select class="input-small">
+              <option value="Zürich">Zürich</option>
+              <option value="basel">Basel</option>
+              <option value="geneva">Geneva</option>
+            </select>
+          </form>
+          </span></h1>
       </div>
-      <div class="content span-sidebar-left" ng-controller="MapController" id="map"></div>
-       <ul class="sharing__list">
-        <li class="sharing__item">
-          <a href="#" class="btn embed_popover" data-toggle="popover" title="Embed this map" >Embed</a>
-        </li>
-        <li class="sharing__item"><a href="#" class="btn">Twitter</a></li>
-        <li class="sharing__item"><a href="#" class="btn">Facebook</a></li>
-      </ul>
-      <div class="sidebar sidebar-left">
-        <section class="sidebar__introduction">
-          <p >Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
-          <a href="#" class="sidebar__btn btn btn-primary">Submit Your Wisdom</a>
-        </section>
-        <h2 class="sidebar__heading">Aktuelle Einträge</h2>
-        <ul class="comments__list">
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
+      <div class="span6">
+        <ul class="branding__list">
+          <li class="branding__item">
+            <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche"></a>
           </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
+          <li class="branding__item">
+            <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps"></a>
           </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
-          </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
-          </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
-          </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
-          </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
-          </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
-          </li>
-          <li class="comments__item comment">
-            <h3 class="comment__title">Comment Title</h3>
-            <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
-            <span class="comment__author">Andres Kaminski</span>
+          <li class="branding__item">
+            <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung"></a>
           </li>
         </ul>
       </div>
     </div>
- {% endblock %}
+  </div>
+  <div class="content span-sidebar-left" id="map"></div>
+   <ul class="sharing__list">
+    <li class="sharing__item">
+      <a href="#" class="btn embed_popover" data-toggle="popover" title="Embed this map" >Embed</a>
+    </li>
+    <li class="sharing__item"><a href="#" class="btn">Twitter</a></li>
+    <li class="sharing__item"><a href="#" class="btn">Facebook</a></li>
+  </ul>
+  <div class="sidebar sidebar-left">
+    <section class="sidebar__introduction">
+      <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
+      <a href="#" class="sidebar__btn btn btn-primary" data-toggle="collapse" data-target="#submit__comment">Submit Your Wisdom</a>
+    </section>
+    <div id="submit__comment" class="collapse">
+      <p class="sidebar__text">First, mark the position of the place that you would like to comment on.</p>
+    </div>
+    <h2 class="sidebar__heading">Aktuelle Einträge</h2>
+    <ul class="comments__list">
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+      <li class="comments__item comment">
+        <h3 class="comment__title">Comment Title</h3>
+        <p class="comment__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.</p>
+        <span class="comment__author">Andres Kaminski</span>
+      </li>
+    </ul>
+  </div>
+</div>
+{% endraw %}</script>
+
+<script id="template-map-view" type="text/x-handlebars-template">{% raw %}
+<div class="control-group">
+  <label for="author">Author</label>
+  <input type="text" id="author" ng-model="author" size=20 required>
+  <label for="comment">Comment</label>
+  <input type="text" id="comment" ng-model="comment" required>
+  <button class="btn btn-danger" ng-click="save()">Save</button>
+</div>
+{% endraw %}</script>
+
+{% endblock %}
