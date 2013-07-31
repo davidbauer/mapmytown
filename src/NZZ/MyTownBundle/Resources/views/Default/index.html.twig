@@ -49,13 +49,22 @@
     </div>
   </div>
 </div>
-<div class="content" ng-controller="MapController" id="map"></div>
+<div class="content" id="map"></div>
 <div class="footer">
   <h1 class="footer__heading">Map Your Town <span class="footer__subheading">{{ city }}</span></h1>
   <span class="footer__notes">150 notes</span>
   <p class="footer__introduction">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure d.</p>
 </div>
-<div class="content" ng-controller="MapController" id="map"></div>
+{% endraw %}</script>
+
+<script id="template-map-view" type="text/x-handlebars-template">{% raw %}
+<div class="control-group">
+  <label for="author">Author</label>
+  <input type="text" id="author" ng-model="author" size=20 required>
+  <label for="comment">Comment</label>
+  <input type="text" id="comment" ng-model="comment" required>
+  <button class="btn btn-danger" ng-click="save()">Save</button>
+</div>
 {% endraw %}</script>
 
 {% endblock %}

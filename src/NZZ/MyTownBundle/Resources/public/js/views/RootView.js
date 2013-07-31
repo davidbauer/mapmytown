@@ -8,6 +8,10 @@
       this.$el.html(template({
         title: "Title"
       }));
+
+      var mapView = new app.views.MapView();
+      this.$('#map').html(mapView.render().el);
+
       return this;
     }
   });
