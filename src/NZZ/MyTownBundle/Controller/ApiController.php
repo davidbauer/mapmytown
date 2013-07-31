@@ -23,28 +23,30 @@ class ApiController extends Controller
 
         $projectData = ProjectDataQuery::create()
             ->filterByprojectId($project->getId())
-            ->find();
+            ->filterByLanguage($lang)
+            ->findOne();
 
-        if ($projectData) {
+        if (!$projectData) {
 
-            $translatedData = $projectData->filterByLanguage($lang);
+            $projectData = ProjectDataQuery::create()
+                ->filterByprojectId($project->getId())
+                ->filterByLanguage($project->getDefaultLanguage())
+                ->findOne();
 
-            if (!$translatedData) {
-                $translatedData = $projectData->filterByLanguage($project->getDefaultLanguage());
+            if (!$projectData) {
+                return new Response('No data found for specified project', 404);
             }
-
-            $points = PointQuery::create()->findByProjectid($project->getId());
-
-            $response = array(
-                'project' => array_merge(
-                    $project->toArray(),
-                    $translatedData->toArray(),
-                    array('points' => $points->toArray()))
-            );
-
-        } else {
-            return new Response('No data found for specified project', 404);
         }
+
+        $points = PointQuery::create()->findByProjectid($project->getId());
+
+        $response = array(
+            'project' => array_merge(
+                $project->toArray(),
+                $projectData->toArray(),
+                array('points' => $points->toArray())
+            )
+        );
 
         return new JsonResponse($response);
 
