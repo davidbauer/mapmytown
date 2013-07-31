@@ -11,6 +11,7 @@
                  {% for point in points %}
                      <tr id="points">
                          <td> {{ point.id }}</td>
+                         <td> {{ point.title|default('') }}</td>
                          <td> {{ point.description|default('') }}</td>
                          <td>{{ point.latitude|default('') }}</td>
                          <td>{{ point.longitude|default('') }}</td>
