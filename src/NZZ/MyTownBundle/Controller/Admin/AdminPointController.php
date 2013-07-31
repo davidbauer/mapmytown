@@ -36,6 +36,7 @@ class AdminPointController extends Controller
             ->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
         $fields = array(
             'id',
+            'Title',
             'Description',
             'Latitude',
             'Longitude',
