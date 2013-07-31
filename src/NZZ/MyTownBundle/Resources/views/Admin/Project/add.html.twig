@@ -1,4 +1,4 @@
-{% extends "NZZMyTownBundle::layout.html.twig" %}
+{% extends "NZZMyTownBundle::Admin/layout.html.twig" %}
  {% block body %}
      <div class="container">
          <form class="form" action="{{ path('nzz_my_town_admin_save_project') }}" method="post" {{ form_enctype(form) }}>
