@@ -115,15 +115,15 @@ class AdminProjectController extends Controller
 
         $form = $this->createFormBuilder($projectData)
             ->add('id','text', array('read_only' => true))
+            ->add('language', 'choice', array('required' => true,'data' => $language,
+                    'choices'   => array( 'de' => 'Deutsch', 'en' => 'English', 'fr' => 'French')
+                ))
             ->add('title', 'text', array('required' => true, 'data' => $projectData->getTitle()))
             ->add('description', 'textarea', array('required' => true, 'data' => $projectData->getDescription()))
             ->add('info', 'textarea', array('required' => false, 'data' => $projectData->getInfo()))
             ->add('centerlatitude', 'text', array('required' => true, 'data' => $projectData->getCenterlatitude()))
             ->add('centerlongitude', 'text', array('required' => true, 'data' => $projectData->getCenterlongitude()))
             ->add('defaultzoom', 'text', array('required' => true, 'data' => $zoom))
-            ->add('language', 'choice', array('required' => true,'data' => $language,
-                    'choices'   => array( 'de' => 'Deutsch', 'en' => 'English', 'fr' => 'French')
-                    ))
             ->add('save', 'submit')
             ->add('remove', 'button')
             ->add('projectId','hidden', array('data' => $project->getId()))
