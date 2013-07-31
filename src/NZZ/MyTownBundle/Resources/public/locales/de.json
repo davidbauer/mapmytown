@@ -2,9 +2,9 @@
   "form": {
     "title": "Was haben Sie markiert?",
     "description": "Beschreiben Sie den markierten Punkt",
-    "sentiment": "Was teilen Sie?",
-    "sentiLabels": ["Empfehlung","Wissen","Warnung"],
-    "name": "Ihr Name",
+    "sentiment": "Das ist...?",
+    "sentiLabels": ["gut","schlecht","Fakt"],
+    "name": "Name oder Initialen",
     "origin": "Woher kommen Sie?",
     "add": "Eintragen",
     "cancel": "Abbrechen"
@@ -28,6 +28,7 @@
 	  "text": "Sie können diese Applikation auf Ihrer eigenen Website einbinden. Geben Sie Ihren Leserinnen und Lesern die Möglichkeit, Wissen aus ihrer Region zu ergänzen. Kopieren Sie den untenstehenden Code und fügen Sie ihn auf Ihrer Website ein. Bei Fragen wenden Sie sich an data@nzz.ch."
   },
   
-  "share" : "Teilen"
+  "share" : "Teilen",
+  
+  "noentries": "Keine Einträge gefunden."
 }
-
