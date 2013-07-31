@@ -8,22 +8,34 @@
   margin: 0;
   padding: 0;
 }
+.comments__list li.selected{
+    color: #fff;
+    border: none;
+}
+.comments__list li.positive{
+  background: #6060A0;
+}
+.comments__list li.negative{
+  background: #EC0035;
+}
 .comments__item{
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #E6E5DC;
   padding: 10px 0;
 }
 .comment__title{
-  font-size: 12px;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 24px;
+  display: inline;
   margin: 0;
 }
 .comment__text{
-  font-family: Georgia, serif;
-  font-size: 12px;
-  line-height: 1.25;
-  margin-bottom: 0;
+  font-size: 16px;
+  line-height: 24px;
+  display: inline;
+  margin: 0;
 }
 .comment__author{
-  color: #999;
+  font-style: italic;
   font-size: 12px;
+  line-height: 24px;
 }

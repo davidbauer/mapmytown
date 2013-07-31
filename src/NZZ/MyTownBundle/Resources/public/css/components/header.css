@@ -7,11 +7,12 @@
   border-bottom: 1px solid #ddd;
 }
 .header__heading{
-  font-size: 18px;
-  line-height: 1.5;
+  color: #3C9AFB;
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 38px;
 }
 .header__subheading{
-  font-weight: normal;
 }
 .header__form{
   display: inline;

@@ -1,22 +1,12 @@
 .sharing__section{
-  background: #fff;
   padding-top: 10px;
   padding-bottom: 10px;
   overflow: hidden;
 }
-.sharing__label{
-  float: left;
-  line-height: 30px;
-  font-size: 12px;
+.sharing__section p{
+  margin-bottom: 0;
 }
-.sharing__list{
-  list-style: none;
-  padding: 0;
-  margin: 0 0 0 10px;
-  float: left;
-}
- .sharing__item{
-  display: inline-block;
+.sharing__link{
 }
 #embedding_code{
   border: 1px solid #eee;
@@ -25,8 +15,6 @@
           box-shadow:  none;
 }
 .tacModal_link{
-  float: right;
-  line-height: 30px;
+  line-height: 24px;
   font-size: 12px;
-  text-decoration: underline;
 }

@@ -3,7 +3,6 @@
  * Styling for the branding list
  */
  .branding__section{
-  background: #fff;
   padding-top: 10px;
   padding-bottom: 10px;
   overflow: hidden;
@@ -19,12 +18,7 @@
    position: relative; 
    float: left;
    display: block;
-   margin-right: 20px;
  }
  .branding__item img{
    margin: 0;
-   opacity: 0.5;
- }
- .branding__item a:hover img{
-   opacity: 1;
  }

@@ -62,54 +62,48 @@
         <a href="#thanksModal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
       </p>
     </header>
-
     <section data-view="comments-list" class="sidebar__section comments__section"></section>
   </div>
 
   <div class="footer">
     <section class="sidebar__section sharing__section">
-      <span class="sharing__label">{{t "share"}}</span>
-      <ul class="sharing__list">
-        <li class="sharing__item">
-          <a href="#" 
-            class="btn"
+      <p>
+      {{t "share"}}
+      <a href="#" 
+            class="sharing__link"
             onclick="
               window.open(
                 'https://twitter.com/share?url='+encodeURIComponent(location.href), 
                 'twitter-share-dialog', 
                 'width=626,height=436'); 
-              return false;">
-            Twitter
-          </a>
-        </li>
-        <li class="sharing__item">
+              return false;">Twitter</a>, 
           <a href="#" 
-            class="btn"
+            class="sharing__link"
             onclick="
               window.open(
                 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
                 'facebook-share-dialog', 
-                'width=626,height=436'); 
-              return false;">
-            Facebook
-          </a>
-        </li>
-      </ul>
-      <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">{{t "info.name"}}</a>
+                'width=626,height=436');
+              return false;">Facebook</a>.
+          <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">{{t "info.name"}}</a>
+      </p>
     </section>
 
     <section class="sidebar__section branding__section">
-    <ul class="branding__list">
+    <ul class="branding__list hidden-phone">
       <li class="branding__item">
-        <a href="#"><img src="/bundles/nzzmytown/images/logo_tageswoche.png" alt="Tageswoche" width="80"></a>
+        <a href="#"><img src="/bundles/nzzmytown/images/log_let.png" alt="Le Temps"></a>
       </li>
       <li class="branding__item">
-        <a href="#"><img src="/bundles/nzzmytown/images/logo_letemps.png" alt="Le Temps" width="80"></a>
+        <a href="#"><img src="/bundles/nzzmytown/images/log_taw.png" alt="Tageswoche"></a>
       </li>
       <li class="branding__item">
-        <a href="#"><img src="/bundles/nzzmytown/images/logo_nzz.png" alt="Neue Zürcher Zeitung" width="80"></a>
+        <a href="#"><img src="/bundles/nzzmytown/images/log_nzz.png" alt="Neue Zürcher Zeitung"></a>
       </li>
     </ul>
+    <p class="branding__list hidden-tablet hidden-desktop">
+      <a href="#">Le Temps</a>, <a href="#">Tageswoche</a>, <a href="#">Neue Zürcher Zeitung</a>
+    </p>
     </section>
   </div>
 

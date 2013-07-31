@@ -2,3 +2,81 @@
  * TYPOGRAPHY
  * Typography styling
  */
+ body{
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  font-size: 100%;
+  line-height: 1.5;
+ }
+ a,
+ a:hover,
+ a:visited,
+ a:active{
+  color: #3C9AFB;
+  text-decoration: none;
+ }
+ .btn-primary.active,
+ .btn-warning.active,
+ .btn-danger.active,
+ .btn-success.active,
+ .btn-info.active,
+ .btn-inverse.active{color:rgba(255, 255, 255, 0.75);}
+
+a.btn-primary,
+.btn-primary{
+  font-size: 20px;
+  line-height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+  color:#ffffff;
+  text-shadow: none;
+  background-color:#3C9AFB;
+  background-image:none;
+  border: none;
+  -webkit-box-shadow:  none;
+          box-shadow:  none;
+  -webkit-border-radius: 0px;
+          border-radius: 0px;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary.disabled,
+.btn-primary[disabled]{
+  color:#ffffff;
+  background-color:#3C9AFB;
+  *background-color:#3C9AFB;
+}
+.btn-primary:active,
+.btn-primary.active{
+  background-color:#3C9AFB \9;
+}
+a.btn-secondary,
+.btn-secondary{
+  font-size: 20px;
+  line-height: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-shadow: none;
+  background-color:#ddd;
+  background-image:none;
+  border: none;
+  -webkit-box-shadow:  none;
+          box-shadow:  none;
+  -webkit-border-radius: 0px;
+          border-radius: 0px;
+}
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary.active,
+.btn-secondary.disabled,
+.btn-secondary[disabled]{
+  background-color:#ddd;
+  *background-color:#ddd;
+}
+.btn-secondary:active,
+.btn-secondary.active{
+  background-color:#ddd \9;
+}
