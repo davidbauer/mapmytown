@@ -68,7 +68,7 @@
 
   <div class="footer">
     <section class="sidebar__section sharing__section">
-      <span class="sharing__label">Share on</span>
+      <span class="sharing__label">{{t "share"}}</span>
       <ul class="sharing__list">
         <li class="sharing__item">
           <a href="#" 
@@ -95,7 +95,7 @@
           </a>
         </li>
       </ul>
-      <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">Terms and Conditions</a>
+      <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">{{t "info.name"}}</a>
     </section>
 
     <section class="sidebar__section branding__section">
@@ -121,55 +121,55 @@
     <div class="modal-body">
       <form class="">
         <fieldset>
-          <label>Title</label>
+          <label>{{t "form.title"}}</label>
           <input type="text">
-          <label>Comment</label>
+          <label>{{t "form.description"}}</label>
           <textarea rows="3"></textarea>
           <label class="radio inline">
             <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-            Positive
+            {{t "form.sentiLabels[0]"}}
           </label>
           <label class="radio inline">
             <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-            Neutral
+            {{t "form.sentiLabels[1]"}}
           </label>
           <label class="radio inline">
             <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-            Negative
+            {{t "form.sentiLabels[2]"}}
           </label>
-          <label>Your Name</label>
+          <label>{{t "form.name"}}</label>
           <input type="text">
-          <label>Your Location</label>
+          <label>{{t "form.origin"}}</label>
           <input type="text">
         </fieldset>
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <button class="btn btn-primary">Save changes</button>
+      <button class="btn" data-dismiss="modal" aria-hidden="true">{{t "form.cancel"}}</button>
+      <button class="btn btn-primary">{{t "form.add"}}</button>
     </div>
   </div>
 
-  <div id="thanksModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Thank you" aria-hidden="true">
+  <div id="thanksModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "thx.thankyou"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="tacModalLabel">Thank you!</h3>
+      <h3 id="tacModalLabel">{{t "thx.thankyou"}}</h3>
     </div>
     <div class="modal-body">
-      <p>[Thank you!]</p>
+      <p>{{t "thx.share"}}</p>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary">Add another comment</button>
+      <button class="btn btn-primary">{{t "thx.more"}}</button>
     </div>
   </div>
 
-  <div id="tacModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Terms and Conditions" aria-hidden="true">
+  <div id="tacModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "info.name"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="tacModalLabel">Terms and Conditions</h3>
+      <h3 id="tacModalLabel">{{t "info.name"}}</h3>
     </div>
     <div class="modal-body">
-      <p>[Terms and Conditions]</p>
+      <p>{{t "info.name"}}</p>
     </div>
   </div>
 
