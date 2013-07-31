@@ -12,9 +12,9 @@ use NZZ\MyTownBundle\Model\PointQuery;
 class ApiController extends Controller
 {
 
-    public function indexAction($projectShortname, $lang)
+    public function indexAction($projectSlug, $lang)
     {
-        $project = ProjectQuery::create()->findOneByShortname($projectShortname);
+        $project = ProjectQuery::create()->findOneBySlug($projectSlug);
 
         if (!$project) {
             return new Response('No such project', 404);
@@ -23,8 +23,7 @@ class ApiController extends Controller
         $points = PointQuery::create()->findByProjectid($project->getId());
 
         $response = array(
-            'project' => $project->toArray(),
-            'points' => $points->toArray()
+            'project' => array_merge($project->toArray(), array('points' => $points->toArray()))
         );
 
         return new JsonResponse($response);
