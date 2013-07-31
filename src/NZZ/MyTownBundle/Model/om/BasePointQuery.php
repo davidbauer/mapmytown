@@ -19,24 +19,26 @@ use NZZ\MyTownBundle\Model\Project;
 
 /**
  * @method PointQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method PointQuery orderByTitle($order = Criteria::ASC) Order by the title column
  * @method PointQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method PointQuery orderByLatitude($order = Criteria::ASC) Order by the latitude column
  * @method PointQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
- * @method PointQuery orderBySubmittername($order = Criteria::ASC) Order by the submitterName column
- * @method PointQuery orderBySubmitterlocation($order = Criteria::ASC) Order by the submitterLocation column
+ * @method PointQuery orderByAuthorName($order = Criteria::ASC) Order by the author_name column
+ * @method PointQuery orderByAuthorLocation($order = Criteria::ASC) Order by the author_location column
  * @method PointQuery orderBySentiment($order = Criteria::ASC) Order by the sentiment column
  * @method PointQuery orderByIsPublished($order = Criteria::ASC) Order by the is_published column
- * @method PointQuery orderByProjectid($order = Criteria::ASC) Order by the projectId column
+ * @method PointQuery orderByProjectId($order = Criteria::ASC) Order by the project_id column
  *
  * @method PointQuery groupById() Group by the id column
+ * @method PointQuery groupByTitle() Group by the title column
  * @method PointQuery groupByDescription() Group by the description column
  * @method PointQuery groupByLatitude() Group by the latitude column
  * @method PointQuery groupByLongitude() Group by the longitude column
- * @method PointQuery groupBySubmittername() Group by the submitterName column
- * @method PointQuery groupBySubmitterlocation() Group by the submitterLocation column
+ * @method PointQuery groupByAuthorName() Group by the author_name column
+ * @method PointQuery groupByAuthorLocation() Group by the author_location column
  * @method PointQuery groupBySentiment() Group by the sentiment column
  * @method PointQuery groupByIsPublished() Group by the is_published column
- * @method PointQuery groupByProjectid() Group by the projectId column
+ * @method PointQuery groupByProjectId() Group by the project_id column
  *
  * @method PointQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method PointQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -49,24 +51,26 @@ use NZZ\MyTownBundle\Model\Project;
  * @method Point findOne(PropelPDO $con = null) Return the first Point matching the query
  * @method Point findOneOrCreate(PropelPDO $con = null) Return the first Point matching the query, or a new Point object populated from the query conditions when no match is found
  *
+ * @method Point findOneByTitle(string $title) Return the first Point filtered by the title column
  * @method Point findOneByDescription(string $description) Return the first Point filtered by the description column
  * @method Point findOneByLatitude(double $latitude) Return the first Point filtered by the latitude column
  * @method Point findOneByLongitude(double $longitude) Return the first Point filtered by the longitude column
- * @method Point findOneBySubmittername(string $submitterName) Return the first Point filtered by the submitterName column
- * @method Point findOneBySubmitterlocation(string $submitterLocation) Return the first Point filtered by the submitterLocation column
+ * @method Point findOneByAuthorName(string $author_name) Return the first Point filtered by the author_name column
+ * @method Point findOneByAuthorLocation(string $author_location) Return the first Point filtered by the author_location column
  * @method Point findOneBySentiment(int $sentiment) Return the first Point filtered by the sentiment column
  * @method Point findOneByIsPublished(boolean $is_published) Return the first Point filtered by the is_published column
- * @method Point findOneByProjectid(int $projectId) Return the first Point filtered by the projectId column
+ * @method Point findOneByProjectId(int $project_id) Return the first Point filtered by the project_id column
  *
  * @method array findById(int $id) Return Point objects filtered by the id column
+ * @method array findByTitle(string $title) Return Point objects filtered by the title column
  * @method array findByDescription(string $description) Return Point objects filtered by the description column
  * @method array findByLatitude(double $latitude) Return Point objects filtered by the latitude column
  * @method array findByLongitude(double $longitude) Return Point objects filtered by the longitude column
- * @method array findBySubmittername(string $submitterName) Return Point objects filtered by the submitterName column
- * @method array findBySubmitterlocation(string $submitterLocation) Return Point objects filtered by the submitterLocation column
+ * @method array findByAuthorName(string $author_name) Return Point objects filtered by the author_name column
+ * @method array findByAuthorLocation(string $author_location) Return Point objects filtered by the author_location column
  * @method array findBySentiment(int $sentiment) Return Point objects filtered by the sentiment column
  * @method array findByIsPublished(boolean $is_published) Return Point objects filtered by the is_published column
- * @method array findByProjectid(int $projectId) Return Point objects filtered by the projectId column
+ * @method array findByProjectId(int $project_id) Return Point objects filtered by the project_id column
  */
 abstract class BasePointQuery extends ModelCriteria
 {
@@ -168,7 +172,7 @@ abstract class BasePointQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `sentiment`, `is_published`, `projectId` FROM `point` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `title`, `description`, `latitude`, `longitude`, `author_name`, `author_location`, `sentiment`, `is_published`, `project_id` FROM `point` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -300,6 +304,35 @@ abstract class BasePointQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the title column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByTitle('fooValue');   // WHERE title = 'fooValue'
+     * $query->filterByTitle('%fooValue%'); // WHERE title LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $title The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterByTitle($title = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($title)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $title)) {
+                $title = str_replace('*', '%', $title);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(PointPeer::TITLE, $title, $comparison);
+    }
+
+    /**
      * Filter the query on the description column
      *
      * Example usage:
@@ -413,61 +446,61 @@ abstract class BasePointQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the submitterName column
+     * Filter the query on the author_name column
      *
      * Example usage:
      * <code>
-     * $query->filterBySubmittername('fooValue');   // WHERE submitterName = 'fooValue'
-     * $query->filterBySubmittername('%fooValue%'); // WHERE submitterName LIKE '%fooValue%'
+     * $query->filterByAuthorName('fooValue');   // WHERE author_name = 'fooValue'
+     * $query->filterByAuthorName('%fooValue%'); // WHERE author_name LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $submittername The value to use as filter.
+     * @param     string $authorName The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return PointQuery The current query, for fluid interface
      */
-    public function filterBySubmittername($submittername = null, $comparison = null)
+    public function filterByAuthorName($authorName = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($submittername)) {
+            if (is_array($authorName)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $submittername)) {
-                $submittername = str_replace('*', '%', $submittername);
+            } elseif (preg_match('/[\%\*]/', $authorName)) {
+                $authorName = str_replace('*', '%', $authorName);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(PointPeer::SUBMITTERNAME, $submittername, $comparison);
+        return $this->addUsingAlias(PointPeer::AUTHOR_NAME, $authorName, $comparison);
     }
 
     /**
-     * Filter the query on the submitterLocation column
+     * Filter the query on the author_location column
      *
      * Example usage:
      * <code>
-     * $query->filterBySubmitterlocation('fooValue');   // WHERE submitterLocation = 'fooValue'
-     * $query->filterBySubmitterlocation('%fooValue%'); // WHERE submitterLocation LIKE '%fooValue%'
+     * $query->filterByAuthorLocation('fooValue');   // WHERE author_location = 'fooValue'
+     * $query->filterByAuthorLocation('%fooValue%'); // WHERE author_location LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $submitterlocation The value to use as filter.
+     * @param     string $authorLocation The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return PointQuery The current query, for fluid interface
      */
-    public function filterBySubmitterlocation($submitterlocation = null, $comparison = null)
+    public function filterByAuthorLocation($authorLocation = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($submitterlocation)) {
+            if (is_array($authorLocation)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $submitterlocation)) {
-                $submitterlocation = str_replace('*', '%', $submitterlocation);
+            } elseif (preg_match('/[\%\*]/', $authorLocation)) {
+                $authorLocation = str_replace('*', '%', $authorLocation);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(PointPeer::SUBMITTERLOCATION, $submitterlocation, $comparison);
+        return $this->addUsingAlias(PointPeer::AUTHOR_LOCATION, $authorLocation, $comparison);
     }
 
     /**
@@ -540,19 +573,19 @@ abstract class BasePointQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the projectId column
+     * Filter the query on the project_id column
      *
      * Example usage:
      * <code>
-     * $query->filterByProjectid(1234); // WHERE projectId = 1234
-     * $query->filterByProjectid(array(12, 34)); // WHERE projectId IN (12, 34)
-     * $query->filterByProjectid(array('min' => 12)); // WHERE projectId >= 12
-     * $query->filterByProjectid(array('max' => 12)); // WHERE projectId <= 12
+     * $query->filterByProjectId(1234); // WHERE project_id = 1234
+     * $query->filterByProjectId(array(12, 34)); // WHERE project_id IN (12, 34)
+     * $query->filterByProjectId(array('min' => 12)); // WHERE project_id >= 12
+     * $query->filterByProjectId(array('max' => 12)); // WHERE project_id <= 12
      * </code>
      *
      * @see       filterByProject()
      *
-     * @param     mixed $projectid The value to use as filter.
+     * @param     mixed $projectId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -560,16 +593,16 @@ abstract class BasePointQuery extends ModelCriteria
      *
      * @return PointQuery The current query, for fluid interface
      */
-    public function filterByProjectid($projectid = null, $comparison = null)
+    public function filterByProjectId($projectId = null, $comparison = null)
     {
-        if (is_array($projectid)) {
+        if (is_array($projectId)) {
             $useMinMax = false;
-            if (isset($projectid['min'])) {
-                $this->addUsingAlias(PointPeer::PROJECTID, $projectid['min'], Criteria::GREATER_EQUAL);
+            if (isset($projectId['min'])) {
+                $this->addUsingAlias(PointPeer::PROJECT_ID, $projectId['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($projectid['max'])) {
-                $this->addUsingAlias(PointPeer::PROJECTID, $projectid['max'], Criteria::LESS_EQUAL);
+            if (isset($projectId['max'])) {
+                $this->addUsingAlias(PointPeer::PROJECT_ID, $projectId['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -580,7 +613,7 @@ abstract class BasePointQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(PointPeer::PROJECTID, $projectid, $comparison);
+        return $this->addUsingAlias(PointPeer::PROJECT_ID, $projectId, $comparison);
     }
 
     /**
@@ -596,14 +629,14 @@ abstract class BasePointQuery extends ModelCriteria
     {
         if ($project instanceof Project) {
             return $this
-                ->addUsingAlias(PointPeer::PROJECTID, $project->getId(), $comparison);
+                ->addUsingAlias(PointPeer::PROJECT_ID, $project->getId(), $comparison);
         } elseif ($project instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(PointPeer::PROJECTID, $project->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(PointPeer::PROJECT_ID, $project->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByProject() only accepts arguments of type Project or PropelCollection');
         }
