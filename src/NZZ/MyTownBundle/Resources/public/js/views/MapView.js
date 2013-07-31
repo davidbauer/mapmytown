@@ -3,12 +3,13 @@
   window.app.views.MapView = Backbone.View.extend({
     events: {
       // Currently disabled until we have the editing mode
-      // 'click': 'onMapClick'
+      // 'click': 'onMapClick',
+      'mouseover .leaflet-clickable': 'onHover'
     },
 
 
     initialize: function() {
-      _.bindAll(this, 'initMap', 'onMapClick', 'addPoint', 'renderPoints');
+      _.bindAll(this, 'initMap', 'onHover', 'onMapClick', 'addPoint', 'renderPoints');
 
       this.listenTo(this.model, 'change:points', this.renderPoints);
     },
@@ -54,6 +55,10 @@
       });
 
       circle.addTo(this.map);
+    },
+
+    onHover: function(evt) {
+      // TODO
     },
 
     onMapClick: function(evt) {
