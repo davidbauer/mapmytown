@@ -24,6 +24,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery orderByLongitude($order = Criteria::ASC) Order by the longitude column
  * @method PointQuery orderBySubmittername($order = Criteria::ASC) Order by the submitterName column
  * @method PointQuery orderBySubmitterlocation($order = Criteria::ASC) Order by the submitterLocation column
+ * @method PointQuery orderBySentiment($order = Criteria::ASC) Order by the sentiment column
  * @method PointQuery orderByIsPublished($order = Criteria::ASC) Order by the is_published column
  * @method PointQuery orderByProjectid($order = Criteria::ASC) Order by the projectId column
  *
@@ -33,6 +34,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery groupByLongitude() Group by the longitude column
  * @method PointQuery groupBySubmittername() Group by the submitterName column
  * @method PointQuery groupBySubmitterlocation() Group by the submitterLocation column
+ * @method PointQuery groupBySentiment() Group by the sentiment column
  * @method PointQuery groupByIsPublished() Group by the is_published column
  * @method PointQuery groupByProjectid() Group by the projectId column
  *
@@ -52,6 +54,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method Point findOneByLongitude(double $longitude) Return the first Point filtered by the longitude column
  * @method Point findOneBySubmittername(string $submitterName) Return the first Point filtered by the submitterName column
  * @method Point findOneBySubmitterlocation(string $submitterLocation) Return the first Point filtered by the submitterLocation column
+ * @method Point findOneBySentiment(string $sentiment) Return the first Point filtered by the sentiment column
  * @method Point findOneByIsPublished(boolean $is_published) Return the first Point filtered by the is_published column
  * @method Point findOneByProjectid(int $projectId) Return the first Point filtered by the projectId column
  *
@@ -61,6 +64,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method array findByLongitude(double $longitude) Return Point objects filtered by the longitude column
  * @method array findBySubmittername(string $submitterName) Return Point objects filtered by the submitterName column
  * @method array findBySubmitterlocation(string $submitterLocation) Return Point objects filtered by the submitterLocation column
+ * @method array findBySentiment(string $sentiment) Return Point objects filtered by the sentiment column
  * @method array findByIsPublished(boolean $is_published) Return Point objects filtered by the is_published column
  * @method array findByProjectid(int $projectId) Return Point objects filtered by the projectId column
  */
@@ -164,7 +168,7 @@ abstract class BasePointQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `is_published`, `projectId` FROM `point` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `description`, `latitude`, `longitude`, `submitterName`, `submitterLocation`, `sentiment`, `is_published`, `projectId` FROM `point` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -464,6 +468,35 @@ abstract class BasePointQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(PointPeer::SUBMITTERLOCATION, $submitterlocation, $comparison);
+    }
+
+    /**
+     * Filter the query on the sentiment column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySentiment('fooValue');   // WHERE sentiment = 'fooValue'
+     * $query->filterBySentiment('%fooValue%'); // WHERE sentiment LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $sentiment The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterBySentiment($sentiment = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($sentiment)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $sentiment)) {
+                $sentiment = str_replace('*', '%', $sentiment);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(PointPeer::SENTIMENT, $sentiment, $comparison);
     }
 
     /**

@@ -14,21 +14,22 @@ use \PropelObjectCollection;
 use \PropelPDO;
 use NZZ\MyTownBundle\Model\Point;
 use NZZ\MyTownBundle\Model\Project;
+use NZZ\MyTownBundle\Model\ProjectLogo;
 use NZZ\MyTownBundle\Model\ProjectPeer;
 use NZZ\MyTownBundle\Model\ProjectQuery;
 
 /**
  * @method ProjectQuery orderById($order = Criteria::ASC) Order by the id column
- * @method ProjectQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method ProjectQuery orderByShortname($order = Criteria::ASC) Order by the shortname column
+ * @method ProjectQuery orderByTitle($order = Criteria::ASC) Order by the title column
+ * @method ProjectQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method ProjectQuery orderByCenterlatitude($order = Criteria::ASC) Order by the centerLatitude column
  * @method ProjectQuery orderByCenterlongitude($order = Criteria::ASC) Order by the centerLongitude column
  * @method ProjectQuery orderByDefaultzoom($order = Criteria::ASC) Order by the defaultZoom column
  * @method ProjectQuery orderByLanguage($order = Criteria::ASC) Order by the language column
  *
  * @method ProjectQuery groupById() Group by the id column
- * @method ProjectQuery groupByName() Group by the name column
- * @method ProjectQuery groupByShortname() Group by the shortname column
+ * @method ProjectQuery groupByTitle() Group by the title column
+ * @method ProjectQuery groupByDescription() Group by the description column
  * @method ProjectQuery groupByCenterlatitude() Group by the centerLatitude column
  * @method ProjectQuery groupByCenterlongitude() Group by the centerLongitude column
  * @method ProjectQuery groupByDefaultzoom() Group by the defaultZoom column
@@ -38,6 +39,10 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  * @method ProjectQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method ProjectQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method ProjectQuery leftJoinProjectLogo($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProjectLogo relation
+ * @method ProjectQuery rightJoinProjectLogo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProjectLogo relation
+ * @method ProjectQuery innerJoinProjectLogo($relationAlias = null) Adds a INNER JOIN clause to the query using the ProjectLogo relation
+ *
  * @method ProjectQuery leftJoinPoint($relationAlias = null) Adds a LEFT JOIN clause to the query using the Point relation
  * @method ProjectQuery rightJoinPoint($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Point relation
  * @method ProjectQuery innerJoinPoint($relationAlias = null) Adds a INNER JOIN clause to the query using the Point relation
@@ -45,16 +50,16 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
  * @method Project findOne(PropelPDO $con = null) Return the first Project matching the query
  * @method Project findOneOrCreate(PropelPDO $con = null) Return the first Project matching the query, or a new Project object populated from the query conditions when no match is found
  *
- * @method Project findOneByName(string $name) Return the first Project filtered by the name column
- * @method Project findOneByShortname(string $shortname) Return the first Project filtered by the shortname column
+ * @method Project findOneByTitle(string $title) Return the first Project filtered by the title column
+ * @method Project findOneByDescription(string $description) Return the first Project filtered by the description column
  * @method Project findOneByCenterlatitude(double $centerLatitude) Return the first Project filtered by the centerLatitude column
  * @method Project findOneByCenterlongitude(double $centerLongitude) Return the first Project filtered by the centerLongitude column
  * @method Project findOneByDefaultzoom(int $defaultZoom) Return the first Project filtered by the defaultZoom column
  * @method Project findOneByLanguage(string $language) Return the first Project filtered by the language column
  *
  * @method array findById(int $id) Return Project objects filtered by the id column
- * @method array findByName(string $name) Return Project objects filtered by the name column
- * @method array findByShortname(string $shortname) Return Project objects filtered by the shortname column
+ * @method array findByTitle(string $title) Return Project objects filtered by the title column
+ * @method array findByDescription(string $description) Return Project objects filtered by the description column
  * @method array findByCenterlatitude(double $centerLatitude) Return Project objects filtered by the centerLatitude column
  * @method array findByCenterlongitude(double $centerLongitude) Return Project objects filtered by the centerLongitude column
  * @method array findByDefaultzoom(int $defaultZoom) Return Project objects filtered by the defaultZoom column
@@ -160,7 +165,7 @@ abstract class BaseProjectQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `name`, `shortname`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language` FROM `project` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `title`, `description`, `centerLatitude`, `centerLongitude`, `defaultZoom`, `language` FROM `project` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -292,61 +297,61 @@ abstract class BaseProjectQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the name column
+     * Filter the query on the title column
      *
      * Example usage:
      * <code>
-     * $query->filterByName('fooValue');   // WHERE name = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE name LIKE '%fooValue%'
+     * $query->filterByTitle('fooValue');   // WHERE title = 'fooValue'
+     * $query->filterByTitle('%fooValue%'); // WHERE title LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $name The value to use as filter.
+     * @param     string $title The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ProjectQuery The current query, for fluid interface
      */
-    public function filterByName($name = null, $comparison = null)
+    public function filterByTitle($title = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($name)) {
+            if (is_array($title)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
+            } elseif (preg_match('/[\%\*]/', $title)) {
+                $title = str_replace('*', '%', $title);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ProjectPeer::NAME, $name, $comparison);
+        return $this->addUsingAlias(ProjectPeer::TITLE, $title, $comparison);
     }
 
     /**
-     * Filter the query on the shortname column
+     * Filter the query on the description column
      *
      * Example usage:
      * <code>
-     * $query->filterByShortname('fooValue');   // WHERE shortname = 'fooValue'
-     * $query->filterByShortname('%fooValue%'); // WHERE shortname LIKE '%fooValue%'
+     * $query->filterByDescription('fooValue');   // WHERE description = 'fooValue'
+     * $query->filterByDescription('%fooValue%'); // WHERE description LIKE '%fooValue%'
      * </code>
      *
-     * @param     string $shortname The value to use as filter.
+     * @param     string $description The value to use as filter.
      *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ProjectQuery The current query, for fluid interface
      */
-    public function filterByShortname($shortname = null, $comparison = null)
+    public function filterByDescription($description = null, $comparison = null)
     {
         if (null === $comparison) {
-            if (is_array($shortname)) {
+            if (is_array($description)) {
                 $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $shortname)) {
-                $shortname = str_replace('*', '%', $shortname);
+            } elseif (preg_match('/[\%\*]/', $description)) {
+                $description = str_replace('*', '%', $description);
                 $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(ProjectPeer::SHORTNAME, $shortname, $comparison);
+        return $this->addUsingAlias(ProjectPeer::DESCRIPTION, $description, $comparison);
     }
 
     /**
@@ -502,6 +507,80 @@ abstract class BaseProjectQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProjectPeer::LANGUAGE, $language, $comparison);
+    }
+
+    /**
+     * Filter the query by a related ProjectLogo object
+     *
+     * @param   ProjectLogo|PropelObjectCollection $projectLogo  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 ProjectQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByProjectLogo($projectLogo, $comparison = null)
+    {
+        if ($projectLogo instanceof ProjectLogo) {
+            return $this
+                ->addUsingAlias(ProjectPeer::ID, $projectLogo->getprojectId(), $comparison);
+        } elseif ($projectLogo instanceof PropelObjectCollection) {
+            return $this
+                ->useProjectLogoQuery()
+                ->filterByPrimaryKeys($projectLogo->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByProjectLogo() only accepts arguments of type ProjectLogo or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the ProjectLogo relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ProjectQuery The current query, for fluid interface
+     */
+    public function joinProjectLogo($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('ProjectLogo');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'ProjectLogo');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the ProjectLogo relation ProjectLogo object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \NZZ\MyTownBundle\Model\ProjectLogoQuery A secondary query class using the current class as primary query
+     */
+    public function useProjectLogoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinProjectLogo($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ProjectLogo', '\NZZ\MyTownBundle\Model\ProjectLogoQuery');
     }
 
     /**

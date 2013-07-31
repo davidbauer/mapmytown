@@ -10,6 +10,7 @@ use \Propel;
 use \PropelException;
 use \PropelPDO;
 use NZZ\MyTownBundle\Model\Project;
+use NZZ\MyTownBundle\Model\ProjectLogoPeer;
 use NZZ\MyTownBundle\Model\ProjectPeer;
 use NZZ\MyTownBundle\Model\map\ProjectTableMap;
 
@@ -40,11 +41,11 @@ abstract class BaseProjectPeer
     /** the column name for the id field */
     const ID = 'project.id';
 
-    /** the column name for the name field */
-    const NAME = 'project.name';
+    /** the column name for the title field */
+    const TITLE = 'project.title';
 
-    /** the column name for the shortname field */
-    const SHORTNAME = 'project.shortname';
+    /** the column name for the description field */
+    const DESCRIPTION = 'project.description';
 
     /** the column name for the centerLatitude field */
     const CENTERLATITUDE = 'project.centerLatitude';
@@ -77,11 +78,11 @@ abstract class BaseProjectPeer
      * e.g. ProjectPeer::$fieldNames[ProjectPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Id', 'Name', 'Shortname', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'name', 'shortname', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', ),
-        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID, ProjectPeer::NAME, ProjectPeer::SHORTNAME, ProjectPeer::CENTERLATITUDE, ProjectPeer::CENTERLONGITUDE, ProjectPeer::DEFAULTZOOM, ProjectPeer::LANGUAGE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'NAME', 'SHORTNAME', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', ),
-        BasePeer::TYPE_FIELDNAME => array ('id', 'name', 'shortname', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', ),
+        BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Description', 'Centerlatitude', 'Centerlongitude', 'Defaultzoom', 'Language', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id', 'title', 'description', 'centerlatitude', 'centerlongitude', 'defaultzoom', 'language', ),
+        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID, ProjectPeer::TITLE, ProjectPeer::DESCRIPTION, ProjectPeer::CENTERLATITUDE, ProjectPeer::CENTERLONGITUDE, ProjectPeer::DEFAULTZOOM, ProjectPeer::LANGUAGE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID', 'TITLE', 'DESCRIPTION', 'CENTERLATITUDE', 'CENTERLONGITUDE', 'DEFAULTZOOM', 'LANGUAGE', ),
+        BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'description', 'centerLatitude', 'centerLongitude', 'defaultZoom', 'language', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -92,11 +93,11 @@ abstract class BaseProjectPeer
      * e.g. ProjectPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Name' => 1, 'Shortname' => 2, 'Centerlatitude' => 3, 'Centerlongitude' => 4, 'Defaultzoom' => 5, 'Language' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'centerlatitude' => 3, 'centerlongitude' => 4, 'defaultzoom' => 5, 'language' => 6, ),
-        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID => 0, ProjectPeer::NAME => 1, ProjectPeer::SHORTNAME => 2, ProjectPeer::CENTERLATITUDE => 3, ProjectPeer::CENTERLONGITUDE => 4, ProjectPeer::DEFAULTZOOM => 5, ProjectPeer::LANGUAGE => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'NAME' => 1, 'SHORTNAME' => 2, 'CENTERLATITUDE' => 3, 'CENTERLONGITUDE' => 4, 'DEFAULTZOOM' => 5, 'LANGUAGE' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'name' => 1, 'shortname' => 2, 'centerLatitude' => 3, 'centerLongitude' => 4, 'defaultZoom' => 5, 'language' => 6, ),
+        BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Description' => 2, 'Centerlatitude' => 3, 'Centerlongitude' => 4, 'Defaultzoom' => 5, 'Language' => 6, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('id' => 0, 'title' => 1, 'description' => 2, 'centerlatitude' => 3, 'centerlongitude' => 4, 'defaultzoom' => 5, 'language' => 6, ),
+        BasePeer::TYPE_COLNAME => array (ProjectPeer::ID => 0, ProjectPeer::TITLE => 1, ProjectPeer::DESCRIPTION => 2, ProjectPeer::CENTERLATITUDE => 3, ProjectPeer::CENTERLONGITUDE => 4, ProjectPeer::DEFAULTZOOM => 5, ProjectPeer::LANGUAGE => 6, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('ID' => 0, 'TITLE' => 1, 'DESCRIPTION' => 2, 'CENTERLATITUDE' => 3, 'CENTERLONGITUDE' => 4, 'DEFAULTZOOM' => 5, 'LANGUAGE' => 6, ),
+        BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'description' => 2, 'centerLatitude' => 3, 'centerLongitude' => 4, 'defaultZoom' => 5, 'language' => 6, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
     );
 
@@ -172,16 +173,16 @@ abstract class BaseProjectPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(ProjectPeer::ID);
-            $criteria->addSelectColumn(ProjectPeer::NAME);
-            $criteria->addSelectColumn(ProjectPeer::SHORTNAME);
+            $criteria->addSelectColumn(ProjectPeer::TITLE);
+            $criteria->addSelectColumn(ProjectPeer::DESCRIPTION);
             $criteria->addSelectColumn(ProjectPeer::CENTERLATITUDE);
             $criteria->addSelectColumn(ProjectPeer::CENTERLONGITUDE);
             $criteria->addSelectColumn(ProjectPeer::DEFAULTZOOM);
             $criteria->addSelectColumn(ProjectPeer::LANGUAGE);
         } else {
             $criteria->addSelectColumn($alias . '.id');
-            $criteria->addSelectColumn($alias . '.name');
-            $criteria->addSelectColumn($alias . '.shortname');
+            $criteria->addSelectColumn($alias . '.title');
+            $criteria->addSelectColumn($alias . '.description');
             $criteria->addSelectColumn($alias . '.centerLatitude');
             $criteria->addSelectColumn($alias . '.centerLongitude');
             $criteria->addSelectColumn($alias . '.defaultZoom');
@@ -392,6 +393,9 @@ abstract class BaseProjectPeer
      */
     public static function clearRelatedInstancePool()
     {
+        // Invalidate objects in ProjectLogoPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        ProjectLogoPeer::clearInstancePool();
     }
 
     /**

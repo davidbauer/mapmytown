@@ -11,24 +11,26 @@ use \Persistent;
 use \Propel;
 use \PropelException;
 use \PropelPDO;
-use NZZ\MyTownBundle\Model\Point;
-use NZZ\MyTownBundle\Model\PointPeer;
-use NZZ\MyTownBundle\Model\PointQuery;
+use NZZ\MyTownBundle\Model\Logo;
+use NZZ\MyTownBundle\Model\LogoQuery;
 use NZZ\MyTownBundle\Model\Project;
+use NZZ\MyTownBundle\Model\ProjectLogo;
+use NZZ\MyTownBundle\Model\ProjectLogoPeer;
+use NZZ\MyTownBundle\Model\ProjectLogoQuery;
 use NZZ\MyTownBundle\Model\ProjectQuery;
 
-abstract class BasePoint extends BaseObject implements Persistent
+abstract class BaseProjectLogo extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'NZZ\\MyTownBundle\\Model\\PointPeer';
+    const PEER = 'NZZ\\MyTownBundle\\Model\\ProjectLogoPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        PointPeer
+     * @var        ProjectLogoPeer
      */
     protected static $peer;
 
@@ -45,58 +47,33 @@ abstract class BasePoint extends BaseObject implements Persistent
     protected $id;
 
     /**
-     * The value for the description field.
-     * @var        string
-     */
-    protected $description;
-
-    /**
-     * The value for the latitude field.
-     * @var        double
-     */
-    protected $latitude;
-
-    /**
-     * The value for the longitude field.
-     * @var        double
-     */
-    protected $longitude;
-
-    /**
-     * The value for the submittername field.
-     * @var        string
-     */
-    protected $submittername;
-
-    /**
-     * The value for the submitterlocation field.
-     * @var        string
-     */
-    protected $submitterlocation;
-
-    /**
-     * The value for the sentiment field.
-     * @var        string
-     */
-    protected $sentiment;
-
-    /**
-     * The value for the is_published field.
-     * Note: this column has a database default value of: false
-     * @var        boolean
-     */
-    protected $is_published;
-
-    /**
-     * The value for the projectid field.
+     * The value for the project_id field.
      * @var        int
      */
-    protected $projectid;
+    protected $project_id;
+
+    /**
+     * The value for the logo_id field.
+     * @var        int
+     */
+    protected $logo_id;
+
+    /**
+     * The value for the position field.
+     * Note: this column has a database default value of: 0
+     * @var        int
+     */
+    protected $position;
 
     /**
      * @var        Project
      */
     protected $aProject;
+
+    /**
+     * @var        Logo
+     */
+    protected $aLogo;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -126,11 +103,11 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function applyDefaultValues()
     {
-        $this->is_published = false;
+        $this->position = 0;
     }
 
     /**
-     * Initializes internal state of BasePoint object.
+     * Initializes internal state of BaseProjectLogo object.
      * @see        applyDefaults()
      */
     public function __construct()
@@ -150,90 +127,40 @@ abstract class BasePoint extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [description] column value.
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Get the [latitude] column value.
-     *
-     * @return double
-     */
-    public function getLatitude()
-    {
-        return $this->latitude;
-    }
-
-    /**
-     * Get the [longitude] column value.
-     *
-     * @return double
-     */
-    public function getLongitude()
-    {
-        return $this->longitude;
-    }
-
-    /**
-     * Get the [submittername] column value.
-     *
-     * @return string
-     */
-    public function getSubmittername()
-    {
-        return $this->submittername;
-    }
-
-    /**
-     * Get the [submitterlocation] column value.
-     *
-     * @return string
-     */
-    public function getSubmitterlocation()
-    {
-        return $this->submitterlocation;
-    }
-
-    /**
-     * Get the [sentiment] column value.
-     *
-     * @return string
-     */
-    public function getSentiment()
-    {
-        return $this->sentiment;
-    }
-
-    /**
-     * Get the [is_published] column value.
-     *
-     * @return boolean
-     */
-    public function getIsPublished()
-    {
-        return $this->is_published;
-    }
-
-    /**
-     * Get the [projectid] column value.
+     * Get the [project_id] column value.
      *
      * @return int
      */
-    public function getProjectid()
+    public function getprojectId()
     {
-        return $this->projectid;
+        return $this->project_id;
+    }
+
+    /**
+     * Get the [logo_id] column value.
+     *
+     * @return int
+     */
+    public function getlogoId()
+    {
+        return $this->logo_id;
+    }
+
+    /**
+     * Get the [position] column value.
+     *
+     * @return int
+     */
+    public function getPosition()
+    {
+        return $this->position;
     }
 
     /**
      * Set the value of [id] column.
      *
      * @param int $v new value
-     * @return Point The current object (for fluent API support)
+     * @return ProjectLogo The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -243,7 +170,7 @@ abstract class BasePoint extends BaseObject implements Persistent
 
         if ($this->id !== $v) {
             $this->id = $v;
-            $this->modifiedColumns[] = PointPeer::ID;
+            $this->modifiedColumns[] = ProjectLogoPeer::ID;
         }
 
 
@@ -251,175 +178,20 @@ abstract class BasePoint extends BaseObject implements Persistent
     } // setId()
 
     /**
-     * Set the value of [description] column.
-     *
-     * @param string $v new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setDescription($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[] = PointPeer::DESCRIPTION;
-        }
-
-
-        return $this;
-    } // setDescription()
-
-    /**
-     * Set the value of [latitude] column.
-     *
-     * @param double $v new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setLatitude($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (double) $v;
-        }
-
-        if ($this->latitude !== $v) {
-            $this->latitude = $v;
-            $this->modifiedColumns[] = PointPeer::LATITUDE;
-        }
-
-
-        return $this;
-    } // setLatitude()
-
-    /**
-     * Set the value of [longitude] column.
-     *
-     * @param double $v new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setLongitude($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (double) $v;
-        }
-
-        if ($this->longitude !== $v) {
-            $this->longitude = $v;
-            $this->modifiedColumns[] = PointPeer::LONGITUDE;
-        }
-
-
-        return $this;
-    } // setLongitude()
-
-    /**
-     * Set the value of [submittername] column.
-     *
-     * @param string $v new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setSubmittername($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->submittername !== $v) {
-            $this->submittername = $v;
-            $this->modifiedColumns[] = PointPeer::SUBMITTERNAME;
-        }
-
-
-        return $this;
-    } // setSubmittername()
-
-    /**
-     * Set the value of [submitterlocation] column.
-     *
-     * @param string $v new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setSubmitterlocation($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->submitterlocation !== $v) {
-            $this->submitterlocation = $v;
-            $this->modifiedColumns[] = PointPeer::SUBMITTERLOCATION;
-        }
-
-
-        return $this;
-    } // setSubmitterlocation()
-
-    /**
-     * Set the value of [sentiment] column.
-     *
-     * @param string $v new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setSentiment($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->sentiment !== $v) {
-            $this->sentiment = $v;
-            $this->modifiedColumns[] = PointPeer::SENTIMENT;
-        }
-
-
-        return $this;
-    } // setSentiment()
-
-    /**
-     * Sets the value of the [is_published] column.
-     * Non-boolean arguments are converted using the following rules:
-     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
-     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
-     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
-     *
-     * @param boolean|integer|string $v The new value
-     * @return Point The current object (for fluent API support)
-     */
-    public function setIsPublished($v)
-    {
-        if ($v !== null) {
-            if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
-            } else {
-                $v = (boolean) $v;
-            }
-        }
-
-        if ($this->is_published !== $v) {
-            $this->is_published = $v;
-            $this->modifiedColumns[] = PointPeer::IS_PUBLISHED;
-        }
-
-
-        return $this;
-    } // setIsPublished()
-
-    /**
-     * Set the value of [projectid] column.
+     * Set the value of [project_id] column.
      *
      * @param int $v new value
-     * @return Point The current object (for fluent API support)
+     * @return ProjectLogo The current object (for fluent API support)
      */
-    public function setProjectid($v)
+    public function setprojectId($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->projectid !== $v) {
-            $this->projectid = $v;
-            $this->modifiedColumns[] = PointPeer::PROJECTID;
+        if ($this->project_id !== $v) {
+            $this->project_id = $v;
+            $this->modifiedColumns[] = ProjectLogoPeer::PROJECT_ID;
         }
 
         if ($this->aProject !== null && $this->aProject->getId() !== $v) {
@@ -428,7 +200,53 @@ abstract class BasePoint extends BaseObject implements Persistent
 
 
         return $this;
-    } // setProjectid()
+    } // setprojectId()
+
+    /**
+     * Set the value of [logo_id] column.
+     *
+     * @param int $v new value
+     * @return ProjectLogo The current object (for fluent API support)
+     */
+    public function setlogoId($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->logo_id !== $v) {
+            $this->logo_id = $v;
+            $this->modifiedColumns[] = ProjectLogoPeer::LOGO_ID;
+        }
+
+        if ($this->aLogo !== null && $this->aLogo->getId() !== $v) {
+            $this->aLogo = null;
+        }
+
+
+        return $this;
+    } // setlogoId()
+
+    /**
+     * Set the value of [position] column.
+     *
+     * @param int $v new value
+     * @return ProjectLogo The current object (for fluent API support)
+     */
+    public function setPosition($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->position !== $v) {
+            $this->position = $v;
+            $this->modifiedColumns[] = ProjectLogoPeer::POSITION;
+        }
+
+
+        return $this;
+    } // setPosition()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -440,7 +258,7 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->is_published !== false) {
+            if ($this->position !== 0) {
                 return false;
             }
 
@@ -467,14 +285,9 @@ abstract class BasePoint extends BaseObject implements Persistent
         try {
 
             $this->id = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->description = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
-            $this->latitude = ($row[$startcol + 2] !== null) ? (double) $row[$startcol + 2] : null;
-            $this->longitude = ($row[$startcol + 3] !== null) ? (double) $row[$startcol + 3] : null;
-            $this->submittername = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->submitterlocation = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->sentiment = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->is_published = ($row[$startcol + 7] !== null) ? (boolean) $row[$startcol + 7] : null;
-            $this->projectid = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
+            $this->project_id = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->logo_id = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->position = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -483,10 +296,10 @@ abstract class BasePoint extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
-            return $startcol + 9; // 9 = PointPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = ProjectLogoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Point object", $e);
+            throw new PropelException("Error populating ProjectLogo object", $e);
         }
     }
 
@@ -506,8 +319,11 @@ abstract class BasePoint extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aProject !== null && $this->projectid !== $this->aProject->getId()) {
+        if ($this->aProject !== null && $this->project_id !== $this->aProject->getId()) {
             $this->aProject = null;
+        }
+        if ($this->aLogo !== null && $this->logo_id !== $this->aLogo->getId()) {
+            $this->aLogo = null;
         }
     } // ensureConsistency
 
@@ -532,13 +348,13 @@ abstract class BasePoint extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ProjectLogoPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = PointPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = ProjectLogoPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -549,6 +365,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         if ($deep) {  // also de-associate any related objects?
 
             $this->aProject = null;
+            $this->aLogo = null;
         } // if (deep)
     }
 
@@ -569,12 +386,12 @@ abstract class BasePoint extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ProjectLogoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = PointQuery::create()
+            $deleteQuery = ProjectLogoQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -612,7 +429,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PointPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ProjectLogoPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -632,7 +449,7 @@ abstract class BasePoint extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                PointPeer::addInstanceToPool($this);
+                ProjectLogoPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -674,6 +491,13 @@ abstract class BasePoint extends BaseObject implements Persistent
                 $this->setProject($this->aProject);
             }
 
+            if ($this->aLogo !== null) {
+                if ($this->aLogo->isModified() || $this->aLogo->isNew()) {
+                    $affectedRows += $this->aLogo->save($con);
+                }
+                $this->setLogo($this->aLogo);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -705,42 +529,27 @@ abstract class BasePoint extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = PointPeer::ID;
+        $this->modifiedColumns[] = ProjectLogoPeer::ID;
         if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . PointPeer::ID . ')');
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProjectLogoPeer::ID . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(PointPeer::ID)) {
+        if ($this->isColumnModified(ProjectLogoPeer::ID)) {
             $modifiedColumns[':p' . $index++]  = '`id`';
         }
-        if ($this->isColumnModified(PointPeer::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = '`description`';
+        if ($this->isColumnModified(ProjectLogoPeer::PROJECT_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`project_id`';
         }
-        if ($this->isColumnModified(PointPeer::LATITUDE)) {
-            $modifiedColumns[':p' . $index++]  = '`latitude`';
+        if ($this->isColumnModified(ProjectLogoPeer::LOGO_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`logo_id`';
         }
-        if ($this->isColumnModified(PointPeer::LONGITUDE)) {
-            $modifiedColumns[':p' . $index++]  = '`longitude`';
-        }
-        if ($this->isColumnModified(PointPeer::SUBMITTERNAME)) {
-            $modifiedColumns[':p' . $index++]  = '`submitterName`';
-        }
-        if ($this->isColumnModified(PointPeer::SUBMITTERLOCATION)) {
-            $modifiedColumns[':p' . $index++]  = '`submitterLocation`';
-        }
-        if ($this->isColumnModified(PointPeer::SENTIMENT)) {
-            $modifiedColumns[':p' . $index++]  = '`sentiment`';
-        }
-        if ($this->isColumnModified(PointPeer::IS_PUBLISHED)) {
-            $modifiedColumns[':p' . $index++]  = '`is_published`';
-        }
-        if ($this->isColumnModified(PointPeer::PROJECTID)) {
-            $modifiedColumns[':p' . $index++]  = '`projectId`';
+        if ($this->isColumnModified(ProjectLogoPeer::POSITION)) {
+            $modifiedColumns[':p' . $index++]  = '`position`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `point` (%s) VALUES (%s)',
+            'INSERT INTO `project_logo` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -752,29 +561,14 @@ abstract class BasePoint extends BaseObject implements Persistent
                     case '`id`':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case '`description`':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
+                    case '`project_id`':
+                        $stmt->bindValue($identifier, $this->project_id, PDO::PARAM_INT);
                         break;
-                    case '`latitude`':
-                        $stmt->bindValue($identifier, $this->latitude, PDO::PARAM_STR);
+                    case '`logo_id`':
+                        $stmt->bindValue($identifier, $this->logo_id, PDO::PARAM_INT);
                         break;
-                    case '`longitude`':
-                        $stmt->bindValue($identifier, $this->longitude, PDO::PARAM_STR);
-                        break;
-                    case '`submitterName`':
-                        $stmt->bindValue($identifier, $this->submittername, PDO::PARAM_STR);
-                        break;
-                    case '`submitterLocation`':
-                        $stmt->bindValue($identifier, $this->submitterlocation, PDO::PARAM_STR);
-                        break;
-                    case '`sentiment`':
-                        $stmt->bindValue($identifier, $this->sentiment, PDO::PARAM_STR);
-                        break;
-                    case '`is_published`':
-                        $stmt->bindValue($identifier, (int) $this->is_published, PDO::PARAM_INT);
-                        break;
-                    case '`projectId`':
-                        $stmt->bindValue($identifier, $this->projectid, PDO::PARAM_INT);
+                    case '`position`':
+                        $stmt->bindValue($identifier, $this->position, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -881,8 +675,14 @@ abstract class BasePoint extends BaseObject implements Persistent
                 }
             }
 
+            if ($this->aLogo !== null) {
+                if (!$this->aLogo->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aLogo->getValidationFailures());
+                }
+            }
 
-            if (($retval = PointPeer::doValidate($this, $columns)) !== true) {
+
+            if (($retval = ProjectLogoPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -906,7 +706,7 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_STUDLYPHPNAME)
     {
-        $pos = PointPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ProjectLogoPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -926,28 +726,13 @@ abstract class BasePoint extends BaseObject implements Persistent
                 return $this->getId();
                 break;
             case 1:
-                return $this->getDescription();
+                return $this->getprojectId();
                 break;
             case 2:
-                return $this->getLatitude();
+                return $this->getlogoId();
                 break;
             case 3:
-                return $this->getLongitude();
-                break;
-            case 4:
-                return $this->getSubmittername();
-                break;
-            case 5:
-                return $this->getSubmitterlocation();
-                break;
-            case 6:
-                return $this->getSentiment();
-                break;
-            case 7:
-                return $this->getIsPublished();
-                break;
-            case 8:
-                return $this->getProjectid();
+                return $this->getPosition();
                 break;
             default:
                 return null;
@@ -972,25 +757,23 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_STUDLYPHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Point'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['ProjectLogo'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Point'][$this->getPrimaryKey()] = true;
-        $keys = PointPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['ProjectLogo'][$this->getPrimaryKey()] = true;
+        $keys = ProjectLogoPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getDescription(),
-            $keys[2] => $this->getLatitude(),
-            $keys[3] => $this->getLongitude(),
-            $keys[4] => $this->getSubmittername(),
-            $keys[5] => $this->getSubmitterlocation(),
-            $keys[6] => $this->getSentiment(),
-            $keys[7] => $this->getIsPublished(),
-            $keys[8] => $this->getProjectid(),
+            $keys[1] => $this->getprojectId(),
+            $keys[2] => $this->getlogoId(),
+            $keys[3] => $this->getPosition(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aProject) {
                 $result['Project'] = $this->aProject->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aLogo) {
+                $result['Logo'] = $this->aLogo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1010,7 +793,7 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_STUDLYPHPNAME)
     {
-        $pos = PointPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ProjectLogoPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -1030,28 +813,13 @@ abstract class BasePoint extends BaseObject implements Persistent
                 $this->setId($value);
                 break;
             case 1:
-                $this->setDescription($value);
+                $this->setprojectId($value);
                 break;
             case 2:
-                $this->setLatitude($value);
+                $this->setlogoId($value);
                 break;
             case 3:
-                $this->setLongitude($value);
-                break;
-            case 4:
-                $this->setSubmittername($value);
-                break;
-            case 5:
-                $this->setSubmitterlocation($value);
-                break;
-            case 6:
-                $this->setSentiment($value);
-                break;
-            case 7:
-                $this->setIsPublished($value);
-                break;
-            case 8:
-                $this->setProjectid($value);
+                $this->setPosition($value);
                 break;
         } // switch()
     }
@@ -1075,17 +843,12 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_STUDLYPHPNAME)
     {
-        $keys = PointPeer::getFieldNames($keyType);
+        $keys = ProjectLogoPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setDescription($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setLatitude($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setLongitude($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setSubmittername($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setSubmitterlocation($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setSentiment($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setIsPublished($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setProjectid($arr[$keys[8]]);
+        if (array_key_exists($keys[1], $arr)) $this->setprojectId($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setlogoId($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setPosition($arr[$keys[3]]);
     }
 
     /**
@@ -1095,17 +858,12 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(PointPeer::DATABASE_NAME);
+        $criteria = new Criteria(ProjectLogoPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(PointPeer::ID)) $criteria->add(PointPeer::ID, $this->id);
-        if ($this->isColumnModified(PointPeer::DESCRIPTION)) $criteria->add(PointPeer::DESCRIPTION, $this->description);
-        if ($this->isColumnModified(PointPeer::LATITUDE)) $criteria->add(PointPeer::LATITUDE, $this->latitude);
-        if ($this->isColumnModified(PointPeer::LONGITUDE)) $criteria->add(PointPeer::LONGITUDE, $this->longitude);
-        if ($this->isColumnModified(PointPeer::SUBMITTERNAME)) $criteria->add(PointPeer::SUBMITTERNAME, $this->submittername);
-        if ($this->isColumnModified(PointPeer::SUBMITTERLOCATION)) $criteria->add(PointPeer::SUBMITTERLOCATION, $this->submitterlocation);
-        if ($this->isColumnModified(PointPeer::SENTIMENT)) $criteria->add(PointPeer::SENTIMENT, $this->sentiment);
-        if ($this->isColumnModified(PointPeer::IS_PUBLISHED)) $criteria->add(PointPeer::IS_PUBLISHED, $this->is_published);
-        if ($this->isColumnModified(PointPeer::PROJECTID)) $criteria->add(PointPeer::PROJECTID, $this->projectid);
+        if ($this->isColumnModified(ProjectLogoPeer::ID)) $criteria->add(ProjectLogoPeer::ID, $this->id);
+        if ($this->isColumnModified(ProjectLogoPeer::PROJECT_ID)) $criteria->add(ProjectLogoPeer::PROJECT_ID, $this->project_id);
+        if ($this->isColumnModified(ProjectLogoPeer::LOGO_ID)) $criteria->add(ProjectLogoPeer::LOGO_ID, $this->logo_id);
+        if ($this->isColumnModified(ProjectLogoPeer::POSITION)) $criteria->add(ProjectLogoPeer::POSITION, $this->position);
 
         return $criteria;
     }
@@ -1120,8 +878,8 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(PointPeer::DATABASE_NAME);
-        $criteria->add(PointPeer::ID, $this->id);
+        $criteria = new Criteria(ProjectLogoPeer::DATABASE_NAME);
+        $criteria->add(ProjectLogoPeer::ID, $this->id);
 
         return $criteria;
     }
@@ -1162,21 +920,16 @@ abstract class BasePoint extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Point (or compatible) type.
+     * @param object $copyObj An object of ProjectLogo (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setDescription($this->getDescription());
-        $copyObj->setLatitude($this->getLatitude());
-        $copyObj->setLongitude($this->getLongitude());
-        $copyObj->setSubmittername($this->getSubmittername());
-        $copyObj->setSubmitterlocation($this->getSubmitterlocation());
-        $copyObj->setSentiment($this->getSentiment());
-        $copyObj->setIsPublished($this->getIsPublished());
-        $copyObj->setProjectid($this->getProjectid());
+        $copyObj->setprojectId($this->getprojectId());
+        $copyObj->setlogoId($this->getlogoId());
+        $copyObj->setPosition($this->getPosition());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1204,7 +957,7 @@ abstract class BasePoint extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Point Clone of current object.
+     * @return ProjectLogo Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1224,12 +977,12 @@ abstract class BasePoint extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return PointPeer
+     * @return ProjectLogoPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new PointPeer();
+            self::$peer = new ProjectLogoPeer();
         }
 
         return self::$peer;
@@ -1239,15 +992,15 @@ abstract class BasePoint extends BaseObject implements Persistent
      * Declares an association between this object and a Project object.
      *
      * @param             Project $v
-     * @return Point The current object (for fluent API support)
+     * @return ProjectLogo The current object (for fluent API support)
      * @throws PropelException
      */
     public function setProject(Project $v = null)
     {
         if ($v === null) {
-            $this->setProjectid(NULL);
+            $this->setprojectId(NULL);
         } else {
-            $this->setProjectid($v->getId());
+            $this->setprojectId($v->getId());
         }
 
         $this->aProject = $v;
@@ -1255,7 +1008,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         // Add binding for other direction of this n:n relationship.
         // If this object has already been added to the Project object, it will not be re-added.
         if ($v !== null) {
-            $v->addPoint($this);
+            $v->addProjectLogo($this);
         }
 
 
@@ -1273,18 +1026,70 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function getProject(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aProject === null && ($this->projectid !== null) && $doQuery) {
-            $this->aProject = ProjectQuery::create()->findPk($this->projectid, $con);
+        if ($this->aProject === null && ($this->project_id !== null) && $doQuery) {
+            $this->aProject = ProjectQuery::create()->findPk($this->project_id, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aProject->addPoints($this);
+                $this->aProject->addProjectLogos($this);
              */
         }
 
         return $this->aProject;
+    }
+
+    /**
+     * Declares an association between this object and a Logo object.
+     *
+     * @param             Logo $v
+     * @return ProjectLogo The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setLogo(Logo $v = null)
+    {
+        if ($v === null) {
+            $this->setlogoId(NULL);
+        } else {
+            $this->setlogoId($v->getId());
+        }
+
+        $this->aLogo = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the Logo object, it will not be re-added.
+        if ($v !== null) {
+            $v->addProjectLogo($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated Logo object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @param $doQuery Executes a query to get the object if required
+     * @return Logo The associated Logo object.
+     * @throws PropelException
+     */
+    public function getLogo(PropelPDO $con = null, $doQuery = true)
+    {
+        if ($this->aLogo === null && ($this->logo_id !== null) && $doQuery) {
+            $this->aLogo = LogoQuery::create()->findPk($this->logo_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aLogo->addProjectLogos($this);
+             */
+        }
+
+        return $this->aLogo;
     }
 
     /**
@@ -1293,14 +1098,9 @@ abstract class BasePoint extends BaseObject implements Persistent
     public function clear()
     {
         $this->id = null;
-        $this->description = null;
-        $this->latitude = null;
-        $this->longitude = null;
-        $this->submittername = null;
-        $this->submitterlocation = null;
-        $this->sentiment = null;
-        $this->is_published = null;
-        $this->projectid = null;
+        $this->project_id = null;
+        $this->logo_id = null;
+        $this->position = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1327,11 +1127,15 @@ abstract class BasePoint extends BaseObject implements Persistent
             if ($this->aProject instanceof Persistent) {
               $this->aProject->clearAllReferences($deep);
             }
+            if ($this->aLogo instanceof Persistent) {
+              $this->aLogo->clearAllReferences($deep);
+            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
         $this->aProject = null;
+        $this->aLogo = null;
     }
 
     /**
@@ -1341,7 +1145,7 @@ abstract class BasePoint extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(PointPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(ProjectLogoPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**
