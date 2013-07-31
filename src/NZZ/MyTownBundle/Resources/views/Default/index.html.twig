@@ -43,10 +43,23 @@
 
 {% block templates %}
 
+<script id="template-submit-default" type="text/x-handlebars-template">{% raw %}
+<a href="#" data-action="new" class="btn btn-primary">Submit your wisdom</a>
+{% endraw %}</script>
+
+<script id="template-submit-create" type="text/x-handlebars-template">{% raw %}
+<a href="#" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
+<a href="#commentModal" id="submit__marker__btn" class="btn btn-primary" data-toggle="modal">{{t "form.add"}}</a>
+{% endraw %}</script>
+
+<script id="template-submit-thanks" type="text/x-handlebars-template">{% raw %}
+<a href="#thanksModal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
+{% endraw %}</script>
+
 <script id="template-root-view" type="text/x-handlebars-template">{% raw %}
 <div class="app-container">
 
-  <div class="content span-sidebar-left" id="map"></div>
+  <div id="map" class="content span-sidebar-left" data-view="map-view"></div>
 
   <div class="sidebar">
     <header class="header">
@@ -55,12 +68,8 @@
         </span>
       </h1>
       <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
-      <p>
-        <a href="#" id="submit__wisdom__btn" class="btn btn-primary">Submit your wisdom</a>
-        <a href="#" id="cancel__marker__btn" class="btn btn-secondary">{{t "form.cancel"}}</a>
-        <a href="#commentModal" id="submit__marker__btn" class="btn btn-primary" data-toggle="modal">{{t "form.add"}}</a>
-        <a href="#thanksModal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
-      </p>
+
+      <p data-view="submit-view"></p>
     </header>
     <section data-view="comments-list" class="sidebar__section comments__section"></section>
   </div>

@@ -13,13 +13,19 @@
       var mapView = new app.views.MapView({
         model: this.model
       });
-      this.$('#map').html(mapView.render().el);
+      this.$('[data-view="map-view"]').html(mapView.render().el);
 
       // Comments list
       var commentsList = new app.views.CommentsList({
         collection: this.model.comments
       });
       this.$('[data-view="comments-list"]').html(commentsList.render().el);
+
+      // Submit view
+      var submitView = new app.views.SubmitView({
+        model: new Backbone.Model({mode: 'default'})
+      });
+      this.$('[data-view="submit-view"]').html(submitView.render().el);
 
       return this;
     }
