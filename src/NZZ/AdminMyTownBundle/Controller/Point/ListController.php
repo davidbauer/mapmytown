@@ -7,5 +7,4 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class ListController extends BaseListController
 {
-
 }
