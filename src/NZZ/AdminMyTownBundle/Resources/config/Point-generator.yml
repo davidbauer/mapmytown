@@ -52,13 +52,6 @@ builders:
             actions:
                 save: ~
                 list: ~
-    edit:
-        params:
-            title: "You're editing user's info"
-            display: ~
-            actions:
-                save: ~
-                list: ~
     show:
         params:
             title: "Project's comments"
