@@ -1,0 +1,73 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\Tracking
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: List for AdminMyTownBundle
+            display: [title, provider]
+            actions:
+                new: ~
+            object_actions:
+                edit: ~
+                delete: ~
+    filters:
+        params:
+            display: [provider]
+    new:
+        params:
+            title: Add tracking codes for projects
+            display: [title, provider, body]
+            fields:
+              title:
+                addFormOptions:
+                  required: true
+              provider:
+                addFormOptions:
+                  required: true
+              body:
+                addFormOptions:
+                  required: true
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You're editing tracking information"
+            display: [title, provider, body]
+            fields:
+              title:
+                addFormOptions:
+                  required: true
+              provider:
+                addFormOptions:
+                  required: true
+              body:
+                addFormOptions:
+                  required: true
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "You're viewing the object \"%object%\"|{ %object%: YourModel.title }|"
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~
