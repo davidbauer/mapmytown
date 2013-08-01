@@ -1,5 +1,6 @@
 {% extends_admingenerated "NZZAdminMyTownBundle:ProjectEdit:form.html.twig" %}
  {% block form_fieldset_Translations %}
+     <div id="ololo"></div>
      <fieldset class="form_block form_fieldset_Translations tab-pane">
          <legend><span>{% trans from "Admin" %}Translations{% endtrans %}</span></legend>
          <div class="row-fluid">
@@ -10,4 +11,54 @@
              </div>
          </div>
      </fieldset>
+     <script type="text/javascript">
+         var collectionHolder = $('div#edit_project_project_data');
+
+         var $addTagLink = $('<a href="#" class="btn btn-primary">Add translation</a>');
+         var $newLinkLi = $('div#ololo').before().append($addTagLink);
+         jQuery(document).ready(function() {
+             collectionHolder.find('div.span4').each(function() {
+                 addTagFormDeleteLink($(this));
+             });
+
+             collectionHolder.append($newLinkLi);
+             collectionHolder.data('index', collectionHolder.find(':input').length);
+
+             $addTagLink.on('click', function(e) {
+                 e.preventDefault();
+                 addTagForm(collectionHolder, $newLinkLi);
+             });
+
+         });
+         function addTagForm(collectionHolder, $newLinkLi) {
+             var prototype = collectionHolder.data('prototype');
+             var index = collectionHolder.data('index');
+             var newForm = prototype.replace(/__name__/g, index);
+             collectionHolder.data('index', index + 1);
+             var $newFormLi = $('div#edit_project_project_data').append(newForm);
+
+             addTagFormDeleteLink2(index);
+         }
+
+         function addTagFormDeleteLink($tagFormLi) {
+             var $removeFormA = $('<a href="#" class="btn btn-danger">Remove this</a>');
+             $tagFormLi.append($removeFormA);
+             $removeFormA.on('click', function(e) {
+                 e.preventDefault();
+
+                 $($tagFormLi).remove();
+                 $removeFormA.remove();
+             });
+         }
+         function addTagFormDeleteLink2($index) {
+             var $removeFormA = $('<a href="#" class="btn btn-danger">Remove this</a>');
+             $('div.control-group.'+$index).find('div.span4').append($removeFormA);
+             $removeFormA.on('click', function(e) {
+                 e.preventDefault();
+
+                 $('div.control-group.'+$index).remove();
+                 $removeFormA.remove();
+             });
+         }
+     </script>
  {% endblock form_fieldset_Translations %}
