@@ -19,17 +19,24 @@ class Project extends BaseProject
 
     public function setProjectData(PropelObjectCollection $projectDataCollection)
     {
-        /** @var ProjectData $projectData*/
-        $currentProjectDataCollection = ProjectDataQuery::create()->findByprojectId($this->id)->delete();
-        foreach ($projectDataCollection as $projectData) {
-            try {
-//                var_dump($projectData);die;
-                $projectData->setprojectId($this->id);
-                $projectData->save();
-            } catch (\Exception $e) {
-                var_dump($e->getMessage());
-                die;
-            }
+        /**  @var PropelObjectCollection $currentProjectDataCollection **/
+        $currentProjectDataCollection = ProjectDataQuery::create()->findByprojectId($this->id);
+        $toDelete = $currentProjectDataCollection->diff($projectDataCollection);
+        foreach($toDelete as $obToDelete) {
+            $obToDelete->delete();
         }
+        /** @var ProjectData $projectData*/
+            foreach ($projectDataCollection as $projectData) {
+                if ($projectData->isNew() || $projectData->isModified()) {
+                    try {
+                            $projectData->setprojectId($this->id);
+                            $projectData->save();
+                        } catch (\Exception $e) {
+                            var_dump($e->getMessage());
+                            die;
+                    }
+                } else {
+                }
+            }
     }
 }

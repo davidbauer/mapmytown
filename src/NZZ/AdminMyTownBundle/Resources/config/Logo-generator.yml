@@ -23,7 +23,7 @@ builders:
                 delete: ~
     filters:
         params:
-            display: ~
+            display: [title, caption]
     new:
         params:
             title: Adding new Logo
