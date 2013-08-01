@@ -31,6 +31,13 @@
       // Set project data      
       this.set(result.project);
 
+      // set project default to state if not already defined via query param
+      this.state.set({
+        'lat': this.state.get('lat') || this.get('latitude'),
+        'lng': this.state.get('lng') || this.get('longitude'),
+        'zoom': this.state.get('zoom') || this.get('zoom')
+      });
+
       // Mark deferred as resolved
       this.deferred.resolve();
       this.deferred = null;

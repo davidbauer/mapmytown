@@ -1,5 +1,25 @@
 (function () {
   "use strict";
+
+  // rounds coordinates before setting to state model
+  // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Geographical_coordinates#Precision_guidelines
+  // 0.0001° = 5 - 10m accuracy
+  // should be enough and makes urls shorter
+  function coordsRound(n) {
+    return Math.round(n * 10000) / 10000;
+  }
+
+  function colorCircle(sentiment) {
+    switch (parseInt(sentiment, 10)) {
+      case 0:
+        return "#bec7d3";
+      case 1:
+        return "#79cb59";
+      default:
+        return "#bf292a";
+    }
+  }
+
   window.app.views.MapView = Backbone.View.extend({
     events: {
       // Currently disabled until we have the editing mode
@@ -20,9 +40,23 @@
     },
 
     initMap: function() {
-      var mapCenter = new L.LatLng(this.model.get('latitude'), this.model.get('longitude'));
+      var state = this.model.state,
+          mapCenter = new L.LatLng(state.get('lat'), state.get('lng'));
       this.map = L.mapbox.map(this.el, app.config.mapboxKey);
-      this.map.setView(mapCenter, parseInt(this.model.get('zoom'), 10));
+      this.map.setView(mapCenter, parseInt(state.get('zoom'), 10));
+
+      // debounced
+      var saveState = _.debounce(function() {
+        var coords = this.map.getCenter();
+        this.model.state.set({
+          'lat': coordsRound(coords.lat),
+          'lng': coordsRound(coords.lng),
+          'zoom': this.map.getZoom()
+        });
+      }.bind(this), 500);
+
+      this.map.on('moveend', saveState);
+      this.map.on('zoomend', saveState);
 
       this.renderPoints();
     },
@@ -32,20 +66,6 @@
     },
 
     addPoint: function(point) {
-      function colorCircle(sentiment) {
-        switch (parseInt(sentiment, 10)) {
-          case 0:
-            return "#bec7d3";
-            break;
-          case 1:
-            return "#79cb59";
-            break;
-          default:
-            return "#bf292a";
-            break;
-        };
-      };
-      
       var latlng = new L.LatLng(point.get('latitude'), point.get('longitude'));
       var circle = L.circle(latlng, 5, {
         color: '#fff',

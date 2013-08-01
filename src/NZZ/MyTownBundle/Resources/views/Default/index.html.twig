@@ -16,6 +16,7 @@
         {%  set lat = 46.2048 %}
         {%  set lon =  6.143 %}
     {% endif %}
+    {%  set zoom =  12 %}
     <script type="text/javascript">
       $(function() {
         // Init i18n
@@ -26,8 +27,16 @@
           resGetPath: '/bundles/nzzmytown/locales/__lng__.json',
         }, function() {
           // Start the app
-          var router = new app.routers.AppRouter();
-          Backbone.history.start();
+          var router = new app.routers.AppRouter(),
+              root = "{{ path('nzz_my_town_homepage', {'project': project, 'lang': lang}) }}".split('/');
+
+          // to avoid tailing slashes we need to remove the last segment
+          root.pop();
+
+          Backbone.history.start({pushState: true, root: root.join('/')});
+
+          // expose for debug
+          window.router = router;
         });
       });
 
