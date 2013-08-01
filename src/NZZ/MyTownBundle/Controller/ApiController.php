@@ -75,6 +75,7 @@ class ApiController extends Controller
         $point->setLongitude($parameters['longitude']);
         $point->setAuthorName($parameters['authorName']);
         $point->setAuthorLocation($parameters['authorLocation']);
+        $point->setIsPublished(true);
 
         try {
             $point->save();
