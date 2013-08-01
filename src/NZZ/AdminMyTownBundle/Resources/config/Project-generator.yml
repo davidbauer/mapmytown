@@ -22,8 +22,6 @@ params:
           addFormOptions:
             required: true
             choices: [de: Deutsch , fr: French, en: English]
-
-
     object_actions:
         delete: ~
     batch_actions:
