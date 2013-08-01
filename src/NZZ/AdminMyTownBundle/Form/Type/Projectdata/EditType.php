@@ -9,8 +9,7 @@ class EditType extends BaseEditType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-
-        $formOptions = $this->getFormOption('language', array(  'required' => true,
+        $formOptions = $this->getFormOption('language', array('required' => true,
                 'choices' =>   array('de' => 'Deutsch', 'fr' => 'French','en' => 'English'),
                 'label' => 'Language',  'translation_domain' => 'Admin',));
         $builder->add('language', 'choice', $formOptions);
@@ -41,7 +40,6 @@ class EditType extends BaseEditType
 
         $formOptions = $this->getFormOption('buttonText', array(  'required' => true,  'label' => 'text for Button',  'translation_domain' => 'Admin',));
         $builder->add('buttonText', 'text', $formOptions);
-
 
     }
 }
