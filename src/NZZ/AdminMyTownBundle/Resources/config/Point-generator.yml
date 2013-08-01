@@ -43,7 +43,7 @@ builders:
             display: [ title, description, author_name, author_location, is_published ]
     edit:
         params:
-            title: "You're editing user's info"
+            title: "You're editing user's comment"
             display: [title, description, author_name, author_location, is_published, sentiment ]
             actions:
                 save: ~
