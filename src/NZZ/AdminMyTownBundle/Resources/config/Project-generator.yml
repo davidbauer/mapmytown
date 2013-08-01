@@ -60,14 +60,15 @@ builders:
 
             fields:
               project_data:
+                label: ~
                 getter: getProjectData
                 dbType: collection
                 formType: collection
                 addFormOptions:
                   # use generated embed type
                   type:             \NZZ\AdminMyTownBundle\Form\Type\ProjectData\EditType
-                  allow_add:        false
-                  allow_delete:     false
+                  allow_add:        true
+                  allow_delete:     true
                   error_bubbling:   true
                   required: false
                   options:
