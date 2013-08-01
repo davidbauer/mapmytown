@@ -6,6 +6,7 @@ params:
     concurrency_lock: ~
     bundle_name: AdminMyTownBundle
     pk_requirement: ~
+    locale: fr
     fields:
         author_name:
           label: User
