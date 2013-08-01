@@ -6,51 +6,52 @@ login_check:
 logout:
     pattern:   /logout
 
-nzz_my_town_logo_action:
-    pattern: /api/logo/{filename}
-    defaults: { _controller: NZZMyTownBundle:Image:index }
+
 #project admin actions
 nzz_my_town_admin_dashboard:
     pattern: /admin/
     defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:index }
+#
+#nzz_my_town_admin_add_project:
+#    pattern: /admin/add
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:add }
+#
+#nzz_my_town_admin_save_project:
+#    pattern: /admin/save
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:save }
+#    requirements:
+#        _method: POST
+#
+#nzz_my_town_admin_edit_project:
+#    pattern: /admin/project/edit/{projectId}/
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:editProject }
+#
+#nzz_my_town_admin_remove_project:
+#    pattern: /admin/project/remove/{projectId}
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProject }
+#
+#nzz_my_town_admin_remove_project_data:
+#    pattern: /admin/projectdata/remove/{projectId}
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProjectData }
+#
+##admin for points
+##project admin actions
+#nzz_my_town_admin_points_dashboard:
+#    pattern: /admin/points/{projectId}
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:index }
+#nzz_my_town_admin_points_publish:
+#    pattern:  /point/publish/{pointId}
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:publish }
+#nzz_my_town_admin_points_unpublish:
+#    pattern:  /point/unpublish/{pointId}
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:unPublish }
+#nzz_my_town_admin_points_remove:
+#    pattern:  /point/remove/{pointId}
+#    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:remove }
 
-nzz_my_town_admin_add_project:
-    pattern: /admin/add
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:add }
-
-nzz_my_town_admin_save_project:
-    pattern: /admin/save
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:save }
-    requirements:
-        _method: POST
-
-nzz_my_town_admin_edit_project:
-    pattern: /admin/project/edit/{projectId}/
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:editProject }
-
-nzz_my_town_admin_remove_project:
-    pattern: /admin/project/remove/{projectId}
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProject }
-
-nzz_my_town_admin_remove_project_data:
-    pattern: /admin/projectdata/remove/{projectId}
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminProject:removeProjectData }
-
-#admin for points
-#project admin actions
-nzz_my_town_admin_points_dashboard:
-    pattern: /admin/points/{projectId}
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:index }
-nzz_my_town_admin_points_publish:
-    pattern:  /point/publish/{pointId}
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:publish }
-nzz_my_town_admin_points_unpublish:
-    pattern:  /point/unpublish/{pointId}
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:unPublish }
-nzz_my_town_admin_points_remove:
-    pattern:  /point/remove/{pointId}
-    defaults: { _controller: NZZMyTownBundle:Admin\AdminPoint:remove }
-
+nzz_my_town_logo_action:
+    pattern: /api/logo/{filename}
+    defaults: { _controller: NZZMyTownBundle:Image:index }
 
 nzz_my_town_api_save:
     pattern:  /{projectSlug}/{lang}
