@@ -19,13 +19,14 @@ class EditType extends BaseEditType
         $builder->add('defaultzoom', 'integer', $formOptions);
 
 
+//        $formOptions = $this->getFormOption('defaultlanguage', array(  'required' => true,  'choices' =>   array(    0 =>array( 'de' => 'Deutsch',    ),    1 =>array( 'fr' => 'French',    ),    2 =>array( 'en' => 'English',    ),  ),  'label' => 'Language by default',  'translation_domain' => 'Admin',));
         $formOptions = $this->getFormOption('defaultlanguage', array(  'required' => true,
                 'choices' =>   array('de' => 'Deutsch', 'fr' => 'French','en' => 'English'),
                  'label' => 'Language by default',  'translation_domain' => 'Admin',));
         $builder->add('defaultlanguage', 'choice', $formOptions);
 
 
-        $formOptions = $this->getFormOption('project_data', array(  'allow_add' => true,  'allow_delete' => true,  'by_reference' => true,  'type' => new ProjectdataEditType(),  'error_bubbling' => true,  'required' => false,  'options' =>   array('attr' => array('class'=>'span4'),  'required' => false, 'data_class' => 'NZZ\\MyTownBundle\\Model\\ProjectData',  ), 'translation_domain' => 'Admin',));
+        $formOptions = $this->getFormOption('project_data', array(  'allow_add' => true,  'allow_delete' => true,  'by_reference' => true,  'type' => new \NZZ\AdminMyTownBundle\Form\Type\Projectdata\EditType(),  'error_bubbling' => true,  'required' => false,  'options' =>   array('attr' => array('class'=>'span4'),  'required' => false, 'data_class' => 'NZZ\\MyTownBundle\\Model\\ProjectData',  ), 'translation_domain' => 'Admin',));
         $builder->add('project_data', 'collection', $formOptions);
 
 
