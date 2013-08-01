@@ -6,6 +6,9 @@ login_check:
 logout:
     pattern:   /logout
 
+nzz_my_town_logo_action:
+    pattern: /api/logo/{filename}
+    defaults: { _controller: NZZMyTownBundle:Image:index }
 #project admin actions
 nzz_my_town_admin_dashboard:
     pattern: /admin/

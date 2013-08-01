@@ -13,6 +13,7 @@ build.xml
 /web/js
 /components
 /web/assetic
+/web/uploads
 .settings/*
 .buildpath
 .project

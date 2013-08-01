@@ -1,0 +1,68 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\Logo
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields: ~
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: List of uploaded logos
+            display: [title, caption, url]
+            actions:
+                new: ~
+            object_actions:
+                edit: ~
+                delete: ~
+    filters:
+        params:
+            display: ~
+    new:
+        params:
+            title: Adding new Logo
+            display: [title, caption, contentUploaded]
+            fields:
+              title:
+                addFormOptions:
+                  required: true
+              contentUploaded:
+                label: Content upload
+                #big spike!!!
+                dbType: collection
+                formType: file
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You're editing the logo"
+            display: [title, caption, contentUploaded]
+            fields:
+              contentUploaded:
+                label: Content upload
+                #big spike!!!
+                dbType: collection
+                formType: file
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "You're viewing logos"
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~
