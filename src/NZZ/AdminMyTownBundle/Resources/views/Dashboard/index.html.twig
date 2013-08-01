@@ -10,11 +10,15 @@
 {% block body %}
     {% block page_title %}
 {% endblock page_title %}
-    <div class="row-fluid">
-        <div class=" span9 ">
-           This is admin tool to create new projects, maintain user's comments.
-           Go to list of projects: <a href="{{ path('NZZ_AdminMyTownBundle_Project_list') }}">Projects</a>
+    <div class="row-fluid text-left">
+        <div class="span8">
+            <h3>This is admin tool to create new projects, maintain user's comments.</h3>
         </div>
-
+        <div class="span8">
+            Go to list of projects: <a href="{{ path('NZZ_AdminMyTownBundle_Project_list') }}">Projects</a>
+        </div>
+        <div class="span8">
+            Upload logos: <a href="{{ path('NZZ_AdminMyTownBundle_Logo_list') }}">Logos</a>
+        </div>
     </div>
 {% endblock body %}
