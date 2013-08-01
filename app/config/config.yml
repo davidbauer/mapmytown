@@ -65,7 +65,7 @@ propel:
 
 
 admingenerator_generator:
-    dashboard_welcome_path: _welcome
+    dashboard_welcome_path: ~
     base_admin_template: NZZAdminMyTownBundle::mytown_base_admin.html.twig
     use_propel: true
     overwrite_if_exists: false
