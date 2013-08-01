@@ -20,7 +20,7 @@ framework:
     fragments:       ~
     http_method_override: true
     translator:
-        fallback: de
+        fallback: en
 
 # Twig Configuration
 twig:
