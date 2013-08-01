@@ -1,3 +1,8 @@
+NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_track:
+    resource: "@NZZAdminMyTownBundle/Controller/Track/"
+    type:     admingenerator
+    prefix:   /a2/track
+
 NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_logo:
     resource: "@NZZAdminMyTownBundle/Controller/Logo/"
     type:     admingenerator
