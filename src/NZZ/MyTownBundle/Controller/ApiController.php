@@ -38,7 +38,9 @@ class ApiController extends Controller
             }
         }
 
-        $points = PointQuery::create()->findByProjectid($project->getId());
+        $points = PointQuery::create()
+            ->filterByIsPublished(true)
+            ->findByProjectid($project->getId());
 
         $response = array(
             'project' => array_merge(
