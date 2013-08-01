@@ -1,0 +1,30 @@
+{
+    "folders":
+    [
+        {
+            "name": "Root",
+            "path": "./",
+            "folder_exclude_patterns": ["app/cache", "app/logs", "node_modules"]
+        },
+        {
+            "path": "assets",
+            "name": "Assets",
+            "folder_exclude_patterns": ["assets/css"]
+        },
+        {
+            "path": "src/NZZ",
+            "name": "Bundles",
+            "file_exclude_patterns": ["*~"]
+        },
+        {
+            "path": "app/config",
+            "name": "Configs"
+        },
+        {
+            "path": "web",
+            "name": "Public",
+            "file_exclude_patterns": ["*.swf", "*.txt", "*.ico"],
+            "folder_exclude_patterns": ["./css", "./js"]
+        }
+    ]
+}
