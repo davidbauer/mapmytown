@@ -30,7 +30,7 @@ builders:
     list:
         params:
             title: Users activity in project
-            display: [ project_slug, title, description, author_name, author_location, is_published, sentiment ]
+            display: [ project_slug, title, description, author_name, author_location, is_published, sentiment, type ]
             actions:
                 new: ~
             object_actions:
@@ -40,11 +40,11 @@ builders:
             sort: [id, desc]
     filters:
         params:
-            display: [ title, description, author_name, author_location, is_published ]
+            display: [ title, description, author_name, author_location, is_published, type ]
     edit:
         params:
             title: "You're editing user's comment"
-            display: [title, description, author_name, author_location, is_published, sentiment ]
+            display: [title, description, author_name, author_location, is_published, sentiment, type ]
             actions:
                 save: ~
                 list: ~

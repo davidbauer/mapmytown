@@ -51,6 +51,7 @@ class PointTableMap extends TableMap
         $this->addColumn('author_location', 'AuthorLocation', 'VARCHAR', false, 255, null);
         $this->addColumn('sentiment', 'Sentiment', 'INTEGER', false, 1, 0);
         $this->addColumn('is_published', 'IsPublished', 'BOOLEAN', true, 1, false);
+        $this->addColumn('type', 'Type', 'VARCHAR', false, 11, 'user');
         $this->addForeignKey('project_id', 'ProjectId', 'INTEGER', 'project', 'id', true, null, null);
         // validators
     } // initialize()
