@@ -4,7 +4,11 @@
     "title": "Quel détour avez-vous marqué?",
     "description": "Décrivez le point marqué",
     "sentiment": "Cela vaut-il le détour?",
-    "sentiLabels": ["Oui","Non","Ne sais pas"],
+    "sentiLabels": {
+      "positive": "Oui",
+      "negative": "Non",
+      "fact": "Ne sais pas"
+    },
     "name": "Merci d'inscrire votre nom ou vos initiales",
     "origin": "D'où venez-vous?",
     "add": "Soumettre",
