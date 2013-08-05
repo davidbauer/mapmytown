@@ -1,50 +1,45 @@
 {
   "project": {
-    "slug": "stadtgefluester",
-    "name": "Stadtgeflüster – zeigen Sie uns die unbekannten Seiten von Zürich",
+    "buttontext": "Submit your wisdom",
+    "centerlatitude": 47.373,
+    "centerlongitude": 8.534,
+    "defaultlanguage": "de",
+    "defaultzoom": 15,
     "description": "Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!",
-    "logos": [
-      {
-        "imageUrl": "http://nzz.ch/logo.png",
-        "targetUrl": "http://nzz.ch",
-        "title": "Neue Zürcher Zeitung"
-      }
-    ],
-    "latitude": 47.373,
-    "longitude": 8.534,
-    "zoom": 15,
+    "id": 1,
+    "info": "124",
+    "language": "de",
+    "logoId": null,
     "points": [
       {
-        "id": "p1",
-        "title": "Long, long title with lots of text",
-        "description": "Meh",
-        "sentiment": 1,
-        "latitude": 47.368,
-        "longitude": 8.5422,
-        "authorName": "B. Meier",
-        "authorLocation": "Basel"
-      },
-      {
-        "id": "p2",
-        "title": "Comment title",
-        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy.",
-        "sentiment": -1,
-        "latitude": 47.369,
-        "longitude": 8.542,
+        "authorLocation": "Zürich",
         "authorName": "A. Meier",
-        "authorLocation": "Zürich"
+        "description": "...",
+        "id": 10,
+        "isPublished": true,
+        "latitude": 1.2343,
+        "longitude": 4.5678,
+        "projectId": 5,
+        "sentiment": 1,
+        "title": "...",
+        "type": "user"
       },
       {
-        "id": "p3",
-        "title": "Yep",
-        "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy",
-        "sentiment": 0,
-        "latitude": 47.3688,
-        "longitude": 8.5415,
-        "authorName": "C. Meier",
-        "authorLocation": "Genève"
+        "authorLocation": "Zürich",
+        "authorName": "ABC",
+        "description": "d1",
+        "id": 12,
+        "isPublished": true,
+        "latitude": 1.2343,
+        "longitude": 4.568,
+        "projectId": 5,
+        "sentiment": 1,
+        "title": "t1",
+        "type": "user"
       }
-
-    ]
+    ],
+    "projectId": 5,
+    "slug": "vovka2",
+    "title": "Stadtgeflüster – zeigen Sie uns die unbekannten Seiten Ihrer Stadt"
   }
 }

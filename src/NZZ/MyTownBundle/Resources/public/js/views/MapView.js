@@ -23,10 +23,9 @@
     },
 
     initMap: function() {
-      var mapCenter = new L.LatLng(this.model.get('latitude'), this.model.get('longitude'));
+      var mapCenter = new L.LatLng(this.model.get('centerlatitude'), this.model.get('centerlongitude'));
       this.map = L.mapbox.map(this.el, app.config.mapboxKey);
-      this.map.setView(mapCenter, parseInt(this.model.get('zoom'), 10));
-
+      this.map.setView(mapCenter, parseInt(this.model.get('defaultzoom'), 10));
       this.renderPoints();
     },
 

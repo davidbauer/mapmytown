@@ -9,6 +9,9 @@
           fallbackLng: false,
           resGetPath: '/bundles/nzzmytown/locales/__lng__.json',
         }, function() {
+          // Set app config
+          app.config.baseUrl = 'http://176.34.222.87/vovka2/de';
+          app.config.mapboxKey = 'sylke-gruhnwald.map-a6qno9vz';
           // Start the app
           var router = new app.routers.AppRouter();
           Backbone.history.start();
@@ -25,7 +28,7 @@
   <a href="{{noLink}}" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
   <a href="{{noLink}}" data-action="edit" data-target="#comment-modal" id="submit__marker__btn" class="btn btn-primary {{#unless comment.latlng}}disabled{{/unless}}">{{t "form.add"}}</a>
 {{else}}
-  <a href="{{noLink}}" data-action="new" class="btn btn-primary">Submit your wisdom</a>
+  <a href="{{noLink}}" data-action="new" class="btn btn-primary">{{buttontext}}</a>
 {{/if}}
 {% endraw %}</script>
 
@@ -40,11 +43,8 @@
 
   <div class="sidebar">
     <header class="header">
-      <h1 class="header__heading">Stadtgeflüster 
-        <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten Ihrer Stadt
-        </span>
-      </h1>
-      <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
+      <h1 class="header__heading">{{title}}</h1>
+      <p class="sidebar__text">{{description}}</p>
 
       <p data-view="submit-view"></p>
     </header>
