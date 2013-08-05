@@ -12,7 +12,7 @@
   background: none;
  }
 body.preload{
-  background: url('bundles/nzzmytown/images/ajax-loader.gif') 50% 50% no-repeat;
+  background: url('/bundles/nzzmytown/images/ajax-loader.gif') 50% 50% no-repeat;
 }
 .modal-backdrop {
   background-color: #FCF9EE;
