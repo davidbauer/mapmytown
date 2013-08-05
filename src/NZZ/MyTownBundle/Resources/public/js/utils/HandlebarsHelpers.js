@@ -23,3 +23,11 @@ Handlebars.registerHelper('tr', function(context, options) {
  
    return new Handlebars.SafeString(result);
 });
+
+/**
+ * Prevent links from firing without having
+ * to resort to evt.preventDefault()
+ */
+Handlebars.registerHelper('noLink', function(url) {
+  return new Handlebars.SafeString("javascript:void(0);");
+});

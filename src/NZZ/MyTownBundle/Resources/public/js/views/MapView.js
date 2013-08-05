@@ -3,15 +3,18 @@
   window.app.views.MapView = Backbone.View.extend({
     events: {
       // Currently disabled until we have the editing mode
-      // 'click': 'onMapClick',
+      'click': 'onSetCommentMarker',
       'mouseover .leaflet-clickable': 'onHover'
     },
 
 
     initialize: function() {
-      _.bindAll(this, 'initMap', 'onHover', 'onMapClick', 'addPoint', 'renderPoints');
+      _.bindAll(this, 'initMap', 'onHover', 'onSetCommentMarker', 'addPoint', 'renderPoints', 'updateComment', 'updateCommentMarkerPosition');
 
       this.listenTo(this.model, 'change:points', this.renderPoints);
+      this.listenTo(this.model.comments, 'add', this.updateComment);
+      this.listenTo(this.model.comments, 'remove', this.updateComment);
+      this.listenTo(this.model.comments, 'reset', this.updateComment);
     },
 
     render: function() {
@@ -61,24 +64,48 @@
       // TODO
     },
 
-    onMapClick: function(evt) {
+    onSetCommentMarker: function(evt) {
+      if (!this.model.comments.findNew()) return;
+
       var latlng = this.map.mouseEventToLatLng(evt);
 
       var myIcon = L.icon({
           iconUrl: '/bundles/nzzmytown/images/marker.png',
-          iconSize: [25, 41],
-          iconAnchor: [22, 30],
-          popupAnchor: [-3, -20],
-          shadowSize: [68, 95],
-          shadowAnchor: [22, 94]
+          iconSize: [23, 38],
+          iconAnchor: [12, 38]
       });
 
-      var marker = new L.marker(latlng, {
-        icon: myIcon,
-        riseOnHover: true
-      });
+      if (!this.marker) {
+        this.marker = new L.marker(latlng, {
+          icon: myIcon,
+          riseOnHover: true,
+          draggable: true
+        })
+        .on('move', this.updateCommentMarkerPosition)
 
-      marker.addTo(this.map);
+        this.marker.addTo(this.map);
+      } else {
+        this.marker.setLatLng(latlng);
+      }
+
+      this.updateCommentMarkerPosition(latlng);
+    },
+
+    updateCommentMarkerPosition: function(latlng) {
+      latlng.latlng && (latlng = latlng.latlng);
+      var comment = this.model.comments.findNew();
+      if (comment) {
+        comment.set({latlng: latlng});
+      }
+    },
+
+    updateComment: function() {
+      var comment = this.model.comments.findNew();
+      if (this.marker && !comment) {
+        this.marker.off('move');
+        this.map.removeLayer(this.marker);
+        this.marker = null;
+      }
     }
   });
 }());

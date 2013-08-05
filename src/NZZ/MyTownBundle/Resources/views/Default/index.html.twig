@@ -20,13 +20,13 @@
 
 {% block templates %}
 
-<script id="template-submit-default" type="text/x-handlebars-template">{% raw %}
-<a href="#" data-action="new" class="btn btn-primary">Submit your wisdom</a>
-{% endraw %}</script>
-
-<script id="template-submit-create" type="text/x-handlebars-template">{% raw %}
-<a href="#" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
-<a href="#commentModal" id="submit__marker__btn" class="btn btn-primary" data-toggle="modal">{{t "form.add"}}</a>
+<script id="template-submit" type="text/x-handlebars-template">{% raw %}
+{{#if comment}}
+  <a href="{{noLink}}" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
+  <a href="{{noLink}}" data-action="edit" data-target="#comment-modal" id="submit__marker__btn" class="btn btn-primary {{#unless comment.latlng}}disabled{{/unless}}">{{t "form.add"}}</a>
+{{else}}
+  <a href="{{noLink}}" data-action="new" class="btn btn-primary">Submit your wisdom</a>
+{{/if}}
 {% endraw %}</script>
 
 <script id="template-submit-thanks" type="text/x-handlebars-template">{% raw %}
@@ -93,7 +93,7 @@
     </section>
   </div>
 
-  <div id="commentModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div id="comment-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="myModalLabel">{{t "form.heading"}}</h3>
@@ -125,8 +125,8 @@
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">{{t "form.cancel"}}</button>
-      <button class="btn btn-primary">{{t "form.add"}}</button>
+      <button class="btn" data-action="cancel" aria-hidden="true">{{t "form.cancel"}}</button>
+      <button class="btn btn-primary" data-action="submit">{{t "form.add"}}</button>
     </div>
   </div>
 

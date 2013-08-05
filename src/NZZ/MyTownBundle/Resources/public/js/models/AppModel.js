@@ -4,6 +4,7 @@
   window.app.models.AppModel = Backbone.Model.extend({
     initialize: function() {
       _.bindAll(this, 'parse');
+      this.comments = new app.collections.CommentCollection();
     },
 
     fetch: function() {
@@ -24,7 +25,7 @@
 
     parse: function(result) {
       // Comments
-      this.comments = new app.collections.CommentCollection(result.project.points);
+      this.comments.reset(result.project.points);
       this.comments.selectAt(0);
       delete result.project.points;
 

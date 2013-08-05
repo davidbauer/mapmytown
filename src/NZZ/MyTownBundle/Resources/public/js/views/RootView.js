@@ -23,7 +23,7 @@
 
       // Submit view
       var submitView = new app.views.SubmitView({
-        model: new Backbone.Model({mode: 'default'})
+        model: this.model
       });
       this.$('[data-view="submit-view"]').html(submitView.render().el);
 
