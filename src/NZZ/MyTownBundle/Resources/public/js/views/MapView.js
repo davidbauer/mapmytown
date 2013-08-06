@@ -2,18 +2,27 @@
   "use strict";
 
   // Utils
+
+  // rounds coordinates before setting to state model
+  // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Geographical_coordinates#Precision_guidelines
+  // 0.0001° = 5 - 10m accuracy
+  // should be enough and makes urls shorter
+  function coordsRound(n) {
+    return Math.round(n * 10000) / 10000;
+  }
+
   function pointerEventCoordinates(evt) {
     var isTouch = evt.type.indexOf('touch') === 0;
     if (isTouch) {
       return {
         x: evt.changedTouches[0].pageX,
         y: evt.changedTouches[0].pageY
-      }
+      };
     } else {
       return {
         x: evt.clientX + window.pageXOffset,
         y: evt.clientY + window.pageYOffset
-      }
+      };
     }
   }
 
@@ -26,15 +35,12 @@
     switch (parseInt(sentiment, 10)) {
       case -1:
         return "#bf292a";
-        break;
       case 1:
         return "#79cb59";
-        break;
       default:
         return "#bec7d3";
-        break;
-    };
-  };
+    }
+  }
 
   function makePersistedMarker(comment, latlng) {
     return new L.CircleMarker(latlng, {
@@ -94,9 +100,23 @@
     },
 
     initMap: function() {
-      var mapCenter = this.model.getLatLng();
+      var state = this.model.state,
+          mapCenter = new L.LatLng(state.get('lat'), state.get('lng'));
       this.map = L.mapbox.map(this.el, app.config.mapboxKey);
-      this.map.setView(mapCenter, parseInt(this.model.get('defaultzoom'), 10));
+      this.map.setView(mapCenter, (parseInt(state.get('zoom'), 10) || 12)); // if zoom param is not int fallback to 12
+
+      // debounced
+      var saveState = _.debounce(function() {
+        var coords = this.map.getCenter();
+        this.model.state.set({
+          'lat': coordsRound(coords.lat),
+          'lng': coordsRound(coords.lng),
+          'zoom': this.map.getZoom()
+        });
+      }.bind(this), 500);
+
+      this.map.on('moveend', saveState);
+      this.map.on('zoomend', saveState);
 
       // Add initial markers
       this.model.comments.forEach(this.addMarkerForComment);
@@ -174,7 +194,7 @@
         this.map.panTo(comment.getLatLng(), {
           animate: true,
           duration: 0.3
-        })
+        });
       }
     },
 

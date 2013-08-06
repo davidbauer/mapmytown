@@ -32,19 +32,16 @@
       // Set project data
       this.set(result.project);
 
+      // set project default to state if not already defined via query param
+      this.state.set({
+        'lat': this.state.get('lat') || this.get('centerlatitude'),
+        'lng': this.state.get('lng') || this.get('centerlongitude'),
+        'zoom': this.state.get('zoom') || this.get('defaultzoom')
+      });
+
       // Mark deferred as resolved
       this.deferred.resolve();
       this.deferred = null;
-    },
-
-    getLatLng: function() {
-      var lat = this.get('centerlatitude');
-      var lng = this.get('centerlongitude');
-      if (lat && lng) {
-        return new L.LatLng(lat, lng);
-      } else {
-        return null;
-      }
     }
   });
 }());
