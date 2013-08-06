@@ -13,7 +13,6 @@ NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_point:
     type:     admingenerator
     prefix:   /a2/point/
 
-#Dashboard
 _welcome:
     pattern: /a2
     defaults: { _controller: NZZAdminMyTownBundle:Dashboard:index }

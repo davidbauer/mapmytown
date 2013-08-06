@@ -6,5 +6,4 @@ use Admingenerated\NZZAdminMyTownBundle\BasePointController\ShowController as Ba
 
 class ShowController extends BaseShowController
 {
-
 }
