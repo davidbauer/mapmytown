@@ -44,14 +44,20 @@
 
   <div id="map" class="content span-sidebar-left" data-view="map-view"></div>
 
-  <div class="sidebar">
+  <div class="sidebar" data-view="sidebar">
     <header class="header">
-      <h1 class="header__heading">{{title}}</h1>
-      <p class="sidebar__text">{{description}}</p>
+      <div class="sidebar__info">
+        <h1 class="header__heading">{{title}}</h1>
+        <p class="sidebar__text">{{description}}</p>
+      </div>
 
-      <p data-view="submit-view"></p>
+      <div class="sidebar__help">
+        <p class="sidebar__text">Platzieren Sie den Pin am Ort, den Sie kommentieren möchten.</p>
+      </div>
+
+      <div class="sidebar__submit" data-view="submit-view"></div>
     </header>
-    <section data-view="comments-list" class="sidebar__section comments__section"></section>
+    <section data-view="comments-list" class="sidebar__section sidebar__comments comments__section"></section>
   </div>
 
   <div class="footer">

@@ -3,6 +3,14 @@
   window.app.views.RootView = Backbone.View.extend({
     template: "root-view",
 
+    initialize: function() {
+      _.bindAll(this, 'render', 'updateSidebar');
+
+      this.listenTo(this.model.comments, 'add', this.updateSidebar);
+      this.listenTo(this.model.comments, 'remove', this.updateSidebar);
+      this.listenTo(this.model.comments, 'change:persisted', this.updateSidebar);
+    },
+
     render: function() {
       var template = this.compileTemplate(this.template);
       this.$el.html(template(this.model.toJSON()));
@@ -26,6 +34,11 @@
       this.$('[data-view="submit-view"]').html(submitView.render().el);
 
       return this;
+    },
+
+    updateSidebar: function(comment) {
+      var newComment = this.model.comments.findNew();
+      this.$('.sidebar').toggleClass('sidebar--minimized', newComment);
     }
   });
 }());
