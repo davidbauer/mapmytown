@@ -15,14 +15,16 @@
     },
 
     forEachPersisted: function(callback) {
-      return this
-        .filter(function(d){return d.isPersisted()})
-        .forEach(callback);
+      return this.findPersisted().forEach(callback);
     },
 
     findNew: function() {
       var newComments = this.filter(function(d){return !d.isPersisted()});
       return newComments ? newComments[0] : null;
+    },
+
+    findPersisted: function() {
+      return this.filter(function(d){return d.isPersisted()});
     }
   });
 }());
