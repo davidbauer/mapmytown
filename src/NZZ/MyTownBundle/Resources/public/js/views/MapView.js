@@ -102,8 +102,16 @@
     initMap: function() {
       var state = this.model.state,
           mapCenter = new L.LatLng(state.get('lat'), state.get('lng'));
-      this.map = L.mapbox.map(this.el, app.config.mapboxKey);
+      this.map = L.mapbox.map(this.el, app.config.mapboxKey, {
+        attributionControl: false,
+        zoomControl: false
+      });
       this.map.setView(mapCenter, (parseInt(state.get('zoom'), 10) || 12)); // if zoom param is not int fallback to 12
+
+      // Add zoom control
+      this.map.addControl(new L.Control.Zoom({
+        position: 'topright'
+      }));
 
       // debounced
       var saveState = _.debounce(function() {
