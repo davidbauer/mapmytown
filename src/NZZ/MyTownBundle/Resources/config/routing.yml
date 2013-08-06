@@ -71,7 +71,7 @@ nzz_my_town_api_get_all:
 
 
 nzz_my_town_homepage:
-    pattern:  /{project}/{lang}/{zoom}
+    pattern:  /{project}/{lang}/show
     defaults: { _controller: NZZMyTownBundle:Default:index }
     requirements:
         lang: '\w{2}'

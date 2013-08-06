@@ -24,3 +24,4 @@ test/phpunit.xml
 tests/*Bundle*
 /gitflow
 .DS_Store
+mapmytown.sublime-workspace
