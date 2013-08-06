@@ -81,3 +81,23 @@ nzz_my_town_homepage:
         lang: '\w{2}'
         projectSlug: '[^/]*'
         _method: GET
+
+
+#
+# Development only, remove in the future
+#
+nzz_my_town_mock_api_save:
+    pattern:  /mock/{projectSlug}/{lang}
+    defaults: { _controller: NZZMyTownBundle:MockApi:save }
+    requirements:
+        lang: '\w{2}'
+        projectSlug: '[^/]*'
+        _method: POST
+
+nzz_my_town_mock_api_points:
+    pattern:  /mock/{projectSlug}/{lang}
+    defaults: { _controller: NZZMyTownBundle:MockApi:index }
+    requirements:
+        lang: '\w{2}'
+        projectSlug: '[^/]*'
+        _method: GET

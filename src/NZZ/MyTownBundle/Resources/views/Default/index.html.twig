@@ -1,21 +1,5 @@
 {% extends "NZZMyTownBundle::layout.html.twig" %}
 {% block body %}
-    {% if project|default('nzz') == 'nzz' %}
-        {#lat = 47.369, lng = 8.542#}
-        {% set city = 'Zurich' %}
-        {% set lat = '47.369' %}
-        {% set lon =  '8.542' %}
-    {% elseif project|default('nzz') == 'tagw' %}
-        {#?lat=47.5546&lon=7.5944&#}
-        {% set city = 'Basel' %}
-        {%  set lat = 47.5546 %}
-        {%  set lon =  7.5944 %}
-    {% elseif project|default('nzz') == 'temps' %}
-        {#lat=46.2048&lon=6.143&#}
-        {% set city = 'Geneva' %}
-        {%  set lat = 46.2048 %}
-        {%  set lon =  6.143 %}
-    {% endif %}
     <script type="text/javascript">
       $(function() {
         // Init i18n
@@ -25,35 +9,34 @@
           fallbackLng: false,
           resGetPath: '/bundles/nzzmytown/locales/__lng__.json',
         }, function() {
+          // Remove the preload spinner
+          $('body').removeClass('preload');
+          // Set app config
+          // app.config.baseUrl = 'http://176.34.222.87/vovka2/{{lang}}';
+          app.config.baseUrl = 'http://localhost:8000/app_dev.php/mock/test/{{lang}}';
+          app.config.mapboxKey = 'sylke-gruhnwald.map-a6qno9vz';
           // Start the app
           var router = new app.routers.AppRouter();
           Backbone.history.start();
         });
       });
-
-       // var config = {};
-       // config.project = "{{ project }}";
-       // config.lang = '{{ lang }}';
-       // config.zoom = '{{ zoom }}';
-       // config.lat = '{{ lat }}';
-       // config.lon = '{{ lon }}';
    </script>
    <div data-view="root" class="app-container"></div>
 {% endblock %}
 
 {% block templates %}
 
-<script id="template-submit-default" type="text/x-handlebars-template">{% raw %}
-<a href="#" data-action="new" class="btn btn-primary">Submit your wisdom</a>
-{% endraw %}</script>
-
-<script id="template-submit-create" type="text/x-handlebars-template">{% raw %}
-<a href="#" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
-<a href="#commentModal" id="submit__marker__btn" class="btn btn-primary" data-toggle="modal">{{t "form.add"}}</a>
+<script id="template-submit" type="text/x-handlebars-template">{% raw %}
+{{#if comment}}
+  <a href="{{noLink}}" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
+  <a href="{{noLink}}" data-action="edit" data-target="#comment-modal" id="submit__marker__btn" class="btn btn-primary {{#unless comment.latitude}}{{#unless comment.longitude}}disabled{{/unless}}{{/unless}}">{{t "form.add"}}</a>
+{{else}}
+  <a href="{{noLink}}" data-action="new" class="btn btn-primary">{{buttontext}}</a>
+{{/if}}
 {% endraw %}</script>
 
 <script id="template-submit-thanks" type="text/x-handlebars-template">{% raw %}
-<a href="#thanksModal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
+<a href="#thanks-modal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
 {% endraw %}</script>
 
 <script id="template-root-view" type="text/x-handlebars-template">{% raw %}
@@ -63,11 +46,8 @@
 
   <div class="sidebar">
     <header class="header">
-      <h1 class="header__heading">Stadtgeflüster 
-        <span class="header__subheading">– zeigen Sie uns die unbekannten Seiten Ihrer Stadt
-        </span>
-      </h1>
-      <p class="sidebar__text">Sie wissen etwas über Ihre Stadt, das andere auch wissen sollten. Tragen Sie es in die Karte ein!</p>
+      <h1 class="header__heading">{{title}}</h1>
+      <p class="sidebar__text">{{description}}</p>
 
       <p data-view="submit-view"></p>
     </header>
@@ -116,7 +96,7 @@
     </section>
   </div>
 
-  <div id="commentModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div id="comment-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="myModalLabel">{{t "form.heading"}}</h3>
@@ -124,36 +104,42 @@
     <div class="modal-body">
       <form class="">
         <fieldset>
-          <label>{{t "form.title"}}</label>
-          <input type="text">
-          <label>{{t "form.description"}}</label>
-          <textarea rows="3"></textarea>
+          <input name="projectId" type="hidden" value="{{projectId}}"/>
+
+          <label for="commentTitle">{{t "form.title"}}</label>
+          <input name="title" id="commentTitle" type="text"/>
+
+          <label for="commentDescription">{{t "form.description"}}</label>
+          <textarea name="description" id="commentDescription" rows="3"></textarea>
+
           <label class="radio inline">
-            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-            {{t "form.sentiLabels[0]"}}
+            <input type="radio" name="sentiment" value="1"/>
+            {{t "form.sentiLabels.positive"}}
           </label>
           <label class="radio inline">
-            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-            {{t "form.sentiLabels[1]"}}
+            <input type="radio" name="sentiment" value="-1"/>
+            {{t "form.sentiLabels.negative"}}
           </label>
           <label class="radio inline">
-            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
-            {{t "form.sentiLabels[2]"}}
+            <input type="radio" name="sentiment" value="0" checked />
+            {{t "form.sentiLabels.fact"}}
           </label>
-          <label>{{t "form.name"}}</label>
-          <input type="text">
-          <label>{{t "form.origin"}}</label>
-          <input type="text">
+
+          <label for="commentAuthorName">{{t "form.name"}}</label>
+          <input name="authorName" id="commentAuthorName" type="text"/>
+
+          <label for="commentAuthorLocation">{{t "form.origin"}} ({{t "form.optional"}})</label>
+          <input name="authorLocation" id="commentAuthorLocation" type="text"/>
         </fieldset>
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">{{t "form.cancel"}}</button>
-      <button class="btn btn-primary">{{t "form.add"}}</button>
+      <button class="btn" data-action="cancel" aria-hidden="true">{{t "form.cancel"}}</button>
+      <button class="btn btn-primary" data-action="submit">{{t "form.add"}}</button>
     </div>
   </div>
 
-  <div id="thanksModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "thx.thankyou"}}" aria-hidden="true">
+  <div id="thanks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "thx.thankyou"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="tacModalLabel">{{t "thx.thankyou"}}</h3>

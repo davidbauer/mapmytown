@@ -12,11 +12,23 @@ NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_point:
     resource: "@NZZAdminMyTownBundle/Controller/Point/"
     type:     admingenerator
     prefix:   /a2/point/
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4a7d1e983300300f031f34dcd2b59977a6f6abd9
 #Dashboard
 _welcome:
     pattern: /a2
     defaults: { _controller: NZZAdminMyTownBundle:Dashboard:index }
 
+<<<<<<< HEAD
+=======
+NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_projectdata:
+    resource: "@NZZAdminMyTownBundle/Controller/Projectdata/"
+    type:     admingenerator
+    prefix:   /a2/projectdata
+
+>>>>>>> 4a7d1e983300300f031f34dcd2b59977a6f6abd9
 NZZAdminMyTownBundle_admin_nzz_admin_my_town_bundle_project:
     resource: "@NZZAdminMyTownBundle/Controller/Project/"
     type:     admingenerator

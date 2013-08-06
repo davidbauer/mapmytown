@@ -14,6 +14,11 @@ params:
           addFormOptions:
             required: fasle
             choices: [de: Deutsch , fr: French, en: English]
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 4a7d1e983300300f031f34dcd2b59977a6f6abd9
     object_actions:
         delete: ~
     batch_actions:

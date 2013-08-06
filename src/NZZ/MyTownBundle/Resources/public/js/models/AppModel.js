@@ -4,13 +4,14 @@
   window.app.models.AppModel = Backbone.Model.extend({
     initialize: function() {
       _.bindAll(this, 'parse');
+      this.comments = new app.collections.CommentCollection();
     },
 
     fetch: function() {
       if (this.deferred) this.deferred.reject();
 
       var req = $.ajax({
-        url: "/bundles/nzzmytown/mockdata/project.json",
+        url: app.config.baseUrl,
         dataType: "json"
       });
       req.done(this.parse);
@@ -24,11 +25,11 @@
 
     parse: function(result) {
       // Comments
-      this.comments = new app.collections.CommentCollection(result.project.points);
+      this.comments.reset(result.project.points);
       this.comments.selectAt(0);
       delete result.project.points;
 
-      // Set project data      
+      // Set project data
       this.set(result.project);
 
       // Mark deferred as resolved
