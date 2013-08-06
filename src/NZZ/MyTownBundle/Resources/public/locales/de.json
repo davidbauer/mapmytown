@@ -4,11 +4,16 @@
     "title": "Was haben Sie markiert?",
     "description": "Beschreiben Sie den markierten Punkt",
     "sentiment": "Das ist...?",
-    "sentiLabels": ["gut","schlecht","Fakt"],
+    "sentiLabels": {
+      "positive": "gut",
+      "negative": "schlecht",
+      "fact": "Fakt"
+    },
     "name": "Name oder Initialen",
     "origin": "Woher kommen Sie?",
     "add": "Eintragen",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "optional": "optional"
   },
   
   "thx": {

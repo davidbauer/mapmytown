@@ -5,9 +5,7 @@
 
     render: function() {
       var template = this.compileTemplate(this.template);
-      this.$el.html(template({
-        title: "Title"
-      }));
+      this.$el.html(template(this.model.toJSON()));
 
       // Map view
       var mapView = new app.views.MapView({
@@ -23,7 +21,7 @@
 
       // Submit view
       var submitView = new app.views.SubmitView({
-        model: new Backbone.Model({mode: 'default'})
+        model: this.model
       });
       this.$('[data-view="submit-view"]').html(submitView.render().el);
 
