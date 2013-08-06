@@ -1,0 +1,78 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\ProjectData
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields:
+      language:
+        formType: choice
+        addFormOptions:
+          required: true
+          choices: [de: Deutsch , fr: French, en: English]
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+#    list:
+#        params:
+#            title: List for AdminMyTownBundle
+#            display: ~
+#            actions:
+#                new: ~
+#            object_actions:
+#                edit: ~
+#                delete: ~
+    filters:
+        params:
+            display: ~
+    new:
+        params:
+            title: New object for AdminMyTownBundle
+            display: ~
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: Editing project
+            display: [language, title, description,info, centerLatitude, centerLongitude, defaultZoom, buttonText ]
+            fields:
+                centerLatitude:
+                    label: Center's latitude
+                centerLatitude:
+                    label: Center's longitude
+                defaultZoom:
+                    label: Zoom
+                language:
+                    label: Language
+                buttonText:
+                    label: text for Button
+                description:
+                    formType: textarea
+                info:
+                    formType: textarea
+                language:
+                  formType: choice
+                  addFormOptions:
+                    required: true
+                    choices: [de: Deutsch , fr: French, en: English]
+            actions:
+                save: ~
+                list: ~
+#    show:
+#        params:
+#            title: Editit
+#            display: ~
+#            actions:
+#                list: ~
+#                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

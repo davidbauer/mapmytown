@@ -39,7 +39,7 @@ abstract class BaseProject extends BaseObject implements Persistent
     protected static $peer;
 
     /**
-     * The flag var to prevent infinit loop in deep copy
+     * The flag var to prevent infinite loop in deep copy
      * @var       boolean
      */
     protected $startCopy = false;
@@ -131,6 +131,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function getId()
     {
+
         return $this->id;
     }
 
@@ -141,6 +142,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function getSlug()
     {
+
         return $this->slug;
     }
 
@@ -151,6 +153,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function getDefaultzoom()
     {
+
         return $this->defaultzoom;
     }
 
@@ -161,13 +164,14 @@ abstract class BaseProject extends BaseObject implements Persistent
      */
     public function getDefaultlanguage()
     {
+
         return $this->defaultlanguage;
     }
 
     /**
      * Set the value of [id] column.
      *
-     * @param int $v new value
+     * @param  int $v new value
      * @return Project The current object (for fluent API support)
      */
     public function setId($v)
@@ -188,7 +192,7 @@ abstract class BaseProject extends BaseObject implements Persistent
     /**
      * Set the value of [slug] column.
      *
-     * @param string $v new value
+     * @param  string $v new value
      * @return Project The current object (for fluent API support)
      */
     public function setSlug($v)
@@ -209,7 +213,7 @@ abstract class BaseProject extends BaseObject implements Persistent
     /**
      * Set the value of [defaultzoom] column.
      *
-     * @param int $v new value
+     * @param  int $v new value
      * @return Project The current object (for fluent API support)
      */
     public function setDefaultzoom($v)
@@ -230,7 +234,7 @@ abstract class BaseProject extends BaseObject implements Persistent
     /**
      * Set the value of [defaultlanguage] column.
      *
-     * @param string $v new value
+     * @param  string $v new value
      * @return Project The current object (for fluent API support)
      */
     public function setDefaultlanguage($v)
@@ -271,7 +275,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      * more tables.
      *
      * @param array $row The row returned by PDOStatement->fetch(PDO::FETCH_NUM)
-     * @param int $startcol 0-based offset column which indicates which restultset column to start with.
+     * @param int $startcol 0-based offset column which indicates which resultset column to start with.
      * @param boolean $rehydrate Whether this object is being re-hydrated from the database.
      * @return int             next starting column
      * @throws PropelException - Any caught Exception will be rewrapped as a PropelException.
@@ -292,6 +296,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
             $this->postHydrate($row, $startcol, $rehydrate);
+
             return $startcol + 4; // 4 = ProjectPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
@@ -676,10 +681,10 @@ abstract class BaseProject extends BaseObject implements Persistent
      *
      * In addition to checking the current object, all related objects will
      * also be validated.  If all pass then <code>true</code> is returned; otherwise
-     * an aggreagated array of ValidationFailed objects will be returned.
+     * an aggregated array of ValidationFailed objects will be returned.
      *
      * @param array $columns Array of column names to validate.
-     * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objets otherwise.
+     * @return mixed <code>true</code> if all validations pass; array of <code>ValidationFailed</code> objects otherwise.
      */
     protected function doValidate($columns = null)
     {
@@ -800,6 +805,12 @@ abstract class BaseProject extends BaseObject implements Persistent
             $keys[2] => $this->getDefaultzoom(),
             $keys[3] => $this->getDefaultlanguage(),
         );
+        $virtualColumns = $this->virtualColumns;
+        foreach($virtualColumns as $key => $virtualColumn)
+        {
+            $result[$key] = $virtualColumn;
+        }
+
         if ($includeForeignObjects) {
             if (null !== $this->collProjectDatas) {
                 $result['ProjectDatas'] = $this->collProjectDatas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1140,7 +1151,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                     if (false !== $this->collProjectDatasPartial && count($collProjectDatas)) {
                       $this->initProjectDatas(false);
 
-                      foreach($collProjectDatas as $obj) {
+                      foreach ($collProjectDatas as $obj) {
                         if (false == $this->collProjectDatas->contains($obj)) {
                           $this->collProjectDatas->append($obj);
                         }
@@ -1150,12 +1161,13 @@ abstract class BaseProject extends BaseObject implements Persistent
                     }
 
                     $collProjectDatas->getInternalIterator()->rewind();
+
                     return $collProjectDatas;
                 }
 
-                if($partial && $this->collProjectDatas) {
-                    foreach($this->collProjectDatas as $obj) {
-                        if($obj->isNew()) {
+                if ($partial && $this->collProjectDatas) {
+                    foreach ($this->collProjectDatas as $obj) {
+                        if ($obj->isNew()) {
                             $collProjectDatas[] = $obj;
                         }
                     }
@@ -1183,7 +1195,8 @@ abstract class BaseProject extends BaseObject implements Persistent
     {
         $projectDatasToDelete = $this->getProjectDatas(new Criteria(), $con)->diff($projectDatas);
 
-        $this->projectDatasScheduledForDeletion = unserialize(serialize($projectDatasToDelete));
+
+        $this->projectDatasScheduledForDeletion = $projectDatasToDelete;
 
         foreach ($projectDatasToDelete as $projectDataRemoved) {
             $projectDataRemoved->setProject(null);
@@ -1217,7 +1230,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 return 0;
             }
 
-            if($partial && !$criteria) {
+            if ($partial && !$criteria) {
                 return count($this->getProjectDatas());
             }
             $query = ProjectDataQuery::create(null, $criteria);
@@ -1246,8 +1259,13 @@ abstract class BaseProject extends BaseObject implements Persistent
             $this->initProjectDatas();
             $this->collProjectDatasPartial = true;
         }
+
         if (!in_array($l, $this->collProjectDatas->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
             $this->doAddProjectData($l);
+
+            if ($this->projectDatasScheduledForDeletion and $this->projectDatasScheduledForDeletion->contains($l)) {
+                $this->projectDatasScheduledForDeletion->remove($this->projectDatasScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1383,7 +1401,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                     if (false !== $this->collProjectLogosPartial && count($collProjectLogos)) {
                       $this->initProjectLogos(false);
 
-                      foreach($collProjectLogos as $obj) {
+                      foreach ($collProjectLogos as $obj) {
                         if (false == $this->collProjectLogos->contains($obj)) {
                           $this->collProjectLogos->append($obj);
                         }
@@ -1393,12 +1411,13 @@ abstract class BaseProject extends BaseObject implements Persistent
                     }
 
                     $collProjectLogos->getInternalIterator()->rewind();
+
                     return $collProjectLogos;
                 }
 
-                if($partial && $this->collProjectLogos) {
-                    foreach($this->collProjectLogos as $obj) {
-                        if($obj->isNew()) {
+                if ($partial && $this->collProjectLogos) {
+                    foreach ($this->collProjectLogos as $obj) {
+                        if ($obj->isNew()) {
                             $collProjectLogos[] = $obj;
                         }
                     }
@@ -1426,7 +1445,8 @@ abstract class BaseProject extends BaseObject implements Persistent
     {
         $projectLogosToDelete = $this->getProjectLogos(new Criteria(), $con)->diff($projectLogos);
 
-        $this->projectLogosScheduledForDeletion = unserialize(serialize($projectLogosToDelete));
+
+        $this->projectLogosScheduledForDeletion = $projectLogosToDelete;
 
         foreach ($projectLogosToDelete as $projectLogoRemoved) {
             $projectLogoRemoved->setProject(null);
@@ -1460,7 +1480,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 return 0;
             }
 
-            if($partial && !$criteria) {
+            if ($partial && !$criteria) {
                 return count($this->getProjectLogos());
             }
             $query = ProjectLogoQuery::create(null, $criteria);
@@ -1489,8 +1509,13 @@ abstract class BaseProject extends BaseObject implements Persistent
             $this->initProjectLogos();
             $this->collProjectLogosPartial = true;
         }
+
         if (!in_array($l, $this->collProjectLogos->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
             $this->doAddProjectLogo($l);
+
+            if ($this->projectLogosScheduledForDeletion and $this->projectLogosScheduledForDeletion->contains($l)) {
+                $this->projectLogosScheduledForDeletion->remove($this->projectLogosScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1626,7 +1651,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                     if (false !== $this->collPointsPartial && count($collPoints)) {
                       $this->initPoints(false);
 
-                      foreach($collPoints as $obj) {
+                      foreach ($collPoints as $obj) {
                         if (false == $this->collPoints->contains($obj)) {
                           $this->collPoints->append($obj);
                         }
@@ -1636,12 +1661,13 @@ abstract class BaseProject extends BaseObject implements Persistent
                     }
 
                     $collPoints->getInternalIterator()->rewind();
+
                     return $collPoints;
                 }
 
-                if($partial && $this->collPoints) {
-                    foreach($this->collPoints as $obj) {
-                        if($obj->isNew()) {
+                if ($partial && $this->collPoints) {
+                    foreach ($this->collPoints as $obj) {
+                        if ($obj->isNew()) {
                             $collPoints[] = $obj;
                         }
                     }
@@ -1669,7 +1695,8 @@ abstract class BaseProject extends BaseObject implements Persistent
     {
         $pointsToDelete = $this->getPoints(new Criteria(), $con)->diff($points);
 
-        $this->pointsScheduledForDeletion = unserialize(serialize($pointsToDelete));
+
+        $this->pointsScheduledForDeletion = $pointsToDelete;
 
         foreach ($pointsToDelete as $pointRemoved) {
             $pointRemoved->setProject(null);
@@ -1703,7 +1730,7 @@ abstract class BaseProject extends BaseObject implements Persistent
                 return 0;
             }
 
-            if($partial && !$criteria) {
+            if ($partial && !$criteria) {
                 return count($this->getPoints());
             }
             $query = PointQuery::create(null, $criteria);
@@ -1732,8 +1759,13 @@ abstract class BaseProject extends BaseObject implements Persistent
             $this->initPoints();
             $this->collPointsPartial = true;
         }
+
         if (!in_array($l, $this->collPoints->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
             $this->doAddPoint($l);
+
+            if ($this->pointsScheduledForDeletion and $this->pointsScheduledForDeletion->contains($l)) {
+                $this->pointsScheduledForDeletion->remove($this->pointsScheduledForDeletion->search($l));
+            }
         }
 
         return $this;
@@ -1790,7 +1822,7 @@ abstract class BaseProject extends BaseObject implements Persistent
      *
      * This method is a user-space workaround for PHP's inability to garbage collect
      * objects with circular references (even in PHP 5.3). This is currently necessary
-     * when using Propel in certain daemon or large-volumne/high-memory operations.
+     * when using Propel in certain daemon or large-volume/high-memory operations.
      *
      * @param boolean $deep Whether to also clear the references on all referrer objects.
      */

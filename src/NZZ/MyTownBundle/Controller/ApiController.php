@@ -9,6 +9,7 @@ use NZZ\MyTownBundle\Model\ProjectQuery;
 use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\PointQuery;
 use NZZ\MyTownBundle\Model\Point;
+use BasePeer;
 
 class ApiController extends Controller
 {
@@ -38,13 +39,15 @@ class ApiController extends Controller
             }
         }
 
-        $points = PointQuery::create()->findByProjectid($project->getId());
+        $points = PointQuery::create()
+            ->filterByIsPublished(true)
+            ->findByProjectid($project->getId());
 
         $response = array(
             'project' => array_merge(
                 $project->toArray(),
                 $projectData->toArray(),
-                array('points' => $points->toArray())
+                array('points' => $points->toArray(null, false, BasePeer::TYPE_STUDLYPHPNAME))
             )
         );
 
@@ -75,6 +78,7 @@ class ApiController extends Controller
         $point->setLongitude($parameters['longitude']);
         $point->setAuthorName($parameters['authorName']);
         $point->setAuthorLocation($parameters['authorLocation']);
+        $point->setIsPublished(true);
 
         try {
             $point->save();

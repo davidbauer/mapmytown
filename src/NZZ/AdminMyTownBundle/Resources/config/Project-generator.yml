@@ -1,0 +1,84 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\Project
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields:
+        id:
+          label: ProjectId
+        defaultlanguage:
+          formType: choice
+          addFormOptions:
+            required: fasle
+            choices: [de: Deutsch , fr: French, en: English]
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+          title: Projects
+          display: ~
+          actions:
+              new: ~
+          object_actions:
+              edit: ~
+              delete: ~
+    filters:
+        params:
+            display: [slug]
+    new:
+        params:
+            title: Add new project
+            display: [slug, defaultzoom, defaultlanguage]
+
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You are edititing project: {{ Project.slug }}"
+            display:
+                "Project meta" :
+                    - slug
+                    - defaultzoom
+                    - defaultlanguage
+                "Translations":
+                    - project_data
+            fields:
+              project_data:
+                label: ~
+                getter: getProjectData
+                dbType: collection
+                formType: collection
+                addFormOptions:
+                  # use generated embed type
+                  type:             \NZZ\AdminMyTownBundle\Form\Type\ProjectData\EditType
+                  allow_add:        true
+                  allow_delete:     true
+                  error_bubbling:   true
+                  required: false
+                  options:
+                    required: false
+                    data_class:     NZZ\MyTownBundle\Model\ProjectData
+            actions:
+                save: ~
+                list: ~
+                delete: ~
+    show:
+        params:
+            title: Projects
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

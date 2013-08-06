@@ -11,6 +11,9 @@ build.xml
 /web/bundles
 /web/css
 /web/js
+/components
+/web/assetic
+/web/uploads
 .settings/*
 .buildpath
 .project

@@ -14,12 +14,13 @@ framework:
     validation:      { enable_annotations: true }
     templating:
         engines: ['twig']
-        #assets_version: SomeVersionScheme
-    default_locale:  "%locale%"
+    default_locale:  %locale%
     trusted_proxies: ~
     session:         ~
     fragments:       ~
     http_method_override: true
+    translator:
+        fallback: en
 
 # Twig Configuration
 twig:
@@ -61,3 +62,60 @@ propel:
     dbal:
         connections: %propel_dbal_connections%
         default_connection: default
+
+
+admingenerator_generator:
+    dashboard_welcome_path: ~
+    base_admin_template: NZZAdminMyTownBundle::mytown_base_admin.html.twig
+    use_propel: true
+    overwrite_if_exists: false
+    login_path: login
+    logout_path: logout
+    ## Twig and Templates
+    twig:
+        use_form_resources: true
+        use_localized_date: false
+        date_format: Y-m-d
+        datetime_format: Y-m-d H:i:s
+        localized_date_format: medium
+        localized_datetime_format: medium
+        number_format:
+            decimal: 0
+            decimal_point: .
+            thousand_separator: ,
+    templates_dirs: []
+    stylesheets: []
+    javascripts: [] # array of {path: path_to_javascript, route: route_name, routeparams: [value1, value2]}
+    form_types:
+        propel:
+            TIMESTAMP:    datetime
+            BU_TIMESTAMP: datetime
+            DATE:         date
+            BU_DATE:      date
+            TIME:         time
+            FLOAT:        number
+            REAL:         number
+            DOUBLE:       number
+            DECIMAL:      number
+            TINYINT:      integer
+            SMALLINT:     integer
+            INTEGER:      integer
+            BIGINT:       integer
+            NUMERIC:      integer
+            CHAR:         text
+            VARCHAR:      text
+            LONGVARCHAR:  textarea
+            BLOB:         textarea
+            CLOB:         textarea
+            CLOB_EMU:     textarea
+            model:        model
+            collection:   collection
+            PHP_ARRAY:    collection
+            ENUM:         choice
+            BOOLEAN:      checkbox
+            BOOLEAN_EMU:  checkbox
+    filter_types:
+        propel:
+            BOOLEAN:       choice
+            BOOLEAN_EMU:   choice
+            collection:    model

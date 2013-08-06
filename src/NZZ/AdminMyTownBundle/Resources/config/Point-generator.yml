@@ -1,0 +1,77 @@
+generator: admingenerator.generator.propel
+params:
+    model: NZZ\MyTownBundle\Model\Point
+    namespace_prefix: NZZ
+    entity_manager: ~
+    concurrency_lock: ~
+    bundle_name: AdminMyTownBundle
+    pk_requirement: ~
+    fields:
+        author_name:
+          label: User
+        author_location:
+          label: Location
+        description:
+          formType: textarea
+        latitude:
+          label: Lat.
+        longitude:
+          label: Long.
+        project_slug:
+          label: Project
+          getter: getProjectSlug
+
+    object_actions:
+        delete: ~
+    batch_actions:
+        delete: ~
+builders:
+    list:
+        params:
+            title: Users activity in project
+            display: [ project_slug, title, description, author_name, author_location, is_published, sentiment, type ]
+            actions:
+                new: ~
+            object_actions:
+                edit: ~
+                delete: ~
+            max_per_page: 30
+            sort: [id, desc]
+    filters:
+        params:
+            display: [ title, description, author_name, author_location, is_published, type ]
+    edit:
+        params:
+            title: "You're editing user's comment"
+            display: [title, description, author_name, author_location, is_published, sentiment, type ]
+            actions:
+                save: ~
+                list: ~
+                delete: ~
+    new:
+        params:
+            title: New object for AdminMyTownBundle
+            display: [ project_id, latitude, longitude, title, description, author_name, author_location, is_published ]
+            actions:
+                save: ~
+                list: ~
+    edit:
+        params:
+            title: "You're editing user's info"
+            display: [title, description, author_name, author_location, is_published, sentiment ]
+            actions:
+                save: ~
+                list: ~
+    show:
+        params:
+            title: "Project's comments"
+            display: ~
+            actions:
+                list: ~
+                new: ~
+    actions:
+        params:
+            object_actions:
+                delete: ~
+            batch_actions:
+                delete: ~

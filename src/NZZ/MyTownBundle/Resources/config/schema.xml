@@ -107,9 +107,36 @@
         <column name="author_location" phpName="AuthorLocation" type="VARCHAR" size="255"/>
         <column name="sentiment" type="INTEGER" size="1" defaultValue="0"/>
         <column name="is_published" phpName="IsPublished" type="BOOLEAN" required="true" defaultValue="false"/>
+        <column name="type" phpName="Type" type="VARCHAR" size="11" required="false" defaultValue="user"/>
         <column name="project_id" phpName="ProjectId" type="INTEGER" required="true"/>
         <foreign-key foreignTable="project">
             <reference local="project_id" foreign="id"/>
         </foreign-key>
+        <index name="k1_pt_point_id">
+            <index-column name="author_name"/>
+        </index>
+        <index name="k2_pt_point_id">
+            <index-column name="description"/>
+        </index>
+        <index name="k3_pt_point_id">
+            <index-column name="title"/>
+        </index>
+        <index name="k4_pt_point_id">
+            <index-column name="author_location"/>
+        </index>
+        <index name="k5_pt_type">
+            <index-column name="type"/>
+        </index>
+    </table>
+    <table name="tracking" phpName="Tracking" idMethod="native">
+        <vendor type="mysql">
+            <parameter name="Engine" value="InnoDB"/>
+            <parameter name="Charset" value="utf8"/>
+            <parameter name="Collate" value="utf8_general_ci"/>
+        </vendor>
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+        <column name="title" type="VARCHAR" size="255"/>
+        <column name="provider" type="VARCHAR" size="255"/>
+        <column name="body" type="LONGVARCHAR"/>
     </table>
 </database>
