@@ -11,12 +11,14 @@
       this.listenTo(this.collection, 'add', this.render);
       this.listenTo(this.collection, 'remove', this.render);
       this.listenTo(this.collection, 'reset', this.render);
+      this.listenTo(this.collection, 'change:persisted', this.render);
+      this.listenTo(this.collection, 'change:selected', this.render);
     },
 
     render: function() {
       if (this.collection.length > 0) {
         this.$el.empty();
-        this.collection.forEach(this.appendItem);
+        this.collection.forEachPersisted(this.appendItem);
       } else {
         this.$el.html("<li>Keine Einträge</li>"); // FIXME: make localizable
       }

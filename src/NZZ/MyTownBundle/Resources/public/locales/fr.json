@@ -12,7 +12,8 @@
     "name": "Merci d'inscrire votre nom ou vos initiales",
     "origin": "D'où venez-vous?",
     "add": "Soumettre",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "optional": "optionnel"
   },
   
   "thx": {

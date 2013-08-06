@@ -94,7 +94,10 @@
       latlng.latlng && (latlng = latlng.latlng);
       var comment = this.model.comments.findNew();
       if (comment) {
-        comment.set({latlng: latlng});
+        comment.set({
+          latitude: latlng.lat,
+          longitude: latlng.lng
+        });
       }
     },
 

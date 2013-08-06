@@ -12,7 +12,8 @@
     "name": "Name oder Initialen",
     "origin": "Woher kommen Sie?",
     "add": "Eintragen",
-    "cancel": "Abbrechen"
+    "cancel": "Abbrechen",
+    "optional": "optional"
   },
   
   "thx": {

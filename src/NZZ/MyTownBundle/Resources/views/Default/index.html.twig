@@ -9,8 +9,11 @@
           fallbackLng: false,
           resGetPath: '/bundles/nzzmytown/locales/__lng__.json',
         }, function() {
+          // Remove the preload spinner
+          $('body').removeClass('preload');
           // Set app config
-          app.config.baseUrl = 'http://176.34.222.87/vovka2/de';
+          // app.config.baseUrl = 'http://176.34.222.87/vovka2/{{lang}}';
+          app.config.baseUrl = 'http://localhost:8000/app_dev.php/mock/test/{{lang}}';
           app.config.mapboxKey = 'sylke-gruhnwald.map-a6qno9vz';
           // Start the app
           var router = new app.routers.AppRouter();
@@ -26,14 +29,14 @@
 <script id="template-submit" type="text/x-handlebars-template">{% raw %}
 {{#if comment}}
   <a href="{{noLink}}" data-action="cancel" class="btn btn-secondary">{{t "form.cancel"}}</a>
-  <a href="{{noLink}}" data-action="edit" data-target="#comment-modal" id="submit__marker__btn" class="btn btn-primary {{#unless comment.latlng}}disabled{{/unless}}">{{t "form.add"}}</a>
+  <a href="{{noLink}}" data-action="edit" data-target="#comment-modal" id="submit__marker__btn" class="btn btn-primary {{#unless comment.latitude}}{{#unless comment.longitude}}disabled{{/unless}}{{/unless}}">{{t "form.add"}}</a>
 {{else}}
   <a href="{{noLink}}" data-action="new" class="btn btn-primary">{{buttontext}}</a>
 {{/if}}
 {% endraw %}</script>
 
 <script id="template-submit-thanks" type="text/x-handlebars-template">{% raw %}
-<a href="#thanksModal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
+<a href="#thanks-modal" class="btn btn-primary" data-toggle="modal">{{t "thx.thankyou"}}</a>
 {% endraw %}</script>
 
 <script id="template-root-view" type="text/x-handlebars-template">{% raw %}
@@ -101,26 +104,32 @@
     <div class="modal-body">
       <form class="">
         <fieldset>
-          <label>{{t "form.title"}}</label>
-          <input type="text">
-          <label>{{t "form.description"}}</label>
-          <textarea rows="3"></textarea>
+          <input name="projectId" type="hidden" value="{{projectId}}"/>
+
+          <label for="commentTitle">{{t "form.title"}}</label>
+          <input name="title" id="commentTitle" type="text"/>
+
+          <label for="commentDescription">{{t "form.description"}}</label>
+          <textarea name="description" id="commentDescription" rows="3"></textarea>
+
           <label class="radio inline">
-            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+            <input type="radio" name="sentiment" value="1"/>
             {{t "form.sentiLabels.positive"}}
           </label>
           <label class="radio inline">
-            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+            <input type="radio" name="sentiment" value="-1"/>
             {{t "form.sentiLabels.negative"}}
           </label>
           <label class="radio inline">
-            <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+            <input type="radio" name="sentiment" value="0" checked />
             {{t "form.sentiLabels.fact"}}
           </label>
-          <label>{{t "form.name"}}</label>
-          <input type="text">
-          <label>{{t "form.origin"}}</label>
-          <input type="text">
+
+          <label for="commentAuthorName">{{t "form.name"}}</label>
+          <input name="authorName" id="commentAuthorName" type="text"/>
+
+          <label for="commentAuthorLocation">{{t "form.origin"}} ({{t "form.optional"}})</label>
+          <input name="authorLocation" id="commentAuthorLocation" type="text"/>
         </fieldset>
       </form>
     </div>
@@ -130,7 +139,7 @@
     </div>
   </div>
 
-  <div id="thanksModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "thx.thankyou"}}" aria-hidden="true">
+  <div id="thanks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "thx.thankyou"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
       <h3 id="tacModalLabel">{{t "thx.thankyou"}}</h3>

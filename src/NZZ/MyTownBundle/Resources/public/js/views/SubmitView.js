@@ -10,7 +10,7 @@
     },
 
     initialize: function() {
-      _.bindAll(this, 'render', 'onNew', 'onEdit', 'onCreate', 'onShowDialog', 'onCancel');
+      _.bindAll(this, 'render', 'onNew', 'onEdit', 'create', 'onShowDialog', 'onCancel');
 
       this.listenTo(this.model.comments, 'add', this.render);
       this.listenTo(this.model.comments, 'remove', this.render);
@@ -30,13 +30,15 @@
     onNew: function(evt) {
       var comment = new app.models.Comment();
       this.model.comments.add(comment);
-      comment.on('change:latlng', this.render, this);
+      comment.on('change:latitude', this.render, this);
+      comment.on('change:longitude', this.render, this);
+      comment.on('change:persisted', this.render, this);
     },
 
     onEdit: function(evt) {
       var comment = this.model.comments.findNew();
 
-      if (comment.get('latlng')) {
+      if (comment.get('latitude') && comment.get('longitude')) {
         var dialogId = $(evt.currentTarget).data('target');
         this.onShowDialog(dialogId);
       } else {
@@ -47,16 +49,21 @@
     onShowDialog: function(dialogId) {
       // Initialize
       var dialog = $(dialogId).modal();
-      var afterDialogHide = function(callback){
+      var afterHideDialog = function(callback) {
         return function() {
           dialog.modal('hide');
           callback();
         }
       }
+      var withDialog = function(callback) {
+        return function() {
+          callback(dialog);
+        }
+      }
 
       // Bind UI events
-      dialog.on('click.submitViewDialog', '[data-action="cancel"]', afterDialogHide(this.onCancel));
-      dialog.on('click.submitViewDialog', '[data-action="submit"]', afterDialogHide(this.onCreate));
+      dialog.on('click.submitViewDialog', '[data-action="cancel"]', afterHideDialog(this.onCancel));
+      dialog.on('click.submitViewDialog', '[data-action="submit"]', withDialog(this.create));
 
       // Unbind global events after we're done
       dialog.on('hide', function(){
@@ -67,10 +74,30 @@
       dialog.modal('show');
     },
 
-    onCreate: function(evt) {
+    create: function(dialog) {
       var comment = this.model.comments.findNew();
-      // TODO: validation and error handling
-      comment.save();
+      var $form = dialog.find('form');
+
+      // Serialize form
+      var formData = $form.serializeArray();
+      var data = _.reduce(formData, function(memo, d){
+        memo[d.name] = d.value;
+        return memo;
+      }, {});
+
+      var request = comment.save(data);
+      if (request) {
+        request.done(_.bind(function(){
+          $form.trigger('reset');
+          dialog.modal('hide');
+          this.model.comments.selectComment(comment);
+        }, this));
+        request.fail(function() {
+          alert("Could not save the data"); // TODO
+        });
+      } else {
+        alert("Not all required fields are filled-in: " + comment.validationError); // TODO
+      }
     },
 
     onCancel: function(evt) {
