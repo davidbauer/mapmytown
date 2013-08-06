@@ -10,9 +10,7 @@
     },
 
     selectAt: function(idx) {
-      // Update all models silently. This is most often the right thing but
-      // might lead to display errors, so be aware of this.
-      this.forEach(function(d){d.set('selected', false, {silent: true})});
+      this.forEach(function(d){d.set('selected', false)});
       this.at(idx).set('selected', true);
     },
 

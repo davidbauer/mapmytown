@@ -46,7 +46,7 @@
       fillColor: colorForSentiment(comment.get('sentiment')),
       fillOpacity: 1,
       clickable: true
-    }).setRadius(6);
+    }).setRadius(comment.get('selected') ? 8 : 6);
   }
 
   function makePlaceableMarker(comment, latlng) {
@@ -74,7 +74,7 @@
     },
 
     initialize: function() {
-      _.bindAll(this, 'initMap', 'onStartPlaceMarker', 'onEndPlaceMarker', 'addMarkerForComment', 'updateMarkerForComment', 'removeMarkerForComment');
+      _.bindAll(this, 'initMap', 'onStartPlaceMarker', 'onEndPlaceMarker', 'addMarkerForComment', 'updateMarkerForComment', 'selectMarkerForComment', 'removeMarkerForComment');
 
       // Keep track of all placed markers
       this.markers = {};
@@ -85,6 +85,7 @@
       this.listenTo(this.model.comments, 'change:persisted', this.updateMarkerForComment);
       this.listenTo(this.model.comments, 'change:latitude',  this.updateMarkerForComment);
       this.listenTo(this.model.comments, 'change:longitude', this.updateMarkerForComment);
+      this.listenTo(this.model.comments, 'change:selected', this.selectMarkerForComment);
     },
 
     render: function() {
@@ -147,6 +148,7 @@
       marker.addTo(this.map);
       this.markers[comment.cid] = {
         el: marker,
+        selected: comment.get('selected'),
         persisted: comment.isPersisted()
       };
     },
@@ -161,6 +163,12 @@
         this.removeMarkerForComment(comment);
         this.addMarkerForComment(comment);
       }
+    },
+
+    selectMarkerForComment: function(comment) {
+      var marker = this.markers[comment.cid];
+      if (!marker || !marker.persisted) return;
+      marker.el.setRadius(comment.get('selected') ? 8 : 6);
     },
 
     removeMarkerForComment: function(comment) {

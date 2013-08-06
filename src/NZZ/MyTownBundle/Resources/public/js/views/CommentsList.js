@@ -5,6 +5,10 @@
     tagName: "ul",
     commentTemplate: "comment",
 
+    events: {
+      'click [data-action="select"]': 'onSelectComment'
+    },
+
     initialize: function() {
       _.bindAll(this, 'render', 'appendItem');
 
@@ -27,7 +31,16 @@
 
     appendItem: function(item) {
       var template = this.compileTemplate(this.commentTemplate);
-      this.$el.append(template(item.toJSON()));
+      this.$el.append(template(_.extend({}, item.toJSON(), {
+        cid: item.cid
+      })));
+    },
+
+    onSelectComment: function(evt) {
+      var $item = $(evt.currentTarget);
+      var cid = $item.data('cid');
+      var comment = this.collection.get(cid);
+      this.collection.selectComment(comment);
     }
   });
 }());
