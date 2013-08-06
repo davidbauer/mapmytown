@@ -79,7 +79,7 @@ nzz_my_town_homepage:
     defaults: { _controller: NZZMyTownBundle:Default:index }
     requirements:
         lang: '\w{2}'
-        projectSlug: '[^/]*'
+        project: '[^/]*'
         _method: GET
 
 
@@ -91,7 +91,7 @@ nzz_my_town_mock_api_save:
     defaults: { _controller: NZZMyTownBundle:MockApi:save }
     requirements:
         lang: '\w{2}'
-        projectSlug: '[^/]*'
+        projectSlug: '[^/]'
         _method: POST
 
 nzz_my_town_mock_api_points:
