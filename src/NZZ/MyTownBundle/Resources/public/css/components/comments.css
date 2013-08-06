@@ -12,6 +12,10 @@
   margin: 0;
   padding: 0;
 }
+.comments__list li:hover{
+    background: #ccc;
+    cursor: pointer;
+}
 .comments__list li.selected{
     color: #fff;
     background: #999;

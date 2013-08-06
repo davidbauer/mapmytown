@@ -31,3 +31,18 @@
   line-height: 1;
   margin: 1em 0 0;
 }
+
+/* State minimized */
+.sidebar .sidebar__help {
+  display: none;
+}
+.sidebar.sidebar--minimized {
+  height: auto;
+}
+.sidebar.sidebar--minimized .sidebar__info,
+.sidebar.sidebar--minimized .sidebar__comments {
+  display: none;
+}
+.sidebar.sidebar--minimized .sidebar__help {
+  display: block;
+}
