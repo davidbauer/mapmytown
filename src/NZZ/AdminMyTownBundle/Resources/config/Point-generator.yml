@@ -51,7 +51,10 @@ builders:
     new:
         params:
             title: New object for AdminMyTownBundle
-            display: [ title, description, author_name, author_location, is_published ]
+            display: [ project_id, title, description, author_name, author_location, is_published ]
+            actions:
+                save: ~
+                list: ~
     edit:
         params:
             title: "You're editing user's info"
