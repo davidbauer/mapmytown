@@ -35,6 +35,16 @@
       // Mark deferred as resolved
       this.deferred.resolve();
       this.deferred = null;
+    },
+
+    getLatLng: function() {
+      var lat = this.get('centerlatitude');
+      var lng = this.get('centerlongitude');
+      if (lat && lng) {
+        return new L.LatLng(lat, lng);
+      } else {
+        return null;
+      }
     }
   });
 }());

@@ -16,6 +16,23 @@
       return this.get('persisted');
     },
 
+    getLatLng: function() {
+      var lat = this.get('latitude');
+      var lng = this.get('longitude');
+      if (lat && lng) {
+        return new L.LatLng(lat, lng);
+      } else {
+        return null;
+      }
+    },
+
+    setLatLng: function(latlng) {
+      this.set({
+        latitude: latlng.lat,
+        longitude: latlng.lng
+      });
+    },
+
     // We're overriding Backbone's save method here to have more
     // control and to make it clear, that only this function
     // is supported
