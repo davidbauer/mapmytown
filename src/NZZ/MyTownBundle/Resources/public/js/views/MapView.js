@@ -1,6 +1,8 @@
 (function () {
   "use strict";
 
+  // Utils
+
   // rounds coordinates before setting to state model
   // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Geographical_coordinates#Precision_guidelines
   // 0.0001° = 5 - 10m accuracy
@@ -9,20 +11,18 @@
     return Math.round(n * 10000) / 10000;
   }
 
-
-  // Utils
   function pointerEventCoordinates(evt) {
     var isTouch = evt.type.indexOf('touch') === 0;
     if (isTouch) {
       return {
         x: evt.changedTouches[0].pageX,
         y: evt.changedTouches[0].pageY
-      }
+      };
     } else {
       return {
         x: evt.clientX + window.pageXOffset,
         y: evt.clientY + window.pageYOffset
-      }
+      };
     }
   }
 
@@ -39,8 +39,8 @@
         return "#79cb59";
       default:
         return "#bec7d3";
-    };
-  };
+    }
+  }
 
   function makePersistedMarker(comment, latlng) {
     return new L.CircleMarker(latlng, {
@@ -194,7 +194,7 @@
         this.map.panTo(comment.getLatLng(), {
           animate: true,
           duration: 0.3
-        })
+        });
       }
     },
 
