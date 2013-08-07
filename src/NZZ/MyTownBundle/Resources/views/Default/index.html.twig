@@ -11,21 +11,16 @@
         }, function() {
           // Remove the preload spinner
           $('body').removeClass('preload');
+          // Define the application root
+          var root = "{{ path('nzz_my_town_homepage', {'project': project, 'lang': lang}) }}".split('/');
+          root.pop(); // to avoid tailing slashes we need to remove the last segment
+          root = root.join('/');
           // Set app config
-          // app.config.baseUrl = 'http://176.34.222.87/vovka2/{{lang}}';
-          app.config.baseUrl = '{{ url('nzz_my_town_api_points', {'lang' : lang, 'projectSlug': project})  }}';
+          app.config.baseUrl = root;
           app.config.mapboxKey = 'sylke-gruhnwald.map-a6qno9vz';
           // Start the app
-          var router = new app.routers.AppRouter(),
-              root = "{{ path('nzz_my_town_homepage', {'project': project, 'lang': lang}) }}".split('/');
-
-          // to avoid tailing slashes we need to remove the last segment
-          root.pop();
-
-          Backbone.history.start({pushState: true, root: root.join('/')});
-
-          // expose for debug
-          window.router = router;
+          var router = new app.routers.AppRouter();
+          Backbone.history.start({pushState: true, root: root});
         });
       });
    </script>

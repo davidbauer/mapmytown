@@ -32,10 +32,10 @@
       // Set project data
       this.set(result.project);
 
-      // set project default to state if not already defined via query param
+      // Set project default to state if not already defined via query param
       this.state.set({
-        'lat': this.state.get('lat') || this.get('centerlatitude'),
-        'lng': this.state.get('lng') || this.get('centerlongitude'),
+        'lat':  this.state.get('lat')  || this.get('centerlatitude'),
+        'lng':  this.state.get('lng')  || this.get('centerlongitude'),
         'zoom': this.state.get('zoom') || this.get('defaultzoom')
       });
 

@@ -11,7 +11,8 @@
 
     selectAt: function(idx) {
       this.forEach(function(d){d.set('selected', false)});
-      this.at(idx).set('selected', true);
+      var comment = this.at(idx);
+      if (comment) comment.set('selected', true);
     },
 
     forEachPersisted: function(callback) {
