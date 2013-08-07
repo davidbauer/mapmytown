@@ -27,6 +27,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery orderByAuthorLocation($order = Criteria::ASC) Order by the author_location column
  * @method PointQuery orderBySentiment($order = Criteria::ASC) Order by the sentiment column
  * @method PointQuery orderByIsPublished($order = Criteria::ASC) Order by the is_published column
+ * @method PointQuery orderByType($order = Criteria::ASC) Order by the type column
  * @method PointQuery orderByProjectId($order = Criteria::ASC) Order by the project_id column
  *
  * @method PointQuery groupById() Group by the id column
@@ -38,6 +39,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery groupByAuthorLocation() Group by the author_location column
  * @method PointQuery groupBySentiment() Group by the sentiment column
  * @method PointQuery groupByIsPublished() Group by the is_published column
+ * @method PointQuery groupByType() Group by the type column
  * @method PointQuery groupByProjectId() Group by the project_id column
  *
  * @method PointQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -59,6 +61,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method Point findOneByAuthorLocation(string $author_location) Return the first Point filtered by the author_location column
  * @method Point findOneBySentiment(int $sentiment) Return the first Point filtered by the sentiment column
  * @method Point findOneByIsPublished(boolean $is_published) Return the first Point filtered by the is_published column
+ * @method Point findOneByType(string $type) Return the first Point filtered by the type column
  * @method Point findOneByProjectId(int $project_id) Return the first Point filtered by the project_id column
  *
  * @method array findById(int $id) Return Point objects filtered by the id column
@@ -70,6 +73,7 @@ use NZZ\MyTownBundle\Model\Project;
  * @method array findByAuthorLocation(string $author_location) Return Point objects filtered by the author_location column
  * @method array findBySentiment(int $sentiment) Return Point objects filtered by the sentiment column
  * @method array findByIsPublished(boolean $is_published) Return Point objects filtered by the is_published column
+ * @method array findByType(string $type) Return Point objects filtered by the type column
  * @method array findByProjectId(int $project_id) Return Point objects filtered by the project_id column
  */
 abstract class BasePointQuery extends ModelCriteria
@@ -81,8 +85,14 @@ abstract class BasePointQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = 'NZZ\\MyTownBundle\\Model\\Point', $modelAlias = null)
+    public function __construct($dbName = null, $modelName = null, $modelAlias = null)
     {
+        if (null === $dbName) {
+            $dbName = 'default';
+        }
+        if (null === $modelName) {
+            $modelName = 'NZZ\\MyTownBundle\\Model\\Point';
+        }
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
@@ -99,10 +109,8 @@ abstract class BasePointQuery extends ModelCriteria
         if ($criteria instanceof PointQuery) {
             return $criteria;
         }
-        $query = new PointQuery();
-        if (null !== $modelAlias) {
-            $query->setModelAlias($modelAlias);
-        }
+        $query = new PointQuery(null, null, $modelAlias);
+
         if ($criteria instanceof Criteria) {
             $query->mergeWith($criteria);
         }
@@ -130,7 +138,7 @@ abstract class BasePointQuery extends ModelCriteria
             return null;
         }
         if ((null !== ($obj = PointPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is alredy in the instance pool
+            // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {
@@ -172,7 +180,7 @@ abstract class BasePointQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `title`, `description`, `latitude`, `longitude`, `author_name`, `author_location`, `sentiment`, `is_published`, `project_id` FROM `point` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `title`, `description`, `latitude`, `longitude`, `author_name`, `author_location`, `sentiment`, `is_published`, `type`, `project_id` FROM `point` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -570,6 +578,35 @@ abstract class BasePointQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(PointPeer::IS_PUBLISHED, $isPublished, $comparison);
+    }
+
+    /**
+     * Filter the query on the type column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByType('fooValue');   // WHERE type = 'fooValue'
+     * $query->filterByType('%fooValue%'); // WHERE type LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $type The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterByType($type = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($type)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $type)) {
+                $type = str_replace('*', '%', $type);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(PointPeer::TYPE, $type, $comparison);
     }
 
     /**

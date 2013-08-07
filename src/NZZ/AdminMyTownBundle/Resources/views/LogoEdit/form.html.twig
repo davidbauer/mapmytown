@@ -1,0 +1,31 @@
+{% extends_admingenerated "NZZAdminMyTownBundle:LogoEdit:form.html.twig" %}
+  {% block form_fieldset_NONE %}
+      <fieldset class="form_block form_fieldset_NONE tab-pane">
+          <div class="row-fluid">
+              <div class="control-group">
+                  <img src="{{ path('nzz_my_town_logo_action',{'filename': Logo.url}) }}" class="img-polaroid">
+              </div>
+          </div>
+          <div class="row-fluid">
+              <div class="control-group form_field field_text field_title">
+                  {% block form_title %}
+                      {{ form_row(form['title']) }}
+                  {% endblock form_title %}
+              </div>
+          </div>
+          <div class="row-fluid">
+              <div class="control-group form_field field_text field_caption">
+                  {% block form_caption %}
+                      {{ form_row(form['caption']) }}
+                  {% endblock form_caption %}
+              </div>
+          </div>
+          <div class="row-fluid">
+              <div class="control-group form_field field_file field_contentUploaded">
+                  {% block form_contentUploaded %}
+                      {{ form_row(form['contentUploaded']) }}
+                  {% endblock form_contentUploaded %}
+              </div>
+          </div>
+      </fieldset>
+  {% endblock form_fieldset_NONE %}

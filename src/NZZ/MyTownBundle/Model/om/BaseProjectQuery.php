@@ -67,8 +67,14 @@ abstract class BaseProjectQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = 'NZZ\\MyTownBundle\\Model\\Project', $modelAlias = null)
+    public function __construct($dbName = null, $modelName = null, $modelAlias = null)
     {
+        if (null === $dbName) {
+            $dbName = 'default';
+        }
+        if (null === $modelName) {
+            $modelName = 'NZZ\\MyTownBundle\\Model\\Project';
+        }
         parent::__construct($dbName, $modelName, $modelAlias);
     }
 
@@ -85,10 +91,8 @@ abstract class BaseProjectQuery extends ModelCriteria
         if ($criteria instanceof ProjectQuery) {
             return $criteria;
         }
-        $query = new ProjectQuery();
-        if (null !== $modelAlias) {
-            $query->setModelAlias($modelAlias);
-        }
+        $query = new ProjectQuery(null, null, $modelAlias);
+
         if ($criteria instanceof Criteria) {
             $query->mergeWith($criteria);
         }
@@ -116,7 +120,7 @@ abstract class BaseProjectQuery extends ModelCriteria
             return null;
         }
         if ((null !== ($obj = ProjectPeer::getInstanceFromPool((string) $key))) && !$this->formatter) {
-            // the object is alredy in the instance pool
+            // the object is already in the instance pool
             return $obj;
         }
         if ($con === null) {

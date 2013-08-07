@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Map My Town{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block scripts_head %}
+        {% javascripts filter='?yui_js' output='assetic/js/compiled/components.min.js'
+        'components/jquery/jquery.js'
+        'components/jquery-ui/ui/jquery-ui.js'
+        %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+
+        {% javascripts filter='?yui_js' output='assetic/js/compiled/components/html5shiv.min.js'
+        'components/html5shiv/src/html5shiv.js'
+        %}
+        <!--[if lt IE 9]>
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+        <![endif]-->
+        {% endjavascripts %}
+    {% endblock %}
+
+    {% block stylesheets %}
+        {% stylesheets filter='cssrewrite,?yui_css' output='assetic/css/compiled/components.min.css'
+        'components/bootstrap/css/bootstrap.css'
+        'components/bootstrap/css/bootstrap-responsive.css'
+        'components/font-awesome/css/font-awesome.css'
+        'components/font-awesome/css/font-awesome.css'
+        'bundles/nzzadminmytown/css/admin.css'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="all" />
+        {% endstylesheets %}
+        <!--[if lt IE 7]>
+        <link rel="stylesheet" href="{{ asset('components/font-awesome/css/font-awesome-ie7.min') }}" type="text/css" media="all" />
+        <![endif]-->
+        {% stylesheets filter='cssrewrite,?yui_css' output='assetic/css/compiled/admingenerator.min.css'
+        'bundles/admingeneratorgenerator/css/general.css'
+        'bundles/admingeneratorgenerator/css/profile.css'
+        'bundles/admingeneratorgenerator/css/nested-list.css'
+        'bundles/admingeneratorgenerator/css/bootstrap-extended.css'
+        %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" media="all" />
+        {% endstylesheets %}
+    {% endblock %}
+
+    {% block icons %}
+        <!-- Favicon and touch icons -->
+        <link rel="shortcut icon" href="{{ asset('bundles/admingeneratorgenerator/ico/favicon.ico') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ asset('bundles/admingeneratorgenerator/ico/apple-touch-icon-144-precomposed.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{{ asset('bundles/admingeneratorgenerator/ico/apple-touch-icon-114-precomposed.png') }}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('bundles/admingeneratorgenerator/ico/apple-touch-icon-72-precomposed.png') }}">
+        <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/admingeneratorgenerator/ico/apple-touch-icon-57-precomposed.png') }}">
+    {% endblock %}
+</head>
+
+<body>
+
+{% block navbar %}
+    {% include 'NZZAdminMyTownBundle::base_admin_navbar.html.twig' %}
+{% endblock navbar %}
+
+<div class="container-fluid">
+    {% block flashes %}
+        <div id="flashes" class="row-fluid">
+            {% for type, flashMessages in app.session.flashbag.all() %}
+                {% for flashMessage in flashMessages %}
+                    <div class="alert alert-{{ type }}">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        {{ flashMessage|raw }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div><!--/.row-fluid -->
+    {% endblock %}
+
+    {% block body %}
+        <div class="row-fluid">
+        </div><!--/.row-fluid -->
+    {% endblock %}
+
+    {% block footer %}
+        <footer>
+            <hr>
+            <p>{% block footer_text %}&copy; NZZ.ch, Le Temps, Tages Woche {{ ("now"|date('Y')) }}{% endblock %}</p>
+        </footer>
+    {% endblock %}
+</div> <!--/.container-fluid -->
+
+{% block javascripts %}
+    {% javascripts filter='?yui_js' output='assetic/js/compiled/admingenerator.min.js'
+    'components/bootstrap/js/bootstrap.js'
+    'bundles/admingeneratorgenerator/js/admingenerator/general.js'
+    %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+</body>
+</html>

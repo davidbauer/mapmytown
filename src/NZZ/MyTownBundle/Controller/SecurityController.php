@@ -4,6 +4,7 @@ namespace NZZ\MyTownBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SecurityController extends Controller
 {
@@ -20,8 +21,9 @@ class SecurityController extends Controller
             $session->remove(SecurityContext::AUTHENTICATION_ERROR);
         }
 
+//        return new RedirectResponse($this->generateUrl("_welcome" ));
         return $this->render('NZZMyTownBundle::Admin\login.html.twig', array(
-                // last username entered by the user
+//                 last username entered by the user
                 'last_username' => $session->get(SecurityContext::LAST_USERNAME),
                 'error'         => $error,
             ));

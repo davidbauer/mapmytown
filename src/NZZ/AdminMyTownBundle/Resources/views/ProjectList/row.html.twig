@@ -1,0 +1,48 @@
+{% extends_admingenerated "NZZAdminMyTownBundle:ProjectList:row.html.twig" %}
+{% block list_row %}
+    <tr class="list_trow">{% block list_row_content %}
+            <td class="td_INTEGER td_id">
+                {% block list_td_column_id %}{{ Project.id }}{% endblock list_td_column_id %}
+            </td>
+            <td class="td_VARCHAR td_slug">
+                {% block list_td_column_slug %}<a href="{{ path("NZZ_AdminMyTownBundle_Point_list" ) }}?projectId={{ Project.id }}">{{ Project.slug }}</a>{% endblock list_td_column_slug %}
+            </td>
+            <td class="td_INTEGER td_defaultzoom">
+                {% block list_td_column_defaultzoom %}{{ Project.defaultzoom }}{% endblock list_td_column_defaultzoom %}
+            </td>
+            <td class="td_VARCHAR td_defaultlanguage">
+                {% block list_td_column_defaultlanguage %}{{ Project.defaultlanguage }}{% endblock list_td_column_defaultlanguage %}
+            </td>
+        {% endblock list_row_content %}
+        {% block object_actions %}
+            <td class="object_actions">
+                <div class="btn-group">
+                    {% block object_action_edit %}
+
+
+                        {% spaceless %}
+                            <a  class="btn btn-mini " href="{{ path("NZZ_AdminMyTownBundle_Project_edit", { pk: Project.Id }) }}"
+                                data-original-title="{% trans from "Admingenerator" %}action.object.edit.label{% endtrans %}"
+                                rel="tooltip"
+                                    ><i class="icon-edit"></i></a>
+                        {% endspaceless %}
+
+                    {% endblock object_action_edit %}
+                    {% block object_action_delete %}
+
+
+                        {% spaceless %}
+                            <a  class="btn btn-mini " href="{{ path("NZZ_AdminMyTownBundle_Project_object", { pk: Project.Id, action: 'delete' }) }}"
+                                data-original-title="{% trans from "Admingenerator" %}action.object.delete.label{% endtrans %}"
+                                rel="tooltip"
+                                data-confirm="{% trans from "Admingenerator" %}action.object.delete.confirm{% endtrans %}"  data-csrf-token="{{ path("NZZ_AdminMyTownBundle_Project_object", { pk: Project.Id, action: 'delete' })|csrf_token }}" ><i class="icon-remove"></i></a>
+                        {% endspaceless %}
+
+                    {% endblock object_action_delete %}
+                    {% block object_actions_customActions %}{% endblock object_actions_customActions %}
+                </div>
+            </td>
+        {% endblock object_actions %}
+
+    </tr>
+{% endblock list_row %}
