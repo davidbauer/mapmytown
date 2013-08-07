@@ -19,12 +19,12 @@
     },
 
     render: function() {
-      this.$el.hide();
+      this.$el.addClass('hidden');
       if (this.model.isPersisted()) {
         var template = this.compileTemplate(this.template);
         this.$el.html(template(this.model.toJSON()));
         this.$el.toggleClass('selected', this.model.get('selected'));
-        this.$el.show();
+        this.$el.removeClass('hidden');
       }
       return this;
     }

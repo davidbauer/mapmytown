@@ -21,6 +21,9 @@
     background: #ccc;
     cursor: pointer;
 }
+.comment.hidden{
+  display: none;
+}
 .comment.selected{
     color: #fff;
     background: #999;

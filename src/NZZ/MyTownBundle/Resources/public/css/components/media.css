@@ -39,10 +39,10 @@
     padding: 0;
     border: none;
   }
-  .comments__list li{
+  .comment{
     display: none;
   }
-  .comments__list li.selected{
+  .comment.selected{
     display: block;
     padding: 10px 20px;
     border: none;
