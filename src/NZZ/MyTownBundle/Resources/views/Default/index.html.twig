@@ -83,7 +83,8 @@
                 'facebook-share-dialog', 
                 'width=626,height=436');
               return false;">Facebook</a>.
-          <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">{{t "info.name"}}</a>
+          <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">{{t "info.name"}}</a>, 
+          <a href="#feedbackModal" role="button" class="tacModal_link" data-toggle="modal">Feedback</a>
       </p>
     </section>
 
@@ -174,7 +175,17 @@
       <p>{{t "info.inspiration"}}</p>
     </div>
   </div>
-
+  
+  <div id="feedbackModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Feedback" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="tacModalLabel">Feedback</h3>
+    </div>
+    <div class="modal-body">
+      <p>{{t "info.contact"}}</p>
+    </div>
+  </div>
+  
 </div>
 {% endraw %}</script>
 
