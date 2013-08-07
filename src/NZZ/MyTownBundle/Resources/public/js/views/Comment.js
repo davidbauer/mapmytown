@@ -1,7 +1,7 @@
 (function () {
   "use strict";
   window.app.views.Comment = Backbone.View.extend({
-    className: "comments__item comment",
+    className: "comment",
     tagName: "li",
     template: "comment",
 

@@ -2,34 +2,43 @@
  * COMMENTS
  * Styling for the comments list
  */
- .comments__section{
+.comments__section{
   padding: 0;
   border: none;
- }
- .comments__list{
+}
+.comments__list{
   list-style: none;
   /* Height of the header and height of the footer*/
   margin: 0;
   padding: 0;
 }
-.comments__list li:hover{
+
+.comment{
+  border-bottom: 1px solid #E6E5DC;
+  padding: 10px 20px;
+}
+.comment:hover{
     background: #ccc;
     cursor: pointer;
 }
-.comments__list li.selected{
+.comment.selected{
     color: #fff;
     background: #999;
     border: none;
 }
-.comments__list li.positive{
+.comment.positive{
   background: #6060A0;
 }
-.comments__list li.negative{
+.comment.negative{
   background: #EC0035;
 }
-.comments__item{
-  border-bottom: 1px solid #E6E5DC;
-  padding: 10px 20px;
+.comment.comment--placeholder {
+  background: transparent;
+  color: #999;
+}
+.comment.comment--placeholder:hover {
+  background: transparent;
+  cursor: default;
 }
 .comment__title{
   font-size: 16px;

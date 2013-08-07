@@ -26,12 +26,18 @@
         comments.reverse(); // Add oldest first, because we're prepending
         comments.forEach(this.addComment);
       } else {
-        this.$el.html("<li>Keine Einträge</li>"); // FIXME: make localizable
+        this.placeholderView = new app.views.CommentPlaceholder();
+        this.$el.html(this.placeholderView.render().el);
       }
       return this;
     },
 
     addComment: function(comment) {
+      if (this.placeholderView) {
+        this.placeholderView.remove();
+        this.placeholderView = null;
+      }
+
       var commentView = new app.views.Comment({model: comment});
       this.$el.prepend(commentView.render().el);
       this.views[comment.cid] = commentView;
