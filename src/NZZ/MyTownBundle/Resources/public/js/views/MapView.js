@@ -57,9 +57,9 @@
 
   function makePlaceableMarker(comment, latlng) {
     var icon = L.icon({
-        iconUrl: '/bundles/nzzmytown/images/marker.png',
-        iconSize: [23, 38],
-        iconAnchor: [12, 38]
+        iconUrl: '/bundles/nzzmytown/images/marker-icon-red.png',
+        iconSize: [25, 41],
+        iconAnchor: [13, 43]
     });
 
     return new L.Marker(latlng, {
