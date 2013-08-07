@@ -10,6 +10,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\PointQuery;
 use NZZ\MyTownBundle\Model\Point;
 use BasePeer;
+use Criteria;
 
 class ApiController extends Controller
 {
@@ -41,6 +42,7 @@ class ApiController extends Controller
 
         $points = PointQuery::create()
             ->filterByIsPublished(true)
+            ->orderById(Criteria::DESC)
             ->findByProjectid($project->getId());
 
         $response = array(
