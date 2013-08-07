@@ -59,7 +59,7 @@ class ApiController extends Controller
     {
         $request = $this->getRequest();
         $parameters = $request->request->all();
-        if (empty($parameters['title']) || empty($parameters['description']) || empty($parameters['sentiment']) || empty($parameters['latitude']) || empty($parameters['longitude'])) {
+        if (empty($parameters['title']) || empty($parameters['description']) || !in_array($parameters['sentiment'], array('-1', '0', '1')) || empty($parameters['latitude']) || empty($parameters['longitude'])) {
             return new Response('Not enough data for save action', 500);
         }
 
