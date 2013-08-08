@@ -3,6 +3,10 @@
   window.app.views.RootView = Backbone.View.extend({
     template: "root-view",
 
+    events: {
+      'click [data-action="tac-modal"]': 'onShowTacModal'
+    },
+
     initialize: function() {
       _.bindAll(this, 'render', 'updateSidebar');
 
@@ -39,6 +43,16 @@
     updateSidebar: function(comment) {
       var newComment = this.model.comments.findNew();
       this.$('.sidebar').toggleClass('sidebar--minimized', newComment);
+    },
+
+    onShowTacModal: function(evt) {
+      var template = this.compileTemplate("embed");
+      this.$('[data-bind="embed"]').html(template({
+        src: window.location.href,
+        height: "700px",
+        width: "1000px"
+      }));
+      this.$('#tac-modal').modal('show');
     }
   });
 }());

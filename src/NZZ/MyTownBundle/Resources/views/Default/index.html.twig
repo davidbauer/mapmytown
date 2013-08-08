@@ -83,8 +83,8 @@
                 'facebook-share-dialog', 
                 'width=626,height=436');
               return false;">Facebook</a>.
-          <a href="#tacModal" role="button" class="tacModal_link" data-toggle="modal">{{t "info.name"}}</a>, 
-          <a href="#feedbackModal" role="button" class="tacModal_link" data-toggle="modal">Feedback</a>
+          <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.name"}}</a>, 
+          <a href="#feedbackModal" role="button" class="tac-modal_link" data-toggle="modal">Feedback</a>
       </p>
     </section>
 
@@ -153,7 +153,7 @@
   <div id="thanks-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "thx.thankyou"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="tacModalLabel">{{t "thx.thankyou"}}</h3>
+      <h3>{{t "thx.thankyou"}}</h3>
     </div>
     <div class="modal-body">
       <p>{{t "thx.share"}}</p>
@@ -163,10 +163,10 @@
     </div>
   </div>
 
-  <div id="tacModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "info.name"}}" aria-hidden="true">
+  <div id="tac-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "info.name"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="tacModalLabel">{{t "info.name"}}</h3>
+      <h3>{{t "info.name"}}</h3>
     </div>
     <div class="modal-body">
       <p>{{t "info.terms"}}</p>
@@ -175,14 +175,14 @@
       <p>{{t "info.inspiration"}}</p>
       <strong>{{t "embed.button"}}</strong>
       <p>{{t "embed.text"}}</p>
-      <textarea rows="6" cols="50" style="width:300px;height:50px;" autofocus><iframe src="encodeURIComponent(location.href)" width="1000px" height="700px"></iframe></textarea>
+      <textarea rows="6" cols="50" style="width:300px;height:50px;" data-bind="embed"></textarea>
     </div>
   </div>
   
   <div id="feedbackModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Feedback" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="tacModalLabel">Feedback</h3>
+      <h3>Feedback</h3>
     </div>
     <div class="modal-body">
       <p>{{t "info.contact"}}</p>
@@ -192,7 +192,7 @@
 </div>
 {% endraw %}</script>
 
-
+<script id="template-embed" type="text/x-handlebars-template">{% raw %}<iframe src="{{src}}" width="{{width}}" height="{{height}}"></iframe>{% endraw %}</script>
 
 <script id="template-comment" type="text/x-handlebars-template">{% raw %}
 <h3 class="comment__title">{{title}}</h3>
