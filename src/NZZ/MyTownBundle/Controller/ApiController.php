@@ -10,6 +10,7 @@ use NZZ\MyTownBundle\Model\ProjectDataQuery;
 use NZZ\MyTownBundle\Model\PointQuery;
 use NZZ\MyTownBundle\Model\Point;
 use BasePeer;
+use DateTime;
 use Criteria;
 
 class ApiController extends Controller
@@ -42,7 +43,7 @@ class ApiController extends Controller
 
         $points = PointQuery::create()
             ->filterByIsPublished(true)
-            ->orderById(Criteria::DESC)
+            ->orderByCreationDate(Criteria::DESC)
             ->findByProjectid($project->getId());
 
         $response = array(
@@ -61,7 +62,8 @@ class ApiController extends Controller
     {
         $request = $this->getRequest();
         $parameters = $request->request->all();
-        if (empty($parameters['title']) || empty($parameters['description']) || !in_array($parameters['sentiment'], array('-1', '0', '1')) || empty($parameters['latitude']) || empty($parameters['longitude'])) {
+        if (empty($parameters['title']) || empty($parameters['description']) || !isset($parameters['sentiment']) || empty($parameters['latitude']) || empty($parameters['longitude'])) {
+
             return new Response('Not enough data for save action', 500);
         }
 
@@ -80,6 +82,7 @@ class ApiController extends Controller
         $point->setLongitude($parameters['longitude']);
         $point->setAuthorName($parameters['authorName']);
         $point->setAuthorLocation($parameters['authorLocation']);
+        $point->setCreationDate(new DateTime());
         $point->setIsPublished(true);
 
         try {

@@ -53,6 +53,7 @@ class PointTableMap extends TableMap
         $this->addColumn('is_published', 'IsPublished', 'BOOLEAN', true, 1, false);
         $this->addColumn('type', 'Type', 'VARCHAR', false, 11, 'user');
         $this->addForeignKey('project_id', 'ProjectId', 'INTEGER', 'project', 'id', true, null, null);
+        $this->addColumn('creation_date', 'CreationDate', 'TIMESTAMP', true, null, null);
         // validators
     } // initialize()
 
