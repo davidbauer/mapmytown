@@ -54,7 +54,7 @@ nzz_my_town_logo_action:
     defaults: { _controller: NZZMyTownBundle:Image:index }
 
 nzz_my_town_api_save:
-    pattern:  /{projectSlug}/{lang}
+    pattern:  /api/{projectSlug}/{lang}
     defaults: { _controller: NZZMyTownBundle:Api:save }
     requirements:
         lang: '\w{2}'
@@ -62,7 +62,7 @@ nzz_my_town_api_save:
         _method: POST
 
 nzz_my_town_api_points:
-    pattern:  /{projectSlug}/{lang}
+    pattern:  /api/{projectSlug}/{lang}
     defaults: { _controller: NZZMyTownBundle:Api:index }
     requirements:
         lang: '\w{2}'
@@ -87,7 +87,7 @@ nzz_my_town_homepage:
 # Development only, remove in the future
 #
 nzz_my_town_mock_api_save:
-    pattern:  /mock/{projectSlug}/{lang}
+    pattern:  /api/mock/{projectSlug}/{lang}
     defaults: { _controller: NZZMyTownBundle:MockApi:save }
     requirements:
         lang: '\w{2}'
@@ -95,7 +95,7 @@ nzz_my_town_mock_api_save:
         _method: POST
 
 nzz_my_town_mock_api_points:
-    pattern:  /mock/{projectSlug}/{lang}
+    pattern:  /api/mock/{projectSlug}/{lang}
     defaults: { _controller: NZZMyTownBundle:MockApi:index }
     requirements:
         lang: '\w{2}'

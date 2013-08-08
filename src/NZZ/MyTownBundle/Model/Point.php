@@ -15,4 +15,10 @@ class Point extends BasePoint
 
         return $project->getSlug();
     }
+
+    public function getCreationDate($format = null)
+    {
+        return parent::getCreationDate('Y-m-d H:m:i');
+    }
+
 }

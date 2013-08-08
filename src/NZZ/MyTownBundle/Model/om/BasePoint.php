@@ -5,10 +5,12 @@ namespace NZZ\MyTownBundle\Model\om;
 use \BaseObject;
 use \BasePeer;
 use \Criteria;
+use \DateTime;
 use \Exception;
 use \PDO;
 use \Persistent;
 use \Propel;
+use \PropelDateTime;
 use \PropelException;
 use \PropelPDO;
 use NZZ\MyTownBundle\Model\Point;
@@ -106,6 +108,12 @@ abstract class BasePoint extends BaseObject implements Persistent
      * @var        int
      */
     protected $project_id;
+
+    /**
+     * The value for the creation_date field.
+     * @var        string
+     */
+    protected $creation_date;
 
     /**
      * @var        Project
@@ -274,6 +282,46 @@ abstract class BasePoint extends BaseObject implements Persistent
     {
 
         return $this->project_id;
+    }
+
+    /**
+     * Get the [optionally formatted] temporal [creation_date] column value.
+     *
+     *
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *                 If format is null, then the raw DateTime object will be returned.
+     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00 00:00:00
+     * @throws PropelException - if unable to parse/validate the date/time value.
+     */
+    public function getCreationDate($format = null)
+    {
+        if ($this->creation_date === null) {
+            return null;
+        }
+
+        if ($this->creation_date === '0000-00-00 00:00:00') {
+            // while technically this is not a default value of null,
+            // this seems to be closest in meaning.
+            return null;
+        }
+
+        try {
+            $dt = new DateTime($this->creation_date);
+        } catch (Exception $x) {
+            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->creation_date, true), $x);
+        }
+
+        if ($format === null) {
+            // Because propel.useDateTimeClass is true, we return a DateTime object.
+            return $dt;
+        }
+
+        if (strpos($format, '%') !== false) {
+            return strftime($format, $dt->format('U'));
+        }
+
+        return $dt->format($format);
+
     }
 
     /**
@@ -520,6 +568,29 @@ abstract class BasePoint extends BaseObject implements Persistent
     } // setProjectId()
 
     /**
+     * Sets the value of [creation_date] column to a normalized version of the date/time value specified.
+     *
+     * @param mixed $v string, integer (timestamp), or DateTime value.
+     *               Empty strings are treated as null.
+     * @return Point The current object (for fluent API support)
+     */
+    public function setCreationDate($v)
+    {
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->creation_date !== null || $dt !== null) {
+            $currentDateAsString = ($this->creation_date !== null && $tmpDt = new DateTime($this->creation_date)) ? $tmpDt->format('Y-m-d H:i:s') : null;
+            $newDateAsString = $dt ? $dt->format('Y-m-d H:i:s') : null;
+            if ($currentDateAsString !== $newDateAsString) {
+                $this->creation_date = $newDateAsString;
+                $this->modifiedColumns[] = PointPeer::CREATION_DATE;
+            }
+        } // if either are not null
+
+
+        return $this;
+    } // setCreationDate()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -574,6 +645,7 @@ abstract class BasePoint extends BaseObject implements Persistent
             $this->is_published = ($row[$startcol + 8] !== null) ? (boolean) $row[$startcol + 8] : null;
             $this->type = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
             $this->project_id = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+            $this->creation_date = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -583,7 +655,7 @@ abstract class BasePoint extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 11; // 11 = PointPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 12; // 12 = PointPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Point object", $e);
@@ -844,6 +916,9 @@ abstract class BasePoint extends BaseObject implements Persistent
         if ($this->isColumnModified(PointPeer::PROJECT_ID)) {
             $modifiedColumns[':p' . $index++]  = '`project_id`';
         }
+        if ($this->isColumnModified(PointPeer::CREATION_DATE)) {
+            $modifiedColumns[':p' . $index++]  = '`creation_date`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `point` (%s) VALUES (%s)',
@@ -887,6 +962,9 @@ abstract class BasePoint extends BaseObject implements Persistent
                         break;
                     case '`project_id`':
                         $stmt->bindValue($identifier, $this->project_id, PDO::PARAM_INT);
+                        break;
+                    case '`creation_date`':
+                        $stmt->bindValue($identifier, $this->creation_date, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1067,6 +1145,9 @@ abstract class BasePoint extends BaseObject implements Persistent
             case 10:
                 return $this->getProjectId();
                 break;
+            case 11:
+                return $this->getCreationDate();
+                break;
             default:
                 return null;
                 break;
@@ -1107,6 +1188,7 @@ abstract class BasePoint extends BaseObject implements Persistent
             $keys[8] => $this->getIsPublished(),
             $keys[9] => $this->getType(),
             $keys[10] => $this->getProjectId(),
+            $keys[11] => $this->getCreationDate(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach($virtualColumns as $key => $virtualColumn)
@@ -1185,6 +1267,9 @@ abstract class BasePoint extends BaseObject implements Persistent
             case 10:
                 $this->setProjectId($value);
                 break;
+            case 11:
+                $this->setCreationDate($value);
+                break;
         } // switch()
     }
 
@@ -1220,6 +1305,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         if (array_key_exists($keys[8], $arr)) $this->setIsPublished($arr[$keys[8]]);
         if (array_key_exists($keys[9], $arr)) $this->setType($arr[$keys[9]]);
         if (array_key_exists($keys[10], $arr)) $this->setProjectId($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setCreationDate($arr[$keys[11]]);
     }
 
     /**
@@ -1242,6 +1328,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         if ($this->isColumnModified(PointPeer::IS_PUBLISHED)) $criteria->add(PointPeer::IS_PUBLISHED, $this->is_published);
         if ($this->isColumnModified(PointPeer::TYPE)) $criteria->add(PointPeer::TYPE, $this->type);
         if ($this->isColumnModified(PointPeer::PROJECT_ID)) $criteria->add(PointPeer::PROJECT_ID, $this->project_id);
+        if ($this->isColumnModified(PointPeer::CREATION_DATE)) $criteria->add(PointPeer::CREATION_DATE, $this->creation_date);
 
         return $criteria;
     }
@@ -1315,6 +1402,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         $copyObj->setIsPublished($this->getIsPublished());
         $copyObj->setType($this->getType());
         $copyObj->setProjectId($this->getProjectId());
+        $copyObj->setCreationDate($this->getCreationDate());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1441,6 +1529,7 @@ abstract class BasePoint extends BaseObject implements Persistent
         $this->is_published = null;
         $this->type = null;
         $this->project_id = null;
+        $this->creation_date = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

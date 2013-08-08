@@ -16,7 +16,7 @@
           root.pop(); // to avoid tailing slashes we need to remove the last segment
           root = root.join('/');
           // Set app config
-          app.config.baseUrl = root;
+          app.config.apiUrl = "{{ path('nzz_my_town_api_points', {'projectSlug': project, 'lang': lang}) }}";
           app.config.mapboxKey = 'sylke-gruhnwald.map-a6qno9vz';
           // Start the app
           var router = new app.routers.AppRouter();
