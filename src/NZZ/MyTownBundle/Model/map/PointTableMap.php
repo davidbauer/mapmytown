@@ -53,6 +53,9 @@ class PointTableMap extends TableMap
         $this->addColumn('is_published', 'IsPublished', 'BOOLEAN', true, 1, false);
         $this->addColumn('type', 'Type', 'VARCHAR', false, 11, 'user');
         $this->addForeignKey('project_id', 'ProjectId', 'INTEGER', 'project', 'id', true, null, null);
+        $this->addColumn('creation_date', 'CreationDate', 'TIMESTAMP', true, null, null);
+        $this->addColumn('created_at', 'CreatedAt', 'TIMESTAMP', false, null, null);
+        $this->addColumn('updated_at', 'UpdatedAt', 'TIMESTAMP', false, null, null);
         // validators
     } // initialize()
 
@@ -73,6 +76,11 @@ class PointTableMap extends TableMap
     public function getBehaviors()
     {
         return array(
+            'timestampable' =>  array (
+  'create_column' => 'created_at',
+  'update_column' => 'updated_at',
+  'disable_updated_at' => 'false',
+),
             'alternative_coding_standards' =>  array (
   'brackets_newline' => 'false',
   'remove_closing_comments' => 'true',

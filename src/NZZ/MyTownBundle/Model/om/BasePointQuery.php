@@ -29,6 +29,9 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery orderByIsPublished($order = Criteria::ASC) Order by the is_published column
  * @method PointQuery orderByType($order = Criteria::ASC) Order by the type column
  * @method PointQuery orderByProjectId($order = Criteria::ASC) Order by the project_id column
+ * @method PointQuery orderByCreationDate($order = Criteria::ASC) Order by the creation_date column
+ * @method PointQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
+ * @method PointQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
  *
  * @method PointQuery groupById() Group by the id column
  * @method PointQuery groupByTitle() Group by the title column
@@ -41,6 +44,9 @@ use NZZ\MyTownBundle\Model\Project;
  * @method PointQuery groupByIsPublished() Group by the is_published column
  * @method PointQuery groupByType() Group by the type column
  * @method PointQuery groupByProjectId() Group by the project_id column
+ * @method PointQuery groupByCreationDate() Group by the creation_date column
+ * @method PointQuery groupByCreatedAt() Group by the created_at column
+ * @method PointQuery groupByUpdatedAt() Group by the updated_at column
  *
  * @method PointQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method PointQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -63,6 +69,9 @@ use NZZ\MyTownBundle\Model\Project;
  * @method Point findOneByIsPublished(boolean $is_published) Return the first Point filtered by the is_published column
  * @method Point findOneByType(string $type) Return the first Point filtered by the type column
  * @method Point findOneByProjectId(int $project_id) Return the first Point filtered by the project_id column
+ * @method Point findOneByCreationDate(string $creation_date) Return the first Point filtered by the creation_date column
+ * @method Point findOneByCreatedAt(string $created_at) Return the first Point filtered by the created_at column
+ * @method Point findOneByUpdatedAt(string $updated_at) Return the first Point filtered by the updated_at column
  *
  * @method array findById(int $id) Return Point objects filtered by the id column
  * @method array findByTitle(string $title) Return Point objects filtered by the title column
@@ -75,6 +84,9 @@ use NZZ\MyTownBundle\Model\Project;
  * @method array findByIsPublished(boolean $is_published) Return Point objects filtered by the is_published column
  * @method array findByType(string $type) Return Point objects filtered by the type column
  * @method array findByProjectId(int $project_id) Return Point objects filtered by the project_id column
+ * @method array findByCreationDate(string $creation_date) Return Point objects filtered by the creation_date column
+ * @method array findByCreatedAt(string $created_at) Return Point objects filtered by the created_at column
+ * @method array findByUpdatedAt(string $updated_at) Return Point objects filtered by the updated_at column
  */
 abstract class BasePointQuery extends ModelCriteria
 {
@@ -180,7 +192,7 @@ abstract class BasePointQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `id`, `title`, `description`, `latitude`, `longitude`, `author_name`, `author_location`, `sentiment`, `is_published`, `type`, `project_id` FROM `point` WHERE `id` = :p0';
+        $sql = 'SELECT `id`, `title`, `description`, `latitude`, `longitude`, `author_name`, `author_location`, `sentiment`, `is_published`, `type`, `project_id`, `creation_date`, `created_at`, `updated_at` FROM `point` WHERE `id` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -654,6 +666,135 @@ abstract class BasePointQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the creation_date column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCreationDate('2011-03-14'); // WHERE creation_date = '2011-03-14'
+     * $query->filterByCreationDate('now'); // WHERE creation_date = '2011-03-14'
+     * $query->filterByCreationDate(array('max' => 'yesterday')); // WHERE creation_date < '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $creationDate The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterByCreationDate($creationDate = null, $comparison = null)
+    {
+        if (is_array($creationDate)) {
+            $useMinMax = false;
+            if (isset($creationDate['min'])) {
+                $this->addUsingAlias(PointPeer::CREATION_DATE, $creationDate['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($creationDate['max'])) {
+                $this->addUsingAlias(PointPeer::CREATION_DATE, $creationDate['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PointPeer::CREATION_DATE, $creationDate, $comparison);
+    }
+
+    /**
+     * Filter the query on the created_at column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCreatedAt('2011-03-14'); // WHERE created_at = '2011-03-14'
+     * $query->filterByCreatedAt('now'); // WHERE created_at = '2011-03-14'
+     * $query->filterByCreatedAt(array('max' => 'yesterday')); // WHERE created_at < '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $createdAt The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterByCreatedAt($createdAt = null, $comparison = null)
+    {
+        if (is_array($createdAt)) {
+            $useMinMax = false;
+            if (isset($createdAt['min'])) {
+                $this->addUsingAlias(PointPeer::CREATED_AT, $createdAt['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($createdAt['max'])) {
+                $this->addUsingAlias(PointPeer::CREATED_AT, $createdAt['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PointPeer::CREATED_AT, $createdAt, $comparison);
+    }
+
+    /**
+     * Filter the query on the updated_at column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUpdatedAt('2011-03-14'); // WHERE updated_at = '2011-03-14'
+     * $query->filterByUpdatedAt('now'); // WHERE updated_at = '2011-03-14'
+     * $query->filterByUpdatedAt(array('max' => 'yesterday')); // WHERE updated_at < '2011-03-13'
+     * </code>
+     *
+     * @param     mixed $updatedAt The value to use as filter.
+     *              Values can be integers (unix timestamps), DateTime objects, or strings.
+     *              Empty strings are treated as NULL.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PointQuery The current query, for fluid interface
+     */
+    public function filterByUpdatedAt($updatedAt = null, $comparison = null)
+    {
+        if (is_array($updatedAt)) {
+            $useMinMax = false;
+            if (isset($updatedAt['min'])) {
+                $this->addUsingAlias(PointPeer::UPDATED_AT, $updatedAt['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($updatedAt['max'])) {
+                $this->addUsingAlias(PointPeer::UPDATED_AT, $updatedAt['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(PointPeer::UPDATED_AT, $updatedAt, $comparison);
+    }
+
+    /**
      * Filter the query by a related Project object
      *
      * @param   Project|PropelObjectCollection $project The related object(s) to use as filter
@@ -745,4 +886,69 @@ abstract class BasePointQuery extends ModelCriteria
         return $this;
     }
 
+    // timestampable behavior
+
+    /**
+     * Filter by the latest updated
+     *
+     * @param      int $nbDays Maximum age of the latest update in days
+     *
+     * @return     PointQuery The current query, for fluid interface
+     */
+    public function recentlyUpdated($nbDays = 7)
+    {
+        return $this->addUsingAlias(PointPeer::UPDATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
+    }
+
+    /**
+     * Order by update date desc
+     *
+     * @return     PointQuery The current query, for fluid interface
+     */
+    public function lastUpdatedFirst()
+    {
+        return $this->addDescendingOrderByColumn(PointPeer::UPDATED_AT);
+    }
+
+    /**
+     * Order by update date asc
+     *
+     * @return     PointQuery The current query, for fluid interface
+     */
+    public function firstUpdatedFirst()
+    {
+        return $this->addAscendingOrderByColumn(PointPeer::UPDATED_AT);
+    }
+
+    /**
+     * Filter by the latest created
+     *
+     * @param      int $nbDays Maximum age of in days
+     *
+     * @return     PointQuery The current query, for fluid interface
+     */
+    public function recentlyCreated($nbDays = 7)
+    {
+        return $this->addUsingAlias(PointPeer::CREATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
+    }
+
+    /**
+     * Order by create date desc
+     *
+     * @return     PointQuery The current query, for fluid interface
+     */
+    public function lastCreatedFirst()
+    {
+        return $this->addDescendingOrderByColumn(PointPeer::CREATED_AT);
+    }
+
+    /**
+     * Order by create date asc
+     *
+     * @return     PointQuery The current query, for fluid interface
+     */
+    public function firstCreatedFirst()
+    {
+        return $this->addAscendingOrderByColumn(PointPeer::CREATED_AT);
+    }
 }
