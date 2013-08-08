@@ -44,7 +44,7 @@
       if (!this.set(data, {validate: true})) return false;
 
       var request = $.ajax({
-        url: app.config.baseUrl,
+        url: app.config.apiUrl,
         data: $.param(data),
         method: 'POST',
         headers: {

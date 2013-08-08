@@ -11,7 +11,7 @@
       if (this.deferred) this.deferred.reject();
 
       var req = $.ajax({
-        url: app.config.baseUrl,
+        url: app.config.apiUrl,
         dataType: "json"
       });
       req.done(this.parse);
@@ -32,10 +32,10 @@
       // Set project data
       this.set(result.project);
 
-      // Set project default to state if not already defined via query param
+      // set project default to state if not already defined via query param
       this.state.set({
-        'lat':  this.state.get('lat')  || this.get('centerlatitude'),
-        'lng':  this.state.get('lng')  || this.get('centerlongitude'),
+        'lat': this.state.get('lat') || this.get('centerlatitude'),
+        'lng': this.state.get('lng') || this.get('centerlongitude'),
         'zoom': this.state.get('zoom') || this.get('defaultzoom')
       });
 

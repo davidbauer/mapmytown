@@ -110,8 +110,6 @@
         <column name="type" phpName="Type" type="VARCHAR" size="11" required="false" defaultValue="user"/>
         <column name="project_id" phpName="ProjectId" type="INTEGER" required="true"/>
         <column name="creation_date" phpName="CreationDate" type="TIMESTAMP" required="true"/>
-        <column name="created_at" phpName="CreatedAt" type="TIMESTAMP" required="false"/>
-        <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP" required="false"/>
         <foreign-key foreignTable="project">
             <reference local="project_id" foreign="id"/>
         </foreign-key>
@@ -130,7 +128,6 @@
         <index name="k5_pt_type">
             <index-column name="type"/>
         </index>
-        <behavior name="timestampable"/>
     </table>
     <table name="tracking" phpName="Tracking" idMethod="native">
         <vendor type="mysql">

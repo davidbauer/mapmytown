@@ -29,7 +29,7 @@ builders:
     list:
         params:
             title: Users activity in project
-            display: [ project_slug, title, description, author_name, author_location, is_published, sentiment, type ]
+            display: [ project_slug, title, description, author_name, author_location, is_published, sentiment, type, creation_date]
             actions:
                 new: ~
             object_actions:
