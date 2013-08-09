@@ -43,7 +43,7 @@ class ApiController extends Controller
 
         $points = PointQuery::create()
             ->filterByIsPublished(true)
-            ->orderByCreationDate(Criteria::DESC)
+            ->orderById(Criteria::DESC)
             ->findByProjectid($project->getId());
 
         $response = array(
