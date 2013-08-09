@@ -24,6 +24,7 @@
   },
 
   "info": {
+  	"link": "Informationen"
   	"name": "Informationen zur Karte",
   	"terms": "Diese Karte wird von NZZ, Le Temps und TagesWoche bereitgestellt. Wir – die Redaktionen dieser drei Medien – möchten damit das Wissen von einzelnen Personen möglichst vielen zugänglich machen. Wir vertrauen auf Ihre konstruktive Mitarbeit, so dass viele gute Informationen und möglichst keine schlechten auf der Karte verzeichnet sind.<ul><li>Bitte tragen Sie nur Informationen ein, von denen Sie überzeugt sind, dass diese korrekt sind.</li><li>Einträge werblicher Natur sind nicht erlaubt. Gleiches gilt für solche mit justiziablem Inhalt.</li><li>Wir erlauben uns, Einträge, die unangemessen sind, zu löschen.</li></ul>",
   	"inspiration": "Inspiriert von <a href='http://www.nytimes.com/newsgraphics/2013/06/07/bicycle-routes/' target='_blank'>«Your Biking Wisdom in 10 Words»</a> der New York Times.",
