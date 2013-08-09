@@ -34,11 +34,11 @@
   function colorForSentiment(sentiment) {
     switch (parseInt(sentiment, 10)) {
       case -1:
-        return "#bf292a";
+        return "#f3182c";
       case 1:
-        return "#79cb59";
+        return "#3dbd05";
       default:
-        return "#bec7d3";
+        return "#4299ff";
     }
   }
 
