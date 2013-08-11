@@ -199,6 +199,7 @@
       marker.el.setRadius(comment.get('selected') ? 8 : 6);
 
       if (comment.get('selected')) {
+        this.map.setZoom(this.model.get('defaultzoom'), {animate: true});
         this.map.panTo(comment.getLatLng(), {
           animate: true,
           duration: 0.3
