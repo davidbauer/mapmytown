@@ -1,5 +1,12 @@
 /* Landscape phone to portrait tablet */
-@media (max-width: 767px) { 
+@media (max-width: 767px) {
+  #map{
+    display: block;
+    position: relative;
+    margin: 0;
+    height:100%;
+    width: 100%;
+  }
   .span-sidebar-left{
     margin-left: 0;
   }
