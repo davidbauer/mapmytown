@@ -83,7 +83,7 @@
                 'facebook-share-dialog', 
                 'width=626,height=436');
               return false;">Facebook</a>
-          <a href="#embed-modal" role="button" class="sharing__link linker" data-action="embed-modal">{{t "embed.button"}}</a>
+          <a href="#embed" role="button" class="sharing__link linker" data-action="embed-modal">{{t "embed.button"}}</a>
           
           <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.link"}}</a>, 
           <a href="#feedbackModal" role="button" class="tac-modal_link" data-toggle="modal">Feedback</a>
@@ -175,9 +175,17 @@
       <p>{{t "info.contact"}}</p>
       <p>{{t "info.credits"}}</p>
       <p>{{t "info.inspiration"}}</p>
-      <strong>{{t "embed.button"}}</strong>
+    </div>
+  </div>
+  
+  <div id="embed-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "embed.button"}}" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3>{{t "embed.button"}}</h3>
+    </div>
+    <div class="modal-body">
       <p>{{t "embed.text"}}</p>
-      <textarea rows="6" cols="50" style="width:300px;height:50px;" data-bind="embed"></textarea>
+      <textarea rows="6" cols="50" style="width:300px;height:50px;" data-bind="embed" readonly></textarea>
     </div>
   </div>
   

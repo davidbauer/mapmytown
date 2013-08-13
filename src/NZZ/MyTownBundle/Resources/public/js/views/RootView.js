@@ -4,7 +4,8 @@
     template: "root-view",
 
     events: {
-      'click [data-action="tac-modal"]': 'onShowTacModal'
+      'click [data-action="tac-modal"]': 'onShowTacModal',
+      'click [data-action="embed-modal"]': 'onShowEmbedModal'
     },
 
     initialize: function() {
@@ -46,13 +47,17 @@
     },
 
     onShowTacModal: function(evt) {
+      this.$('#tac-modal').modal('show');
+    },
+    
+    onShowEmbedModal: function(evt) {
       var template = this.compileTemplate("embed");
       this.$('[data-bind="embed"]').html(template({
         src: window.location.href,
         height: "700px",
         width: "1000px"
       }));
-      this.$('#tac-modal').modal('show');
+      this.$('#embed-modal').modal('show');
     }
   });
 }());
