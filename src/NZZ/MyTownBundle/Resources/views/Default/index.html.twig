@@ -67,7 +67,7 @@
     <section class="sidebar__section sharing__section">
       <p>
       {{t "share"}}
-      <a href="#" 
+      <a href="#" title="Twitter"
             class="sharing__link twitter"
             onclick="
               window.open(
@@ -75,7 +75,7 @@
                 'twitter-share-dialog', 
                 'width=626,height=436'); 
               return false;">Twitter</a> 
-          <a href="#" 
+          <a href="#" title="Facebook"
             class="sharing__link facebook"
             onclick="
               window.open(
@@ -83,6 +83,8 @@
                 'facebook-share-dialog', 
                 'width=626,height=436');
               return false;">Facebook</a>
+          <a href="#embed-modal" role="button" class="sharing__link linker" data-action="embed-modal">{{t "embed.button"}}</a>
+          
           <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.link"}}</a>, 
           <a href="#feedbackModal" role="button" class="tac-modal_link" data-toggle="modal">Feedback</a>
       </p>

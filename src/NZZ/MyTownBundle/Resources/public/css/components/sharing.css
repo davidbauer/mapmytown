@@ -12,14 +12,14 @@
 	height:1.5em; width:1.5em;
 	background-size:100%;
 	background-repeat:no-repeat;
+	margin:0 0.2em;
 }
-.sharing__link.twitter{
-	background-image:url('/bundles/nzzmytown/images/twitter.png');
-}
+.sharing__link.twitter{ margin-left:1em;
+	background-image:url('/bundles/nzzmytown/images/twitter.png'); }
 .sharing__link.facebook{
-	background-image:url('/bundles/nzzmytown/images/facebook.png');
-	margin-right:1em;
-}
+	background-image:url('/bundles/nzzmytown/images/facebook.png'); }
+.sharing__link.linker{ margin-right:1.2em;
+	background-image:url('/bundles/nzzmytown/images/linker.png'); }
 #embedding_code{
   border: 1px solid #eee;
   outline: none;
