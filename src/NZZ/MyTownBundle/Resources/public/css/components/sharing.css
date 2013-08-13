@@ -7,6 +7,18 @@
   margin-bottom: 0;
 }
 .sharing__link{
+	display:inline-block;
+	text-indent:-9999px;
+	height:1.5em; width:1.5em;
+	background-size:100%;
+	background-repeat:no-repeat;
+}
+.sharing__link.twitter{
+	background-image:url('/bundles/nzzmytown/images/twitter.png');
+}
+.sharing__link.facebook{
+	background-image:url('/bundles/nzzmytown/images/facebook.png');
+	margin-right:1em;
 }
 #embedding_code{
   border: 1px solid #eee;

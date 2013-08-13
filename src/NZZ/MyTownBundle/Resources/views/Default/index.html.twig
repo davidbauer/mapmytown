@@ -68,21 +68,21 @@
       <p>
       {{t "share"}}
       <a href="#" 
-            class="sharing__link"
+            class="sharing__link twitter"
             onclick="
               window.open(
                 'https://twitter.com/share?url='+encodeURIComponent(location.href), 
                 'twitter-share-dialog', 
                 'width=626,height=436'); 
-              return false;">Twitter</a>, 
+              return false;">Twitter</a> 
           <a href="#" 
-            class="sharing__link"
+            class="sharing__link facebook"
             onclick="
               window.open(
                 'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
                 'facebook-share-dialog', 
                 'width=626,height=436');
-              return false;">Facebook</a>.
+              return false;">Facebook</a>
           <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.link"}}</a>, 
           <a href="#feedbackModal" role="button" class="tac-modal_link" data-toggle="modal">Feedback</a>
       </p>
