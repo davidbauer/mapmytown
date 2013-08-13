@@ -125,15 +125,16 @@
       this.map.on('moveend', saveState);
       this.map.on('zoomend', saveState);
       
-      // faster bounce
+      // Filter the comment list
       var refreshState = _.debounce(function() {
         this.updateVisibleComments();
       }.bind(this), 50);
       this.map.on('moveend', refreshState);
       this.map.on('zoomend', refreshState);
+      this.updateVisibleComments();
 
       // Add initial markers
-      this.model.comments.forEach(this.addMarkerForComment);
+      this.model.comments.forEach(this.addMarkerForComment);      
     },
 
     onStartPlaceMarker: function(evt) {
