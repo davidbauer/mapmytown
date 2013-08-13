@@ -122,9 +122,15 @@
           'zoom': this.map.getZoom()
         });
       }.bind(this), 500);
-
       this.map.on('moveend', saveState);
       this.map.on('zoomend', saveState);
+      
+      // faster bounce
+      var refreshState = _.debounce(function() {
+        this.updateVisibleComments();
+      }.bind(this), 50);
+      this.map.on('moveend', refreshState);
+      this.map.on('zoomend', refreshState);
 
       // Add initial markers
       this.model.comments.forEach(this.addMarkerForComment);
@@ -213,6 +219,20 @@
       marker.el.off('click');
       marker.el.off('move');
       delete this.markers[comment.id];
+    },
+    
+    updateVisibleComments: function() {
+      var bounds = this.map.getBounds();
+      this.model.comments.each(function(c) {
+      	var lat = c.attributes.latitude;
+      	var lng = c.attributes.longitude;
+      	var obj = $('.comments__list li[data-cid=' + c.cid + ']');
+      	if (bounds.contains(new L.LatLng(lat, lng))) {
+      		obj.show();
+      	} else if (!obj.hasClass('selected')) {
+      		obj.hide();
+      	}
+      });
     }
   });
 }());
