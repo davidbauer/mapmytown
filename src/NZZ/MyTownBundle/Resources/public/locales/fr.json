@@ -3,6 +3,7 @@
     "heading": "[Inscrivez un lieu]",
     "title": "Quel détour avez-vous marqué?",
     "description": "Décrivez le point marqué",
+    "placement": "Platzieren Sie den Pin am Ort, den Sie kommentieren möchten",
     "sentiment": "Cela vaut-il le détour?",
     "sentiLabels": {
       "positive": "Oui",
