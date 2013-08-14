@@ -4,7 +4,8 @@
   window.app.models.Comment = Backbone.Model.extend({
     defaults: {
       selected: false,
-      persisted: false
+      persisted: false,
+      visible: true
     },
 
     initialize: function() {
@@ -14,6 +15,10 @@
 
     isPersisted: function() {
       return this.get('persisted');
+    },
+
+    isVisible: function() {
+      return this.get('visible');
     },
 
     getLatLng: function() {

@@ -124,7 +124,7 @@
       }.bind(this), 500);
       this.map.on('moveend', saveState);
       this.map.on('zoomend', saveState);
-      
+
       // Filter the comment list
       var refreshState = _.debounce(function() {
         this.updateVisibleComments();
@@ -134,7 +134,7 @@
       this.updateVisibleComments();
 
       // Add initial markers
-      this.model.comments.forEach(this.addMarkerForComment);      
+      this.model.comments.forEach(this.addMarkerForComment);
     },
 
     onStartPlaceMarker: function(evt) {
@@ -225,17 +225,14 @@
       marker.el.off('move');
       delete this.markers[comment.id];
     },
-    
+
     updateVisibleComments: function() {
       var bounds = this.map.getBounds();
-      this.model.comments.each(function(c) {
-      	var lat = c.attributes.latitude;
-      	var lng = c.attributes.longitude;
-      	var obj = $('.comments__list li[data-cid=' + c.cid + ']');
-      	if (bounds.contains(new L.LatLng(lat, lng))) {
-      		obj.show();
-      	} else if (!obj.hasClass('selected')) {
-      		obj.hide();
+      this.model.comments.each(function(comment) {
+      	if (bounds.contains(comment.getLatLng()) || comment.get('selected')) {
+          comment.set('visible', true);
+      	} else {
+          comment.set('visible', false);
       	}
       });
     }
