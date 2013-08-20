@@ -1,6 +1,9 @@
 (function () {
   "use strict";
 
+  var SELECTED_RADIUS  = 12;
+  var DEFAULT_RADIUS = 6;
+
   // Utils
 
   // rounds coordinates before setting to state model
@@ -52,7 +55,7 @@
       fillColor: colorForSentiment(comment.get('sentiment')),
       fillOpacity: 1,
       clickable: true
-    }).setRadius(comment.get('selected') ? 8 : 6);
+    }).setRadius(comment.get('selected') ? SELECTED_RADIUS : DEFAULT_RADIUS);
   }
 
   function makePlaceableMarker(comment, latlng) {
@@ -203,7 +206,7 @@
     selectMarkerForComment: function(comment) {
       var marker = this.markers[comment.cid];
       if (!marker || !marker.persisted) return;
-      marker.el.setRadius(comment.get('selected') ? 8 : 6);
+      marker.el.setRadius(comment.get('selected') ? SELECTED_RADIUS : DEFAULT_RADIUS);
 
       if (comment.get('selected')) {
         var defaultZoom = this.model.get('defaultzoom'),
