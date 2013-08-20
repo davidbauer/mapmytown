@@ -10,7 +10,7 @@
   list-style: none;
   /* Height of the header and height of the footer*/
   margin: 0;
-  padding: 0;
+  padding: 0 0 89px;
 }
 
 .comment{
