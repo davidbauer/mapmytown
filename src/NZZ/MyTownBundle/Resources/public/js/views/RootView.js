@@ -21,10 +21,10 @@
       this.$el.html(template(this.model.toJSON()));
 
       // Map view
-      var mapView = new app.views.MapView({
+      this.mapView = new app.views.MapView({
         model: this.model
       });
-      this.$('[data-view="map-view"]').html(mapView.render().el);
+      this.$('[data-view="map-view"]').html(this.mapView.render().el);
 
       // Comments list
       var commentsList = new app.views.CommentsList({
@@ -44,12 +44,15 @@
     updateSidebar: function(comment) {
       var newComment = this.model.comments.findNew();
       this.$('.sidebar').toggleClass('sidebar--minimized', newComment);
+      // Hackish...
+      $('#map').toggleClass('map--full', newComment);
+      this.mapView.map.invalidateSize();
     },
 
     onShowTacModal: function(evt) {
       this.$('#tac-modal').modal('show');
     },
-    
+
     onShowEmbedModal: function(evt) {
       var template = this.compileTemplate("embed");
       this.$('[data-bind="embed"]').html(template({

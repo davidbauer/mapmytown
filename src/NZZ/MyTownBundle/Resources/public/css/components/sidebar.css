@@ -38,6 +38,7 @@
 }
 .sidebar.sidebar--minimized {
   height: auto;
+  padding-top: 10px;
 }
 .sidebar.sidebar--minimized .sidebar__info,
 .sidebar.sidebar--minimized .sidebar__comments {
