@@ -3,7 +3,7 @@
     "heading": "[Inscrivez un lieu]",
     "title": "Quel détour avez-vous marqué?",
     "description": "Décrivez le point marqué",
-    "placement": "Placez le curseur sur le lieu que vous désirez commenter"
+    "placement": "Placez le curseur sur le lieu que vous désirez commenter",
     "sentiLabels": {
       "positive": "Oui",
       "negative": "Non",
@@ -13,7 +13,8 @@
     "origin": "D'où venez-vous?",
     "add": "Soumettre",
     "cancel": "Annuler",
-    "optional": "optionnel"
+    "optional": "optionnel",
+    "missingfields": "Please fill in these fields:"
   },
 
   "thx": {

@@ -14,7 +14,8 @@
     "origin": "Woher kommen Sie?",
     "add": "Eintragen",
     "cancel": "Abbrechen",
-    "optional": "optional"
+    "optional": "optional",
+    "missingfields": "Folgende Angaben fehlen:"
   },
 
   "thx": {

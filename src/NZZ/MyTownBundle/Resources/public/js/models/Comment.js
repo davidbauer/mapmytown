@@ -67,13 +67,13 @@
 
     validate: function(attrs, options) {
       var errors = [];
-      if (!attrs.title || attrs.title == "") errors.push('Title is missing');
-      if (!attrs.description || attrs.description == "") errors.push('Description is missing');
-      if (!_.include(["-1", "0", "1"], "" + attrs.sentiment)) errors.push('Sentiment is missing');
-      if (!attrs.authorName || attrs.authorName == "") errors.push('Name is missing');
+      if (!attrs.title || attrs.title == "") errors.push(i18n.t('form.title'));
+      if (!attrs.description || attrs.description == "") errors.push(i18n.t('form.description'));
+      if (!_.include(["-1", "0", "1"], "" + attrs.sentiment)) errors.push(i18n.t('form.sentiment'));
+      if (!attrs.authorName || attrs.authorName == "") errors.push(i18n.t('form.name'));
       if (!attrs.latitude) errors.push('Latitude is missing');
       if (!attrs.longitude) errors.push('Longitude is missing');
-      if (errors.length > 0) return errors.join("; ");
+      if (errors.length > 0) return _.map(errors, function(d){return '“'+d+'”'}).join(", ");
       return null;
     }
   });

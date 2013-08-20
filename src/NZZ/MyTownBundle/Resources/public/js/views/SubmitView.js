@@ -117,7 +117,7 @@
         });
       } else {
         $('.form-feedback').show();
-        $('.form-feedback').text("Not all required fields are filled-in correctly: " + comment.validationError + "...");
+        $('.form-feedback').text(i18n.t('form.missingfields') + " " + comment.validationError);
       }
     },
 
