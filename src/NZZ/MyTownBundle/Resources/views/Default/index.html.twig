@@ -118,31 +118,47 @@
         <fieldset>
           <input name="projectId" type="hidden" value="{{projectId}}"/>
 
-          <label for="commentTitle">{{t "form.title"}}</label>
-          <input name="title" id="commentTitle" type="text" maxlength="50" />
-
-          <label for="commentDescription">{{t "form.description"}}</label>
-          <textarea name="description" id="commentDescription" rows="3" maxlength="100"></textarea>
-
-		  <label for="sentiment">{{t "form.sentiment"}}</label>
-          <label class="radio inline">
-            <input type="radio" name="sentiment" value="1"/>
-            {{t "form.sentiLabels.positive"}}
-          </label>
-          <label class="radio inline">
-            <input type="radio" name="sentiment" value="-1"/>
-            {{t "form.sentiLabels.negative"}}
-          </label>
-          <label class="radio inline">
-            <input type="radio" name="sentiment" value="0" checked />
-            {{t "form.sentiLabels.fact"}}
-          </label>
-
-          <label for="commentAuthorName">{{t "form.name"}}</label>
-          <input name="authorName" id="commentAuthorName" type="text" maxlength="50"/>
-
-          <label for="commentAuthorLocation">{{t "form.origin"}} ({{t "form.optional"}})</label>
-          <input name="authorLocation" id="commentAuthorLocation" type="text" maxlength="50" />
+          <div class="form-group">
+            <label for="commentTitle">{{t "form.title"}}</label>
+            <div class="form-controls">
+              <input name="title" id="commentTitle" type="text" maxlength="50" class="charcount charcount--max50 form-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="commentDescription">{{t "form.description"}}</label>
+            <div class="form-controls">
+              <textarea name="description" id="commentDescription" rows="3" maxlength="100" class="charcount charcount--max100 form-input"></textarea>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sentiment">{{t "form.sentiment"}}</label>
+            <div class="form-controls">
+              <label class="radio inline">
+                <input type="radio" name="sentiment" value="1"/>
+                {{t "form.sentiLabels.positive"}}
+              </label>
+              <label class="radio inline">
+                <input type="radio" name="sentiment" value="-1"/>
+                {{t "form.sentiLabels.negative"}}
+              </label>
+              <label class="radio inline">
+                <input type="radio" name="sentiment" value="0" checked />
+                {{t "form.sentiLabels.fact"}}
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="commentAuthorName">{{t "form.name"}}</label>
+            <div class="form-controls">
+              <input name="authorName" id="commentAuthorName" type="text" maxlength="50" class="charcount charcount--max50 form-input"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="commentAuthorLocation">{{t "form.origin"}} ({{t "form.optional"}})</label>
+            <div class="form-controls">
+              <input name="authorLocation" id="commentAuthorLocation" type="text" maxlength="50" class="charcount charcount--max50 form-input"/>
+            </div>
+          </div>
         </fieldset>
       </form>
     </div>

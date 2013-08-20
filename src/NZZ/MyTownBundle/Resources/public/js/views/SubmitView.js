@@ -24,6 +24,23 @@
       if (comment) options.comment = comment.toJSON();
       this.$el.html(template(options));
 
+      // Init Toggle Charcount
+      if (!this.hasCharCounter) {
+        this.hasCharCounter = true;
+        _.defer(function() {
+          $(".charcount--max50").charCount({
+            allowed: 50,
+            warning: 20,
+            counterText: ''
+          });
+          $(".charcount--max100").charCount({
+            allowed: 100,
+            warning: 20,
+            counterText: ''
+          });
+        })
+      }
+
       return this;
     },
 

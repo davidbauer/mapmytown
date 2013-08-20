@@ -1,0 +1,17 @@
+/**
+ * CHARCOUNT
+ * Styling input fields with charcounter
+ */
+.charcount {
+}
+.counter {
+  color: #ccc;
+  font-size: 12px;
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.counter.warning {
+  color: #D0271E;
+}

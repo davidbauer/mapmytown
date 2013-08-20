@@ -25,5 +25,4 @@ $( document ).ready(function() {
     $('.submit__marker__section').hide();
   })
   */
-
 });
