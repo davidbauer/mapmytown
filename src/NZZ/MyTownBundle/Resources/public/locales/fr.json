@@ -4,6 +4,7 @@
     "title": "Quel détour avez-vous marqué?",
     "description": "Décrivez le point marqué",
     "placement": "Placez le curseur sur le lieu que vous désirez commenter",
+    "sentiment": "C'est…?",
     "sentiLabels": {
       "positive": "Oui",
       "negative": "Non",
@@ -20,7 +21,8 @@
   "thx": {
 	  "thankyou": "Merci pour votre participation!",
 	  "share": "Faites-le savoir aux autres:",
-	  "tweet": "Mon #Détoururbain: "
+	  "tweet": "Mon #Détoururbain: ",
+    "more": "Add more"
   },
 
   "info": {
@@ -31,11 +33,14 @@
   	"credits": "Collaboration:<br/><a href='http://www.tageswoche.ch/' target='_blank'>TagesWoche</a> - David Bauer<br/><a href='http://letemps.ch/' target='_blank'>Le Temps - Mehdi Atmani</a><br/><a href='http://www.nzz.ch/' target='_blank'>Neue Zürcher Zeitung</a> - Volodymyr Fertak, Sylke Gruhnwald, Andres Kaminski, Oleg Slobodyan<br/><a href='http://interactivethings.com/' target='_blank'>Interactive Things</a> - Peter Gassner, Estelle Hary, Benjamin Wiederkehr",
     "contact": "Si vous découvrez des informations incorrectes ou inappropriées, merci de nous en informer à l'adresse <a href='mailto:data@letemps.ch'>data@letemps.ch</a>"
   },
+
   "embed": {
 	  "button": "Intégrer",
 	  "text": "Vous pouvez intégrer cette application sur votre propre site. Donnez à vos lecteurs la possibilité de partager leurs savoirs sur leur région. Copiez le code ci-dessous et collez-le dans votre site web. Pour toutes questions, contactez <a href='mailto:data@nzz.ch'>data@nzz.ch</a>."
   },
 
-  "share" : "Partager"
+  "share" : "Partager",
+
+  "noentries": "No entries."
 
 }
