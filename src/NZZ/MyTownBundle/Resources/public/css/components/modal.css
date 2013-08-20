@@ -1,0 +1,8 @@
+/**
+ * MODAL
+ * Overriding bootstrap modal styles
+ */
+
+.modal-body {
+  max-height: 600px;
+}
