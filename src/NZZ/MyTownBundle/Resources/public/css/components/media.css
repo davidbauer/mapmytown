@@ -2,9 +2,9 @@
 @media (max-width: 767px) {
   #map{
     display: block;
-    position: relative;
-    margin: 0;
     height:100%;
+    margin: 0;
+    position: relative;
     width: 100%;
   }
   .span-sidebar-left{
@@ -30,29 +30,29 @@
   }
 
   .footer {
-    width: 100%;
     -webkit-box-shadow:  0px -2.5px 0px 2.5px rgba(0, 0, 0, 0.2);
             box-shadow:  0px -2.5px 0px 2.5px rgba(0, 0, 0, 0.2);
+    width: 100%;
   }
   .sidebar{
-    position: fixed;
-    height: auto;
-    overflow: auto;
-    width: 100%;
     -webkit-box-shadow:  0px 2.5px 0px 2.5px rgba(0, 0, 0, 0.2);
             box-shadow:  0px 2.5px 0px 2.5px rgba(0, 0, 0, 0.2);
+    height: auto;
+    overflow: auto;
+    position: fixed;
+    width: 100%;
   }
   .comments__section{
-    padding: 0;
     border: none;
+    padding: 0;
   }
   .comment{
     display: none;
   }
   .comment.selected{
+    border: none;
     display: block;
     padding: 10px 20px;
-    border: none;
   }
   .sharing__section{
     font-size: 12px;
@@ -61,7 +61,7 @@
     font-size: 12px;
   }
 }
- 
+
 /* Landscape phones and down */
-@media (max-width: 480px) { 
+@media (max-width: 480px) {
 }
