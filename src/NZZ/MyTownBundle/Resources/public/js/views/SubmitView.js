@@ -107,6 +107,8 @@
         request.done(_.bind(function(){
           $form.trigger('reset');
           dialog.modal('hide');
+          $("#thanks-modal").modal();
+
           this.model.comments.selectComment(comment);
         }, this));
         request.fail(function() {
