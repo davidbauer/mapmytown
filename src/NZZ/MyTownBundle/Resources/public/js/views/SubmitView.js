@@ -107,9 +107,21 @@
         request.done(_.bind(function(){
           $form.trigger('reset');
           dialog.modal('hide');
-          $("#thanks-modal").modal();
 
           this.model.comments.selectComment(comment);
+
+          var thanksDialog = $("#thanks-modal").modal();
+          var hideAndRestartWith = function(callback) {
+            return function(evt) {
+              thanksDialog.modal('hide');
+              callback();
+            }
+          }
+
+          thanksDialog.on('click.thanksDialog', '[data-action="restart"]', hideAndRestartWith(this.onNew));
+          thanksDialog.on('hide', function(){
+            thanksDialog.off('click.thanksDialog');
+          });
         }, this));
         request.fail(function() {
           $('.form-feedback').show();
