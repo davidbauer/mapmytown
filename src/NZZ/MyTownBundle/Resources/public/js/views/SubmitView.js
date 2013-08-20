@@ -110,10 +110,12 @@
           this.model.comments.selectComment(comment);
         }, this));
         request.fail(function() {
-          alert("Could not save the data"); // TODO
+          $('.form-feedback').show();
+          $('.form-feedback').text("Could not save the data");
         });
       } else {
-        alert("Not all required fields are filled-in: " + comment.validationError); // TODO
+        $('.form-feedback').show();
+        $('.form-feedback').text("Not all required fields are filled-in correctly: " + comment.validationError + "...");
       }
     },
 
@@ -122,6 +124,7 @@
       if (comment) {
         comment.destroy();
       }
+      $('.form-feedback').hide();
     }
   });
 }());
