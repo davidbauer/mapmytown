@@ -71,21 +71,21 @@
             class="sharing__link twitter"
             onclick="
               window.open(
-                'https://twitter.com/share?url='+encodeURIComponent(location.href), 
-                'twitter-share-dialog', 
-                'width=626,height=436'); 
-              return false;">Twitter</a> 
+                'https://twitter.com/share?url='+encodeURIComponent(location.href),
+                'twitter-share-dialog',
+                'width=626,height=436');
+              return false;">Twitter</a>
           <a href="#" title="Facebook"
             class="sharing__link facebook"
             onclick="
               window.open(
-                'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href), 
-                'facebook-share-dialog', 
+                'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
+                'facebook-share-dialog',
                 'width=626,height=436');
               return false;">Facebook</a>
           <a href="#embed" role="button" class="sharing__link linker" data-action="embed-modal">{{t "embed.button"}}</a>
-          
-          <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.link"}}</a>, 
+
+          <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.link"}}</a>,
           <a href="#feedbackModal" role="button" class="tac-modal_link" data-toggle="modal">Feedback</a>
       </p>
     </section>
@@ -119,11 +119,11 @@
           <input name="projectId" type="hidden" value="{{projectId}}"/>
 
           <label for="commentTitle">{{t "form.title"}}</label>
-          <input name="title" id="commentTitle" type="text"/>
+          <input name="title" id="commentTitle" type="text" maxlength="50" />
 
           <label for="commentDescription">{{t "form.description"}}</label>
-          <textarea name="description" id="commentDescription" rows="3"></textarea>
-		  
+          <textarea name="description" id="commentDescription" rows="3" maxlength="100"></textarea>
+
 		  <label for="sentiment">{{t "form.sentiment"}}</label>
           <label class="radio inline">
             <input type="radio" name="sentiment" value="1"/>
@@ -139,10 +139,10 @@
           </label>
 
           <label for="commentAuthorName">{{t "form.name"}}</label>
-          <input name="authorName" id="commentAuthorName" type="text"/>
+          <input name="authorName" id="commentAuthorName" type="text" maxlength="50"/>
 
           <label for="commentAuthorLocation">{{t "form.origin"}} ({{t "form.optional"}})</label>
-          <input name="authorLocation" id="commentAuthorLocation" type="text"/>
+          <input name="authorLocation" id="commentAuthorLocation" type="text" maxlength="50" />
         </fieldset>
       </form>
     </div>
@@ -177,7 +177,7 @@
       <p>{{t "info.inspiration"}}</p>
     </div>
   </div>
-  
+
   <div id="embed-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="{{t "embed.button"}}" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -188,7 +188,7 @@
       <textarea rows="6" cols="50" style="width:300px;height:50px;" data-bind="embed" readonly></textarea>
     </div>
   </div>
-  
+
   <div id="feedbackModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Feedback" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -198,7 +198,7 @@
       <p>{{t "info.contact"}}</p>
     </div>
   </div>
-  
+
 </div>
 {% endraw %}</script>
 
