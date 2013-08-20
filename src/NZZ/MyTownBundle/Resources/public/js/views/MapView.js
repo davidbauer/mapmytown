@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var SELECTED_RADIUS  = 12;
+  var SELECTED_RADIUS  = 10;
   var DEFAULT_RADIUS = 6;
 
   // Utils
