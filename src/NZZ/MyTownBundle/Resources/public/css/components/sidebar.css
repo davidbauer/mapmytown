@@ -2,18 +2,27 @@
  * SIDEBAR
  * Styling for the sidebar
  */
-.sidebar{
+.sidebar {
   background: #FCF9EE;
   -webkit-box-shadow:  2.5px 0px 0px 2.5px rgba(0, 0, 0, 0.2);
           box-shadow:  2.5px 0px 0px 2.5px rgba(0, 0, 0, 0.2);
   height: 100%;
   left: 0px;
-  overflow-y: scroll;
   position: fixed;
   top: 0;
   width: 400px;
   z-index: 200;
 }
+
+.sidebar .header {
+  background: #FCF9EE;
+  height: 180px;
+  left: 0;
+  position: fixed;
+  width: 360px;
+  z-index: 20;
+}
+
 .span-sidebar-left{
   margin-left: 400px;
 }

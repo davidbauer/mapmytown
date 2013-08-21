@@ -3,14 +3,19 @@
  * Styling for the comments list
  */
 .comments__section{
-  padding: 0;
   border: none;
+  padding: 0;
 }
 .comments__list{
+  bottom: 89px;
+  left: 0;
   list-style: none;
-  /* Height of the header and height of the footer*/
   margin: 0;
-  padding: 0 0 89px;
+  padding: 0;
+  overflow-y: auto;
+  position: fixed;
+  top: 192px;
+  width: 400px;
 }
 
 .comment{
@@ -25,9 +30,9 @@
   display: none;
 }
 .comment.selected{
-    color: #fff;
     background: #999;
     border: none;
+    color: #fff;
 }
 .comment.positive{
   background: #6060A0;
@@ -44,19 +49,19 @@
   cursor: default;
 }
 .comment__title{
+  display: inline;
   font-size: 16px;
   line-height: 24px;
-  display: inline;
   margin: 0;
 }
 .comment__text{
+  display: inline;
   font-size: 16px;
   line-height: 24px;
-  display: inline;
   margin: 0;
 }
 .comment__author{
-  font-style: italic;
   font-size: 12px;
+  font-style: italic;
   line-height: 24px;
 }

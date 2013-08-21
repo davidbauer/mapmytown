@@ -42,6 +42,17 @@
     position: fixed;
     width: 100%;
   }
+  .sidebar .header {
+    position: static;
+    height: auto;
+    width: auto;
+  }
+  .sidebar .comments__list {
+    position: static;
+    height: auto;
+    width: auto;
+    max-height: 100px;
+  }
   .comments__section{
     border: none;
     padding: 0;
