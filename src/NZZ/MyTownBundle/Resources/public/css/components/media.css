@@ -65,3 +65,15 @@
 /* Landscape phones and down */
 @media (max-width: 480px) {
 }
+
+@media screen and (max-height: 640px) {
+  .modal-body {
+    max-height: 450px;
+  }
+}
+
+@media screen and (max-height: 320px) {
+  .modal-body {
+    max-height: 100px;
+  }
+}
