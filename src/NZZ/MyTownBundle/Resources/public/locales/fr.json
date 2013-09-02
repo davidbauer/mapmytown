@@ -1,10 +1,10 @@
 {
   "form": {
     "heading": "[Inscrivez un lieu]",
-    "title": "Quel détour avez-vous marqué?",
-    "description": "Décrivez le point marqué",
+    "title": "Qu'avez-vous partagé?",
+    "description": "Décrivez le point marqué en 12 mots maximum",
     "placement": "Placez le curseur sur le lieu que vous désirez commenter",
-    "sentiment": "C'est…?",
+    "sentiment": "Cela vaut-il le détour?",
     "sentiLabels": {
       "positive": "Oui",
       "negative": "Non",
@@ -19,7 +19,7 @@
   },
 
   "thx": {
-	  "thankyou": "Merci pour votre participation!",
+	  "thankyou": "Merci beaucoup pour votre participation!",
 	  "share": "Faites-le savoir aux autres:",
 	  "tweet": "Mon #Détoururbain: ",
     "more": "Add more"
