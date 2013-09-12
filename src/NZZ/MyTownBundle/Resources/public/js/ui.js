@@ -9,20 +9,32 @@ $( document ).ready(function() {
   $('.embed_popover').click(function(){
     $('#embedding_code').select();
   })
-  /*
-  $('.submit__marker__section').hide();
 
-  $('#submit__wisdom__btn').click(function(){
-    $('.comments__section').hide();
-    $('.submit__wisdom__section').hide();
-  })
-  $('#cancel__marker__btn').click(function(){
-    $('.comments__section').show();
-    $('.submit__comment__section').hide();
-    $('.submit__marker__section').show();
-  })
-  $('#submit__marker__btn').click(function(){
-    $('.submit__marker__section').hide();
-  })
-  */
+
+  /**
+   * Sharing
+   */
+  function getEncodedLocation() {
+    var link = document.referrer;
+    if (!link) link = location.href;
+    return encodeURIComponent(link);
+  }
+
+  $(document).on('click', '[data-action="share-twitter"]', function(evt) {
+    evt.preventDefault();
+    window.open(
+      'https://twitter.com/share?url='+getEncodedLocation(),
+      'twitter-share-dialog',
+      'width=626,height=436'
+    );
+  });
+
+  $(document).on('click', '[data-action="share-facebook"]', function(evt) {
+    evt.preventDefault();
+    window.open(
+      'https://www.facebook.com/sharer/sharer.php?u='+getEncodedLocation(),
+      'facebook-share-dialog',
+      'width=626,height=436'
+    );
+  });
 });

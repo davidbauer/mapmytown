@@ -67,22 +67,8 @@
     <section class="sidebar__section sharing__section">
       <p>
       {{t "share"}}
-      <a href="#" title="Twitter"
-            class="sharing__link twitter"
-            onclick="
-              window.open(
-                'https://twitter.com/share?url='+encodeURIComponent(location.href),
-                'twitter-share-dialog',
-                'width=626,height=436');
-              return false;">Twitter</a>
-          <a href="#" title="Facebook"
-            class="sharing__link facebook"
-            onclick="
-              window.open(
-                'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-                'facebook-share-dialog',
-                'width=626,height=436');
-              return false;">Facebook</a>
+          <a href="#" title="Twitter" class="sharing__link twitter" data-action="share-twitter">Twitter</a>
+          <a href="#" title="Facebook" class="sharing__link facebook" data-action="share-facebook">Facebook</a>
           <a href="#embed" role="button" class="sharing__link linker" data-action="embed-modal">{{t "embed.button"}}</a>
 
           <a href="#tac-modal" role="button" class="tac-modal_link" data-action="tac-modal">{{t "info.link"}}</a>,
@@ -176,23 +162,8 @@
     </div>
     <div class="modal-body">
       <p>{{t "thx.share"}}</p>
-
-      <a href="#" title="Twitter"
-            class="sharing__link twitter"
-            onclick="
-              window.open(
-                'https://twitter.com/share?url='+encodeURIComponent(location.href),
-                'twitter-share-dialog',
-                'width=626,height=436');
-              return false;">Twitter</a>
-          <a href="#" title="Facebook"
-            class="sharing__link facebook"
-            onclick="
-              window.open(
-                'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),
-                'facebook-share-dialog',
-                'width=626,height=436');
-              return false;">Facebook</a>
+      <a href="#" title="Twitter" class="sharing__link twitter" data-action="share-twitter">Twitter</a>
+      <a href="#" title="Facebook" class="sharing__link facebook" data-action="share-facebook">Facebook</a>
     </div>
     <div class="modal-footer">
       <button class="btn" data-dismiss="modal" aria-hidden="true">{{t "form.cancel"}}</button>
