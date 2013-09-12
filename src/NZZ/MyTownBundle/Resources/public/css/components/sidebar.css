@@ -16,8 +16,8 @@
 
 .sidebar .header {
   background: #FCF9EE;
-  height: 180px;
   left: 0;
+  padding-bottom: 30px;
   position: fixed;
   width: 360px;
   z-index: 20;
@@ -55,4 +55,6 @@
 }
 .sidebar.sidebar--minimized .sidebar__help {
   display: block;
+  margin-top: 10px;
+  margin-bottom: 15px;
 }
