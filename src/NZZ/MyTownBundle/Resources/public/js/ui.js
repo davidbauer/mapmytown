@@ -24,7 +24,7 @@ $( document ).ready(function() {
     evt.preventDefault();
     window.open(
       'https://twitter.com/share?url='+getEncodedLocation(),
-      'twitter-share-dialog',
+      'TwitterShareDialog',
       'width=626,height=436'
     );
   });
@@ -33,7 +33,7 @@ $( document ).ready(function() {
     evt.preventDefault();
     window.open(
       'https://www.facebook.com/sharer/sharer.php?u='+getEncodedLocation(),
-      'facebook-share-dialog',
+      'FacebookShareDialog',
       'width=626,height=436'
     );
   });
