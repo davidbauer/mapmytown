@@ -41,6 +41,16 @@
   margin: 1em 0 0;
 }
 
+.sidebar__beta {
+  position: absolute; top: 0; right: 6px;
+  background: #3C9AFB;
+  color: #fff;
+  font-size: 12px;
+  font-weight: normal;
+  padding: 0 8px 1px 8px;
+  text-transform: uppercase;
+}
+
 /* State minimized */
 .sidebar .sidebar__help {
   display: none;
