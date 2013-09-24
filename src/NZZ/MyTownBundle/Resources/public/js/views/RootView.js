@@ -50,10 +50,12 @@
     },
 
     onShowTacModal: function(evt) {
+      evt.preventDefault();
       this.$('#tac-modal').modal('show');
     },
 
     onShowEmbedModal: function(evt) {
+      evt.preventDefault();
       var template = this.compileTemplate("embed");
       this.$('[data-bind="embed"]').html(template({
         src: window.location.href,
