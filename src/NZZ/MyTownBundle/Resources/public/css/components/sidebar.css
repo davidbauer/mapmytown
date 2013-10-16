@@ -17,7 +17,8 @@
 .sidebar .header {
   background: #FCF9EE;
   left: 0;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
+  position: fixed;
   width: 360px;
   z-index: 20;
 }

@@ -13,7 +13,8 @@
   margin: 0;
   padding: 0;
   overflow-y: auto;
-  max-height: 100%;
+  position: fixed;
+  top: 192px;
   width: 400px;
 }
 
