@@ -9,10 +9,11 @@
     },
 
     initialize: function() {
-      _.bindAll(this, 'render', 'addComment', 'removeComment');
+      _.bindAll(this, 'render', 'fitInSidebar', 'addComment', 'removeComment');
 
       this.views = {};
 
+      this.listenTo(Backbone, 'resize', this.fitInSidebar);
       this.listenTo(this.collection, 'add', this.addComment);
       this.listenTo(this.collection, 'remove', this.removeComment);
       this.listenTo(this.collection, 'reset', this.render);
@@ -29,7 +30,21 @@
         this.placeholderView = new app.views.CommentPlaceholder();
         this.$el.html(this.placeholderView.render().el);
       }
+
+      _.defer(this.fitInSidebar);
+
       return this;
+    },
+
+    // Position within header and footer
+    fitInSidebar: function() {
+      var $header = $('#sidebar-header');
+      var $footer = $('#sidebar-footer');
+
+      this.$el.css({
+        top: $header.outerHeight(),
+        bottom: $footer.outerHeight()
+      });
     },
 
     addComment: function(comment) {

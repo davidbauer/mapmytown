@@ -7,14 +7,15 @@
   padding: 0;
 }
 .comments__list{
-  bottom: 89px;
+  position: fixed;
+  bottom: 0; /* Will be set through JS */
   left: 0;
+  top: 0;    /* Will be set through JS */
+
   list-style: none;
   margin: 0;
   padding: 0;
   overflow-y: auto;
-  position: fixed;
-  top: 192px;
   width: 400px;
 }
 

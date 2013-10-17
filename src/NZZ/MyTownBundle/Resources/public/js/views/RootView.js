@@ -14,6 +14,9 @@
       this.listenTo(this.model.comments, 'add', this.updateSidebar);
       this.listenTo(this.model.comments, 'remove', this.updateSidebar);
       this.listenTo(this.model.comments, 'change:persisted', this.updateSidebar);
+
+      // Global events
+      $(window).on('resize', function(){Backbone.trigger('resize')});
     },
 
     render: function() {
