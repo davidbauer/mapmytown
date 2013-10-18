@@ -26,6 +26,12 @@
 
     findPersisted: function() {
       return this.filter(function(d){return d.isPersisted()});
+    },
+
+    findSelected: function() {
+      // Return the first selected comment. We don't need to make further
+      // checks, because there should only ever be one
+      return this.detect(function(d){return d.get('selected')});
     }
   });
 }());

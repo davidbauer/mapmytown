@@ -31,6 +31,7 @@
 
       // Comments list
       var commentsList = new app.views.CommentsList({
+        model: this.model,
         collection: this.model.comments
       });
       this.$('[data-view="comments-list"]').html(commentsList.render().el);

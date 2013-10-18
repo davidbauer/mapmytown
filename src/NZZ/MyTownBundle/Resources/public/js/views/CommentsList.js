@@ -17,7 +17,12 @@
       this.listenTo(this.collection, 'add', this.addComment);
       this.listenTo(this.collection, 'remove', this.removeComment);
       this.listenTo(this.collection, 'reset', this.render);
+
+      // We need to update the scroll position if the selection is changed
+      // and if the map is moved, in which case other comments will be hidden
+      // or shown, which changes the selected comment's position in the list.
       this.listenTo(this.collection, 'change:selected', this.scrollToSelectedComment);
+      this.listenTo(this.model.state, 'change', this.scrollToSelectedComment);
     },
 
     render: function() {
@@ -64,12 +69,14 @@
       delete this.views[comment.cid];
     },
 
-    scrollToSelectedComment: function(comment) {
-      var commentView = this.views[comment.cid];
-      if (comment.get('selected') && commentView) {
+    scrollToSelectedComment: function() {
+      var comment = this.collection.findSelected();
+      var commentView = this.views[(comment ? comment.cid : null)];
+      if (comment && commentView) {
         var parent = commentView.$el.offsetParent();
         parent.animate({
-          scrollTop: parent.scrollTop() + commentView.$el.offset().top
+          queue: false,
+          scrollTop: parent.scrollTop() + commentView.$el.position().top
         }, 300);
       }
     },
