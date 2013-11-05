@@ -109,6 +109,7 @@
         attributionControl: true,
         zoomControl: false
       });
+      this.map.attributionControl.addAttribution('© <a href="http://www.openstreetmap.org/#map=5/51.500/-0.100" target="_blank">OpenStreetMap</a>, <a href="http://creativecommons.org/licenses/by-sa/2.0/" target="_blank">CC-BY-SA</a>');
       this.map.setView(mapCenter, (parseInt(state.get('zoom'), 10) || 12)); // if zoom param is not int fallback to 12
 
       // Add zoom control
