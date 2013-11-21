@@ -71,6 +71,9 @@
   .branding__section{
     font-size: 12px;
   }
+  .leaflet-control-attribution {
+    bottom: 40px;
+  }
 }
 
 /* Landscape phones and down */
